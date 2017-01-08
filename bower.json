@@ -1,0 +1,30 @@
+{
+  "name": "tiergarten",
+  "description": "Udacity Portfolio Project",
+  "main": "index.js",
+  "authors": [
+    "Grey Grissom"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "udacity",
+    "front",
+    "end",
+    "js",
+    "html",
+    "semantics"
+  ],
+  "homepage": "https://github.com/1gitGrey/tiergarten",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "formstone": "https://github.com/Formstone/Formstone.git",
+    "owl-carousel": "^1.3.2"
+  }
+}

@@ -18,6 +18,7 @@
   "author": "Grey Grissom",
   "license": "ISC",
   "devDependencies": {
+    "bower": "^1.8.0",
     "gulp-cleanhtml": "^1.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-livereload": "^3.8.1",

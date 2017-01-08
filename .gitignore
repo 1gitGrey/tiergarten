@@ -5,3 +5,7 @@ bower_components
 working
 
 
+out
+node_modules
+dev
+bower_components
