@@ -1,22 +1,3099 @@
-!function(e){"function"==typeof define&&define.amd?define(["jquery"],e):e(jQuery)}(function(e){"use strict";function t(e){p.Plugins[e].initialized||(p.Plugins[e].methods._setup.call(document),p.Plugins[e].initialized=!0)}function i(e,t,i,n){var a,o={raw:{}};n=n||{};for(a in n)n.hasOwnProperty(a)&&("classes"===e?(o.raw[n[a]]=t+"-"+n[a],o[n[a]]="."+t+"-"+n[a]):(o.raw[a]=n[a],o[a]=n[a]+"."+t));for(a in i)i.hasOwnProperty(a)&&("classes"===e?(o.raw[a]=i[a].replace(/{ns}/g,t),o[a]=i[a].replace(/{ns}/g,"."+t)):(o.raw[a]=i[a].replace(/.{ns}/g,""),o[a]=i[a].replace(/{ns}/g,t)));return o}function n(){var e,t={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"otransitionend",transition:"transitionend"},i=["transition","-webkit-transition"],n={transform:"transform",MozTransform:"-moz-transform",OTransform:"-o-transform",msTransform:"-ms-transform",webkitTransform:"-webkit-transform"},a="transitionend",o="",s="",r=document.createElement("div");for(e in t)if(t.hasOwnProperty(e)&&e in r.style){a=t[e],p.support.transition=!0;break}h.transitionEnd=a+".{ns}";for(e in i)if(i.hasOwnProperty(e)&&i[e]in r.style){o=i[e];break}p.transition=o;for(e in n)if(n.hasOwnProperty(e)&&n[e]in r.style){p.support.transform=!0,s=n[e];break}p.transform=s}function a(){p.windowWidth=p.$window.width(),p.windowHeight=p.$window.height(),v=d.startTimer(v,g,o)}function o(){for(var e in p.ResizeHandlers)p.ResizeHandlers.hasOwnProperty(e)&&p.ResizeHandlers[e].callback.call(window,p.windowWidth,p.windowHeight)}function s(){if(p.support.raf){p.window.requestAnimationFrame(s);for(var e in p.RAFHandlers)p.RAFHandlers.hasOwnProperty(e)&&p.RAFHandlers[e].callback.call(window)}}function r(e,t){return parseInt(e.priority)-parseInt(t.priority)}var l="undefined"!=typeof window?window:this,u=l.document,c=function(){this.Version="1.3.0",this.Plugins={},this.DontConflict=!1,this.Conflicts={fn:{}},this.ResizeHandlers=[],this.RAFHandlers=[],this.window=l,this.$window=e(l),this.document=u,this.$document=e(u),this.$body=null,this.windowWidth=0,this.windowHeight=0,this.fallbackWidth=1024,this.fallbackHeight=768,this.userAgent=window.navigator.userAgent||window.navigator.vendor||window.opera,this.isFirefox=/Firefox/i.test(this.userAgent),this.isChrome=/Chrome/i.test(this.userAgent),this.isSafari=/Safari/i.test(this.userAgent)&&!this.isChrome,this.isMobile=/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(this.userAgent),this.isIEMobile=/IEMobile/i.test(this.userAgent),this.isFirefoxMobile=this.isFirefox&&this.isMobile,this.transform=null,this.transition=null,this.support={file:!!(window.File&&window.FileList&&window.FileReader),history:!!(window.history&&window.history.pushState&&window.history.replaceState),matchMedia:!(!window.matchMedia&&!window.msMatchMedia),pointer:!!window.PointerEvent,raf:!(!window.requestAnimationFrame||!window.cancelAnimationFrame),touch:!!("ontouchstart"in window||window.DocumentTouch&&document instanceof window.DocumentTouch),transition:!1,transform:!1}},d={killEvent:function(e,t){try{e.preventDefault(),e.stopPropagation(),t&&e.stopImmediatePropagation()}catch(e){}},startTimer:function(e,t,i,n){return d.clearTimer(e),n?setInterval(i,t):setTimeout(i,t)},clearTimer:function(e,t){e&&(t?clearInterval(e):clearTimeout(e),e=null)},sortAsc:function(e,t){return parseInt(e,10)-parseInt(t,10)},sortDesc:function(e,t){return parseInt(t,10)-parseInt(e,10)},decodeEntities:function(e){var t=p.document.createElement("textarea");return t.innerHTML=e,t.value},parseQueryString:function(e){for(var t={},i=e.slice(e.indexOf("?")+1).split("&"),n=0;n<i.length;n++){var a=i[n].split("=");t[a[0]]=a[1]}return t}},p=new c,m=e.Deferred(),f={base:"{ns}",element:"{ns}-element"},h={namespace:".{ns}",beforeUnload:"beforeunload.{ns}",blur:"blur.{ns}",change:"change.{ns}",click:"click.{ns}",dblClick:"dblclick.{ns}",drag:"drag.{ns}",dragEnd:"dragend.{ns}",dragEnter:"dragenter.{ns}",dragLeave:"dragleave.{ns}",dragOver:"dragover.{ns}",dragStart:"dragstart.{ns}",drop:"drop.{ns}",error:"error.{ns}",focus:"focus.{ns}",focusIn:"focusin.{ns}",focusOut:"focusout.{ns}",input:"input.{ns}",keyDown:"keydown.{ns}",keyPress:"keypress.{ns}",keyUp:"keyup.{ns}",load:"load.{ns}",mouseDown:"mousedown.{ns}",mouseEnter:"mouseenter.{ns}",mouseLeave:"mouseleave.{ns}",mouseMove:"mousemove.{ns}",mouseOut:"mouseout.{ns}",mouseOver:"mouseover.{ns}",mouseUp:"mouseup.{ns}",panStart:"panstart.{ns}",pan:"pan.{ns}",panEnd:"panend.{ns}",resize:"resize.{ns}",scaleStart:"scalestart.{ns}",scaleEnd:"scaleend.{ns}",scale:"scale.{ns}",scroll:"scroll.{ns}",select:"select.{ns}",swipe:"swipe.{ns}",touchCancel:"touchcancel.{ns}",touchEnd:"touchend.{ns}",touchLeave:"touchleave.{ns}",touchMove:"touchmove.{ns}",touchStart:"touchstart.{ns}"};c.prototype.NoConflict=function(){p.DontConflict=!0;for(var t in p.Plugins)p.Plugins.hasOwnProperty(t)&&(e[t]=p.Conflicts[t],e.fn[t]=p.Conflicts.fn[t])},c.prototype.Plugin=function(n,a){return p.Plugins[n]=function(t,n){function a(i){var a,o,r,l="object"===e.type(i),u=this,c=e();for(i=e.extend(!0,{},n.defaults||{},l?i:{}),o=0,r=u.length;o<r;o++)if(a=u.eq(o),!s(a)){var d="__"+n.guid++,p=n.classes.raw.base+d,m=a.data(t+"-options"),f=e.extend(!0,{$el:a,guid:d,rawGuid:p,dotGuid:"."+p},i,"object"===e.type(m)?m:{});a.addClass(n.classes.raw.element).data(g,f),n.methods._construct.apply(a,[f].concat(Array.prototype.slice.call(arguments,l?1:0))),c=c.add(a)}for(o=0,r=c.length;o<r;o++)a=c.eq(o),n.methods._postConstruct.apply(a,[s(a)]);return u}function o(e){n.functions.iterate.apply(this,[n.methods._destruct].concat(Array.prototype.slice.call(arguments,1))),this.removeClass(n.classes.raw.element).removeData(g)}function s(e){return e.data(g)}function l(t){if(this instanceof e){var i=n.methods[t];return"object"!==e.type(t)&&t?i&&0!==t.indexOf("_")?n.functions.iterate.apply(this,[i].concat(Array.prototype.slice.call(arguments,1))):this:a.apply(this,arguments)}}function u(t){var i=n.utilities[t]||n.utilities._initialize||!1;if(i)return i.apply(window,Array.prototype.slice.call(arguments,"object"===e.type(t)?0:1))}function c(t){n.defaults=e.extend(!0,n.defaults,t||{})}function m(t){for(var i=this,n=0,a=i.length;n<a;n++){var o=i.eq(n),r=s(o)||{};"undefined"!==e.type(r.$el)&&t.apply(o,[r].concat(Array.prototype.slice.call(arguments,1)))}return i}var v="fs-"+t,g="fs"+t.replace(/(^|\s)([a-z])/g,function(e,t,i){return t+i.toUpperCase()});return n.initialized=!1,n.priority=n.priority||10,n.classes=i("classes",v,f,n.classes),n.events=i("events",t,h,n.events),n.functions=e.extend({getData:s,iterate:m},d,n.functions),n.methods=e.extend(!0,{_setup:e.noop,_construct:e.noop,_postConstruct:e.noop,_destruct:e.noop,_resize:!1,destroy:o},n.methods),n.utilities=e.extend(!0,{_initialize:!1,_delegate:!1,defaults:c},n.utilities),n.widget&&(p.Conflicts.fn[t]=e.fn[t],e.fn[g]=l,p.DontConflict||(e.fn[t]=e.fn[g])),p.Conflicts[t]=e[t],e[g]=n.utilities._delegate||u,p.DontConflict||(e[t]=e[g]),n.namespace=t,n.namespaceClean=g,n.guid=0,n.methods._resize&&(p.ResizeHandlers.push({namespace:t,priority:n.priority,callback:n.methods._resize}),p.ResizeHandlers.sort(r)),n.methods._raf&&(p.RAFHandlers.push({namespace:t,priority:n.priority,callback:n.methods._raf}),p.RAFHandlers.sort(r)),n}(n,a),m.then(function(){t(n)}),p.Plugins[n]};var v=null,g=20;return p.$window.on("resize.fs",a),a(),s(),e(function(){p.$body=e("body"),m.resolve(),p.support.nativeMatchMedia=p.support.matchMedia&&!e("html").hasClass("no-matchmedia")}),h.clickTouchStart=h.click+" "+h.touchStart,n(),window.Formstone=p,p}),function(e){"use strict";function t(e){return new RegExp("(^|\\s+)"+e+"(\\s+|$)")}function i(e,t){var i=n(e,t)?o:a;i(e,t)}var n,a,o;"classList"in document.documentElement?(n=function(e,t){return e.classList.contains(t)},a=function(e,t){e.classList.add(t)},o=function(e,t){e.classList.remove(t)}):(n=function(e,i){return t(i).test(e.className)},a=function(e,t){n(e,t)||(e.className=e.className+" "+t)},o=function(e,i){e.className=e.className.replace(t(i)," ")});var s={hasClass:n,addClass:a,removeClass:o,toggleClass:i,has:n,add:a,remove:o,toggle:i};"function"==typeof define&&define.amd?define(s):"object"==typeof exports?module.exports=s:e.classie=s}(window);var cbpAnimatedHeader=function(){function e(){window.addEventListener("scroll",function(e){o||(o=!0,setTimeout(t,250))},!1)}function t(){var e=i();e>=s?classie.remove(a,"navbar-expanded"):classie.add(a,"navbar-expanded"),o=!1}function i(){return window.pageYOffset||n.scrollTop}var n=document.documentElement,a=document.querySelector(".navbar-fixed-top"),o=!1,s=200;e()}();!function(e){"function"==typeof define&&define.amd?define(["jquery","./core","./transition"],e):e(jQuery,Formstone)}(function(e,t){"use strict";function i(){a(),O.on("scroll",a)}function n(){$.iterate.call(_,I),$.iterate.call(H,x),$.iterate.call(H,k)}function a(){z=O.scrollTop()+t.windowHeight,z<0&&(z=0),$.iterate.call(H,k)}function o(){_=e(S.base),H=e(S.lazy),$.iterate.call(H,x)}function s(t){t.youTubeGuid=0,t.$container=e('<div class="'+T.container+'"></div>').appendTo(this),t.thisClasses=[T.base,t.customClass],t.visible=!0,t.lazy&&(t.visible=!1,t.thisClasses.push(T.lazy)),this.addClass(t.thisClasses.join(" ")),o(),t.lazy?(x(t),k(t)):l(t)}function r(e){e.$container.remove(),this.removeClass(e.thisClasses.join(" ")).off(E.namespace),o()}function l(e){if(e.visible){var t=e.source;e.source=null,u(e,t,!0)}}function u(t,i,n){if(i!==t.source&&t.visible){if(t.source=i,t.responsive=!1,t.isYouTube=!1,"object"===e.type(i)&&"string"===e.type(i.video)){var a=i.video.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);a&&a.length>=1&&(t.isYouTube=!0,t.videoId=a[1])}var o=!t.isYouTube&&"object"===e.type(i)&&(i.hasOwnProperty("mp4")||i.hasOwnProperty("ogg")||i.hasOwnProperty("webm"));if(t.video=t.isYouTube||o,t.playing=!1,t.isYouTube)t.playerReady=!1,t.posterLoaded=!1,m(t,i,n);else if("object"===e.type(i)&&i.hasOwnProperty("poster"))p(t,i,n);else{var s=i;if("object"===e.type(i)){var r,l=[],u=[];for(r in i)i.hasOwnProperty(r)&&u.push(r);u.sort($.sortAsc);for(r in u)u.hasOwnProperty(r)&&l.push({width:parseInt(u[r]),url:i[u[r]],mq:A.matchMedia("(min-width: "+parseInt(u[r])+"px)")});t.responsive=!0,t.sources=l,s=c(t)}d(t,s,!1,n)}}else t.$el.trigger(E.loaded)}function c(e){var i=e.source;if(e.responsive){i=e.sources[0].url;for(var n in e.sources)e.sources.hasOwnProperty(n)&&(t.support.nativeMatchMedia?e.sources[n].mq.matches&&(i=e.sources[n].url):e.sources[n].width<t.fallbackWidth&&(i=e.sources[n].url))}return i}function d(t,i,n,a){var o=[T.media,T.image,a!==!0?T.animated:""].join(" "),s=e('<div class="'+o+'" aria-hidden="true"><img alt=""></div>'),r=s.find("img"),l=i;r.one(E.load,function(){F&&s.addClass(T.native).css({backgroundImage:"url('"+l+"')"}),s.fsTransition({property:"opacity"},function(){n||f(t)}).css({opacity:1}),C(t),n&&!a||t.$el.trigger(E.loaded)}).one(E.error,t,h).attr("src",l),t.responsive&&s.addClass(T.responsive),t.$container.append(s),(r[0].complete||4===r[0].readyState)&&r.trigger(E.load),t.currentSource=l}function p(i,n,a){if(i.source&&i.source.poster&&(d(i,i.source.poster,!0,!0),a=!1),!t.isMobile){var o=[T.media,T.video,a!==!0?T.animated:""].join(" "),s='<div class="'+o+'" aria-hidden="true">';s+="<video",i.loop&&(s+=" loop"),i.mute&&(s+=" muted"),s+=">",i.source.webm&&(s+='<source src="'+i.source.webm+'" type="video/webm" />'),i.source.mp4&&(s+='<source src="'+i.source.mp4+'" type="video/mp4" />'),i.source.ogg&&(s+='<source src="'+i.source.ogg+'" type="video/ogg" />'),s+="</video>",s+="</div>";var r=e(s),l=r.find("video");l.one(E.loadedMetaData,function(e){r.fsTransition({property:"opacity"},function(){f(i)}).css({opacity:1}),C(i),i.$el.trigger(E.loaded),i.autoPlay&&w(i)}),i.$container.append(r)}}function m(i,n,a){if(!i.videoId){var o=n.match(/^.*(?:youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/);i.videoId=o[1]}if(i.posterLoaded||(i.source.poster||(i.source.poster="//img.youtube.com/vi/"+i.videoId+"/0.jpg"),i.posterLoaded=!0,d(i,i.source.poster,!0,a),a=!1),!t.isMobile)if(e("script[src*='youtube.com/iframe_api']").length||e("head").append('<script src="//www.youtube.com/iframe_api"></script>'),j){var s=i.guid+"_"+i.youTubeGuid++,r=[T.media,T.embed,a!==!0?T.animated:""].join(" "),l='<div class="'+r+'" aria-hidden="true">';l+='<div id="'+s+'"></div>',l+="</div>";var u=e(l),c=e.extend(!0,{},{controls:0,rel:0,showinfo:0,wmode:"transparent",enablejsapi:1,version:3,playerapiid:s,loop:i.loop?1:0,autoplay:1,origin:A.location.protocol+"//"+A.location.host},i.youtubeOptions);c.autoplay=1,i.$container.append(u),i.player&&(i.oldPlayer=i.player,i.player=null),i.player=new A.YT.Player(s,{videoId:i.videoId,playerVars:c,events:{onReady:function(e){i.playerReady=!0,i.mute&&i.player.mute(),i.autoPlay||i.player.pauseVideo()},onStateChange:function(e){i.playing||e.data!==A.YT.PlayerState.PLAYING?i.loop&&i.playing&&e.data===A.YT.PlayerState.ENDED&&i.player.playVideo():(i.playing=!0,u.fsTransition({property:"opacity"},function(){f(i)}).css({opacity:1}),C(i),i.$el.trigger(E.loaded)),i.$el.find(S.embed).addClass(T.ready)},onPlaybackQualityChange:function(e){},onPlaybackRateChange:function(e){},onError:function(e){h({data:i})},onApiChange:function(e){}}}),C(i)}else W.push({data:i,source:n})}function f(e){var t=e.$container.find(S.media);t.length>=1&&(t.not(":last").remove(),e.oldPlayer=null)}function h(e){var t=e.data;t.$el.trigger(E.error)}function v(e){var t=e.$container.find(S.media);t.length>=1&&t.fsTransition({property:"opacity"},function(){t.remove(),delete e.source}).css({opacity:0})}function g(e){if(e.video&&e.playing){if(e.isYouTube)e.playerReady?e.player.pauseVideo():e.autoPlay=!1;else{var t=e.$container.find("video");t.length&&t[0].pause()}e.playing=!1}}function w(e){if(e.video&&!e.playing)if(e.isYouTube)e.playerReady?e.player.playVideo():e.autoPlay=!0;else{var t=e.$container.find("video");t.length&&t[0].play(),e.playing=!0}}function y(e){if(e.video)if(e.isYouTube&&e.playerReady)e.player.mute();else{var t=e.$container.find("video");t.length&&(t[0].muted=!0)}e.mute=!0}function b(e){if(e.video){if(e.isYouTube&&e.playerReady)e.player.unMute();else{var t=e.$container.find("video");t.length&&(t[0].muted=!1)}e.playing=!0}e.mute=!1}function I(e){if(e.visible)if(e.responsive){var t=c(e);t!==e.currentSource?d(e,t,!1,!0):C(e)}else C(e)}function C(e){for(var t=e.$container.find(S.media),i=0,n=t.length;i<n;i++){var a=t.eq(i),o=e.isYouTube?"iframe":a.find("video").length?"video":"img",s=a.find(o);if(s.length&&("img"!==o||!F)){var r=e.$el.outerWidth(),l=e.$el.outerHeight(),u=P(e,s);e.width=u.width,e.height=u.height,e.left=0,e.top=0;var c=e.isYouTube?e.embedRatio:e.width/e.height;e.height=l,e.width=e.height*c,e.width<r&&(e.width=r,e.height=e.width/c),e.left=-(e.width-r)/2,e.top=-(e.height-l)/2,a.css({height:e.height,width:e.width,left:e.left,top:e.top})}}}function x(e){e.scrollTop=e.$el.offset().top}function k(e){!e.visible&&e.scrollTop<z+e.lazyEdge&&(e.visible=!0,l(e))}function P(t,i){if(t.isYouTube)return{height:500,width:500/t.embedRatio};if(i.is("img")){var n=i[0];if("undefined"!==e.type(n.naturalHeight))return{height:n.naturalHeight,width:n.naturalWidth};var a=new Image;return a.src=n.src,{height:a.height,width:a.width}}return{height:i[0].videoHeight,width:i[0].videoWidth}}var M=t.Plugin("background",{widget:!0,defaults:{autoPlay:!0,customClass:"",embedRatio:1.777777,lazy:!1,lazyEdge:100,loop:!0,mute:!0,source:null,youtubeOptions:{}},classes:["container","media","animated","responsive","native","fixed","ready","lazy"],events:{loaded:"loaded",ready:"ready",loadedMetaData:"loadedmetadata"},methods:{_setup:i,_construct:s,_destruct:r,_resize:n,play:w,pause:g,mute:y,unmute:b,resize:C,load:u,unload:v}}),S=M.classes,T=S.raw,E=M.events,$=M.functions,A=t.window,O=t.$window,z=0,_=[],H=[],F="backgroundSize"in t.document.documentElement.style,j=!1,W=[];A.onYouTubeIframeAPIReady=function(){j=!0;for(var e in W)W.hasOwnProperty(e)&&m(W[e].data,W[e].source);W=[]}}),"function"!=typeof Object.create&&(Object.create=function(e){function t(){}return t.prototype=e,new t}),function(e,t,i){var n={init:function(t,i){var n=this;n.$elem=e(i),n.options=e.extend({},e.fn.owlCarousel.options,n.$elem.data(),t),n.userOptions=t,n.loadContent()},loadContent:function(){function t(e){var t,i="";if("function"==typeof n.options.jsonSuccess)n.options.jsonSuccess.apply(this,[e]);else{for(t in e.owl)e.owl.hasOwnProperty(t)&&(i+=e.owl[t].item);n.$elem.html(i)}n.logIn()}var i,n=this;"function"==typeof n.options.beforeInit&&n.options.beforeInit.apply(this,[n.$elem]),"string"==typeof n.options.jsonPath?(i=n.options.jsonPath,e.getJSON(i,t)):n.logIn()},logIn:function(){var e=this;e.$elem.data("owl-originalStyles",e.$elem.attr("style")).data("owl-originalClasses",e.$elem.attr("class")),e.$elem.css({opacity:0}),e.orignalItems=e.options.items,e.checkBrowser(),e.wrapperWidth=0,e.checkVisible=null,e.setVars()},setVars:function(){var e=this;return 0!==e.$elem.children().length&&(e.baseClass(),e.eventTypes(),e.$userItems=e.$elem.children(),e.itemsAmount=e.$userItems.length,e.wrapItems(),e.$owlItems=e.$elem.find(".owl-item"),e.$owlWrapper=e.$elem.find(".owl-wrapper"),e.playDirection="next",e.prevItem=0,e.prevArr=[0],e.currentItem=0,e.customEvents(),void e.onStartup())},onStartup:function(){var e=this;e.updateItems(),e.calculateAll(),e.buildControls(),e.updateControls(),e.response(),e.moveEvents(),e.stopOnHover(),e.owlStatus(),e.options.transitionStyle!==!1&&e.transitionTypes(e.options.transitionStyle),e.options.autoPlay===!0&&(e.options.autoPlay=5e3),e.play(),e.$elem.find(".owl-wrapper").css("display","block"),e.$elem.is(":visible")?e.$elem.css("opacity",1):e.watchVisibility(),e.onstartup=!1,e.eachMoveUpdate(),"function"==typeof e.options.afterInit&&e.options.afterInit.apply(this,[e.$elem])},eachMoveUpdate:function(){var e=this;e.options.lazyLoad===!0&&e.lazyLoad(),e.options.autoHeight===!0&&e.autoHeight(),e.onVisibleItems(),"function"==typeof e.options.afterAction&&e.options.afterAction.apply(this,[e.$elem])},updateVars:function(){var e=this;"function"==typeof e.options.beforeUpdate&&e.options.beforeUpdate.apply(this,[e.$elem]),e.watchVisibility(),e.updateItems(),e.calculateAll(),e.updatePosition(),e.updateControls(),e.eachMoveUpdate(),"function"==typeof e.options.afterUpdate&&e.options.afterUpdate.apply(this,[e.$elem])},reload:function(){var e=this;t.setTimeout(function(){e.updateVars()},0)},watchVisibility:function(){var e=this;return e.$elem.is(":visible")===!1&&(e.$elem.css({opacity:0}),t.clearInterval(e.autoPlayInterval),t.clearInterval(e.checkVisible),void(e.checkVisible=t.setInterval(function(){e.$elem.is(":visible")&&(e.reload(),e.$elem.animate({opacity:1},200),t.clearInterval(e.checkVisible))},500)))},wrapItems:function(){var e=this;e.$userItems.wrapAll('<div class="owl-wrapper">').wrap('<div class="owl-item"></div>'),e.$elem.find(".owl-wrapper").wrap('<div class="owl-wrapper-outer">'),e.wrapperOuter=e.$elem.find(".owl-wrapper-outer"),e.$elem.css("display","block")},baseClass:function(){var e=this,t=e.$elem.hasClass(e.options.baseClass),i=e.$elem.hasClass(e.options.theme);t||e.$elem.addClass(e.options.baseClass),i||e.$elem.addClass(e.options.theme)},updateItems:function(){var t,i,n=this;if(n.options.responsive===!1)return!1;if(n.options.singleItem===!0)return n.options.items=n.orignalItems=1,n.options.itemsCustom=!1,n.options.itemsDesktop=!1,n.options.itemsDesktopSmall=!1,n.options.itemsTablet=!1,n.options.itemsTabletSmall=!1,n.options.itemsMobile=!1,!1;if(t=e(n.options.responsiveBaseWidth).width(),t>(n.options.itemsDesktop[0]||n.orignalItems)&&(n.options.items=n.orignalItems),n.options.itemsCustom!==!1)for(n.options.itemsCustom.sort(function(e,t){return e[0]-t[0]}),i=0;i<n.options.itemsCustom.length;i+=1)n.options.itemsCustom[i][0]<=t&&(n.options.items=n.options.itemsCustom[i][1]);else t<=n.options.itemsDesktop[0]&&n.options.itemsDesktop!==!1&&(n.options.items=n.options.itemsDesktop[1]),t<=n.options.itemsDesktopSmall[0]&&n.options.itemsDesktopSmall!==!1&&(n.options.items=n.options.itemsDesktopSmall[1]),t<=n.options.itemsTablet[0]&&n.options.itemsTablet!==!1&&(n.options.items=n.options.itemsTablet[1]),t<=n.options.itemsTabletSmall[0]&&n.options.itemsTabletSmall!==!1&&(n.options.items=n.options.itemsTabletSmall[1]),t<=n.options.itemsMobile[0]&&n.options.itemsMobile!==!1&&(n.options.items=n.options.itemsMobile[1]);n.options.items>n.itemsAmount&&n.options.itemsScaleUp===!0&&(n.options.items=n.itemsAmount)},response:function(){var i,n,a=this;return a.options.responsive===!0&&(n=e(t).width(),a.resizer=function(){e(t).width()!==n&&(a.options.autoPlay!==!1&&t.clearInterval(a.autoPlayInterval),t.clearTimeout(i),i=t.setTimeout(function(){n=e(t).width(),a.updateVars()},a.options.responsiveRefreshRate))},void e(t).resize(a.resizer))},updatePosition:function(){var e=this;e.jumpTo(e.currentItem),e.options.autoPlay!==!1&&e.checkAp()},appendItemsSizes:function(){var t=this,i=0,n=t.itemsAmount-t.options.items;t.$owlItems.each(function(a){var o=e(this);o.css({width:t.itemWidth}).data("owl-item",Number(a)),a%t.options.items!==0&&a!==n||a>n||(i+=1),o.data("owl-roundPages",i)})},appendWrapperSizes:function(){var e=this,t=e.$owlItems.length*e.itemWidth;e.$owlWrapper.css({width:2*t,left:0}),e.appendItemsSizes()},calculateAll:function(){var e=this;e.calculateWidth(),e.appendWrapperSizes(),e.loops(),e.max()},calculateWidth:function(){var e=this;e.itemWidth=Math.round(e.$elem.width()/e.options.items)},max:function(){var e=this,t=(e.itemsAmount*e.itemWidth-e.options.items*e.itemWidth)*-1;return e.options.items>e.itemsAmount?(e.maximumItem=0,t=0,e.maximumPixels=0):(e.maximumItem=e.itemsAmount-e.options.items,e.maximumPixels=t),t},min:function(){return 0},loops:function(){var t,i,n,a=this,o=0,s=0;for(a.positionsInArray=[0],a.pagesInArray=[],t=0;t<a.itemsAmount;t+=1)s+=a.itemWidth,a.positionsInArray.push(-s),a.options.scrollPerPage===!0&&(i=e(a.$owlItems[t]),n=i.data("owl-roundPages"),n!==o&&(a.pagesInArray[o]=a.positionsInArray[t],o=n))},buildControls:function(){var t=this;t.options.navigation!==!0&&t.options.pagination!==!0||(t.owlControls=e('<div class="owl-controls"/>').toggleClass("clickable",!t.browser.isTouch).appendTo(t.$elem)),t.options.pagination===!0&&t.buildPagination(),t.options.navigation===!0&&t.buildButtons()},buildButtons:function(){var t=this,i=e('<div class="owl-buttons"/>');t.owlControls.append(i),t.buttonPrev=e("<div/>",{class:"owl-prev",html:t.options.navigationText[0]||""}),t.buttonNext=e("<div/>",{class:"owl-next",html:t.options.navigationText[1]||""}),i.append(t.buttonPrev).append(t.buttonNext),i.on("touchstart.owlControls mousedown.owlControls",'div[class^="owl"]',function(e){e.preventDefault()}),i.on("touchend.owlControls mouseup.owlControls",'div[class^="owl"]',function(i){i.preventDefault(),e(this).hasClass("owl-next")?t.next():t.prev()})},buildPagination:function(){var t=this;t.paginationWrapper=e('<div class="owl-pagination"/>'),t.owlControls.append(t.paginationWrapper),t.paginationWrapper.on("touchend.owlControls mouseup.owlControls",".owl-page",function(i){i.preventDefault(),Number(e(this).data("owl-page"))!==t.currentItem&&t.goTo(Number(e(this).data("owl-page")),!0)})},updatePagination:function(){var t,i,n,a,o,s,r=this;if(r.options.pagination===!1)return!1;for(r.paginationWrapper.html(""),t=0,i=r.itemsAmount-r.itemsAmount%r.options.items,a=0;a<r.itemsAmount;a+=1)a%r.options.items===0&&(t+=1,i===a&&(n=r.itemsAmount-r.options.items),o=e("<div/>",{class:"owl-page"}),s=e("<span></span>",{text:r.options.paginationNumbers===!0?t:"",class:r.options.paginationNumbers===!0?"owl-numbers":""}),o.append(s),o.data("owl-page",i===a?n:a),o.data("owl-roundPages",t),r.paginationWrapper.append(o));r.checkPagination()},checkPagination:function(){var t=this;return t.options.pagination!==!1&&void t.paginationWrapper.find(".owl-page").each(function(){e(this).data("owl-roundPages")===e(t.$owlItems[t.currentItem]).data("owl-roundPages")&&(t.paginationWrapper.find(".owl-page").removeClass("active"),e(this).addClass("active"))})},checkNavigation:function(){var e=this;return e.options.navigation!==!1&&void(e.options.rewindNav===!1&&(0===e.currentItem&&0===e.maximumItem?(e.buttonPrev.addClass("disabled"),e.buttonNext.addClass("disabled")):0===e.currentItem&&0!==e.maximumItem?(e.buttonPrev.addClass("disabled"),e.buttonNext.removeClass("disabled")):e.currentItem===e.maximumItem?(e.buttonPrev.removeClass("disabled"),e.buttonNext.addClass("disabled")):0!==e.currentItem&&e.currentItem!==e.maximumItem&&(e.buttonPrev.removeClass("disabled"),e.buttonNext.removeClass("disabled"))))},updateControls:function(){var e=this;e.updatePagination(),e.checkNavigation(),e.owlControls&&(e.options.items>=e.itemsAmount?e.owlControls.hide():e.owlControls.show())},destroyControls:function(){var e=this;e.owlControls&&e.owlControls.remove()},next:function(e){var t=this;if(t.isTransition)return!1;if(t.currentItem+=t.options.scrollPerPage===!0?t.options.items:1,t.currentItem>t.maximumItem+(t.options.scrollPerPage===!0?t.options.items-1:0)){if(t.options.rewindNav!==!0)return t.currentItem=t.maximumItem,!1;t.currentItem=0,e="rewind"}t.goTo(t.currentItem,e)},prev:function(e){var t=this;if(t.isTransition)return!1;if(t.options.scrollPerPage===!0&&t.currentItem>0&&t.currentItem<t.options.items?t.currentItem=0:t.currentItem-=t.options.scrollPerPage===!0?t.options.items:1,t.currentItem<0){if(t.options.rewindNav!==!0)return t.currentItem=0,!1;t.currentItem=t.maximumItem,e="rewind"}t.goTo(t.currentItem,e)},goTo:function(e,i,n){var a,o=this;return!o.isTransition&&("function"==typeof o.options.beforeMove&&o.options.beforeMove.apply(this,[o.$elem]),e>=o.maximumItem?e=o.maximumItem:e<=0&&(e=0),o.currentItem=o.owl.currentItem=e,o.options.transitionStyle!==!1&&"drag"!==n&&1===o.options.items&&o.browser.support3d===!0?(o.swapSpeed(0),o.browser.support3d===!0?o.transition3d(o.positionsInArray[e]):o.css2slide(o.positionsInArray[e],1),o.afterGo(),o.singleItemTransition(),!1):(a=o.positionsInArray[e],o.browser.support3d===!0?(o.isCss3Finish=!1,i===!0?(o.swapSpeed("paginationSpeed"),t.setTimeout(function(){o.isCss3Finish=!0},o.options.paginationSpeed)):"rewind"===i?(o.swapSpeed(o.options.rewindSpeed),t.setTimeout(function(){o.isCss3Finish=!0},o.options.rewindSpeed)):(o.swapSpeed("slideSpeed"),t.setTimeout(function(){o.isCss3Finish=!0},o.options.slideSpeed)),o.transition3d(a)):i===!0?o.css2slide(a,o.options.paginationSpeed):"rewind"===i?o.css2slide(a,o.options.rewindSpeed):o.css2slide(a,o.options.slideSpeed),void o.afterGo()))},jumpTo:function(e){var t=this;"function"==typeof t.options.beforeMove&&t.options.beforeMove.apply(this,[t.$elem]),e>=t.maximumItem||e===-1?e=t.maximumItem:e<=0&&(e=0),t.swapSpeed(0),t.browser.support3d===!0?t.transition3d(t.positionsInArray[e]):t.css2slide(t.positionsInArray[e],1),t.currentItem=t.owl.currentItem=e,t.afterGo()},afterGo:function(){var e=this;e.prevArr.push(e.currentItem),e.prevItem=e.owl.prevItem=e.prevArr[e.prevArr.length-2],e.prevArr.shift(0),e.prevItem!==e.currentItem&&(e.checkPagination(),e.checkNavigation(),e.eachMoveUpdate(),e.options.autoPlay!==!1&&e.checkAp()),"function"==typeof e.options.afterMove&&e.prevItem!==e.currentItem&&e.options.afterMove.apply(this,[e.$elem])},stop:function(){var e=this;e.apStatus="stop",t.clearInterval(e.autoPlayInterval)},checkAp:function(){var e=this;"stop"!==e.apStatus&&e.play()},play:function(){var e=this;return e.apStatus="play",e.options.autoPlay!==!1&&(t.clearInterval(e.autoPlayInterval),void(e.autoPlayInterval=t.setInterval(function(){e.next(!0)},e.options.autoPlay)))},swapSpeed:function(e){var t=this;"slideSpeed"===e?t.$owlWrapper.css(t.addCssSpeed(t.options.slideSpeed)):"paginationSpeed"===e?t.$owlWrapper.css(t.addCssSpeed(t.options.paginationSpeed)):"string"!=typeof e&&t.$owlWrapper.css(t.addCssSpeed(e))},addCssSpeed:function(e){return{"-webkit-transition":"all "+e+"ms ease","-moz-transition":"all "+e+"ms ease","-o-transition":"all "+e+"ms ease",transition:"all "+e+"ms ease"}},removeTransition:function(){return{"-webkit-transition":"","-moz-transition":"","-o-transition":"",transition:""}},doTranslate:function(e){return{"-webkit-transform":"translate3d("+e+"px, 0px, 0px)","-moz-transform":"translate3d("+e+"px, 0px, 0px)","-o-transform":"translate3d("+e+"px, 0px, 0px)","-ms-transform":"translate3d("+e+"px, 0px, 0px)",transform:"translate3d("+e+"px, 0px,0px)"}},transition3d:function(e){var t=this;t.$owlWrapper.css(t.doTranslate(e))},css2move:function(e){var t=this;t.$owlWrapper.css({left:e})},css2slide:function(e,t){var i=this;i.isCssFinish=!1,i.$owlWrapper.stop(!0,!0).animate({left:e},{duration:t||i.options.slideSpeed,complete:function(){i.isCssFinish=!0}})},checkBrowser:function(){var e,n,a,o,s=this,r="translate3d(0px, 0px, 0px)",l=i.createElement("div");l.style.cssText="  -moz-transform:"+r+"; -ms-transform:"+r+"; -o-transform:"+r+"; -webkit-transform:"+r+"; transform:"+r,e=/translate3d\(0px, 0px, 0px\)/g,n=l.style.cssText.match(e),a=null!==n&&1===n.length,o="ontouchstart"in t||t.navigator.msMaxTouchPoints,s.browser={support3d:a,isTouch:o}},moveEvents:function(){var e=this;e.options.mouseDrag===!1&&e.options.touchDrag===!1||(e.gestures(),e.disabledEvents())},eventTypes:function(){var e=this,t=["s","e","x"];e.ev_types={},e.options.mouseDrag===!0&&e.options.touchDrag===!0?t=["touchstart.owl mousedown.owl","touchmove.owl mousemove.owl","touchend.owl touchcancel.owl mouseup.owl"]:e.options.mouseDrag===!1&&e.options.touchDrag===!0?t=["touchstart.owl","touchmove.owl","touchend.owl touchcancel.owl"]:e.options.mouseDrag===!0&&e.options.touchDrag===!1&&(t=["mousedown.owl","mousemove.owl","mouseup.owl"]),e.ev_types.start=t[0],e.ev_types.move=t[1],e.ev_types.end=t[2]},disabledEvents:function(){var t=this;t.$elem.on("dragstart.owl",function(e){e.preventDefault()}),t.$elem.on("mousedown.disableTextSelect",function(t){return e(t.target).is("input, textarea, select, option")})},gestures:function(){function n(e){if(void 0!==e.touches)return{x:e.touches[0].pageX,y:e.touches[0].pageY};if(void 0===e.touches){if(void 0!==e.pageX)return{x:e.pageX,y:e.pageY};if(void 0===e.pageX)return{x:e.clientX,y:e.clientY}}}function a(t){"on"===t?(e(i).on(l.ev_types.move,s),e(i).on(l.ev_types.end,r)):"off"===t&&(e(i).off(l.ev_types.move),e(i).off(l.ev_types.end))}function o(i){var o,s=i.originalEvent||i||t.event;if(3===s.which)return!1;if(!(l.itemsAmount<=l.options.items)){if(l.isCssFinish===!1&&!l.options.dragBeforeAnimFinish)return!1;if(l.isCss3Finish===!1&&!l.options.dragBeforeAnimFinish)return!1;l.options.autoPlay!==!1&&t.clearInterval(l.autoPlayInterval),l.browser.isTouch===!0||l.$owlWrapper.hasClass("grabbing")||l.$owlWrapper.addClass("grabbing"),l.newPosX=0,l.newRelativeX=0,e(this).css(l.removeTransition()),o=e(this).position(),u.relativePos=o.left,u.offsetX=n(s).x-o.left,u.offsetY=n(s).y-o.top,a("on"),u.sliding=!1,u.targetElement=s.target||s.srcElement}}function s(a){var o,s,r=a.originalEvent||a||t.event;l.newPosX=n(r).x-u.offsetX,l.newPosY=n(r).y-u.offsetY,l.newRelativeX=l.newPosX-u.relativePos,"function"==typeof l.options.startDragging&&u.dragging!==!0&&0!==l.newRelativeX&&(u.dragging=!0,l.options.startDragging.apply(l,[l.$elem])),(l.newRelativeX>8||l.newRelativeX<-8)&&l.browser.isTouch===!0&&(void 0!==r.preventDefault?r.preventDefault():r.returnValue=!1,u.sliding=!0),(l.newPosY>10||l.newPosY<-10)&&u.sliding===!1&&e(i).off("touchmove.owl"),o=function(){return l.newRelativeX/5},s=function(){return l.maximumPixels+l.newRelativeX/5},l.newPosX=Math.max(Math.min(l.newPosX,o()),s()),l.browser.support3d===!0?l.transition3d(l.newPosX):l.css2move(l.newPosX)}function r(i){var n,o,s,r=i.originalEvent||i||t.event;r.target=r.target||r.srcElement,u.dragging=!1,l.browser.isTouch!==!0&&l.$owlWrapper.removeClass("grabbing"),l.newRelativeX<0?l.dragDirection=l.owl.dragDirection="left":l.dragDirection=l.owl.dragDirection="right",0!==l.newRelativeX&&(n=l.getNewPosition(),l.goTo(n,!1,"drag"),u.targetElement===r.target&&l.browser.isTouch!==!0&&(e(r.target).on("click.disable",function(t){
-t.stopImmediatePropagation(),t.stopPropagation(),t.preventDefault(),e(t.target).off("click.disable")}),o=e._data(r.target,"events").click,s=o.pop(),o.splice(0,0,s))),a("off")}var l=this,u={offsetX:0,offsetY:0,baseElWidth:0,relativePos:0,position:null,minSwipe:null,maxSwipe:null,sliding:null,dargging:null,targetElement:null};l.isCssFinish=!0,l.$elem.on(l.ev_types.start,".owl-wrapper",o)},getNewPosition:function(){var e=this,t=e.closestItem();return t>e.maximumItem?(e.currentItem=e.maximumItem,t=e.maximumItem):e.newPosX>=0&&(t=0,e.currentItem=0),t},closestItem:function(){var t=this,i=t.options.scrollPerPage===!0?t.pagesInArray:t.positionsInArray,n=t.newPosX,a=null;return e.each(i,function(o,s){n-t.itemWidth/20>i[o+1]&&n-t.itemWidth/20<s&&"left"===t.moveDirection()?(a=s,t.options.scrollPerPage===!0?t.currentItem=e.inArray(a,t.positionsInArray):t.currentItem=o):n+t.itemWidth/20<s&&n+t.itemWidth/20>(i[o+1]||i[o]-t.itemWidth)&&"right"===t.moveDirection()&&(t.options.scrollPerPage===!0?(a=i[o+1]||i[i.length-1],t.currentItem=e.inArray(a,t.positionsInArray)):(a=i[o+1],t.currentItem=o+1))}),t.currentItem},moveDirection:function(){var e,t=this;return t.newRelativeX<0?(e="right",t.playDirection="next"):(e="left",t.playDirection="prev"),e},customEvents:function(){var e=this;e.$elem.on("owl.next",function(){e.next()}),e.$elem.on("owl.prev",function(){e.prev()}),e.$elem.on("owl.play",function(t,i){e.options.autoPlay=i,e.play(),e.hoverStatus="play"}),e.$elem.on("owl.stop",function(){e.stop(),e.hoverStatus="stop"}),e.$elem.on("owl.goTo",function(t,i){e.goTo(i)}),e.$elem.on("owl.jumpTo",function(t,i){e.jumpTo(i)})},stopOnHover:function(){var e=this;e.options.stopOnHover===!0&&e.browser.isTouch!==!0&&e.options.autoPlay!==!1&&(e.$elem.on("mouseover",function(){e.stop()}),e.$elem.on("mouseout",function(){"stop"!==e.hoverStatus&&e.play()}))},lazyLoad:function(){var t,i,n,a,o,s=this;if(s.options.lazyLoad===!1)return!1;for(t=0;t<s.itemsAmount;t+=1)i=e(s.$owlItems[t]),"loaded"!==i.data("owl-loaded")&&(n=i.data("owl-item"),a=i.find(".lazyOwl"),"string"==typeof a.data("src")?(void 0===i.data("owl-loaded")&&(a.hide(),i.addClass("loading").data("owl-loaded","checked")),o=s.options.lazyFollow!==!0||n>=s.currentItem,o&&n<s.currentItem+s.options.items&&a.length&&s.lazyPreload(i,a)):i.data("owl-loaded","loaded"))},lazyPreload:function(e,i){function n(){e.data("owl-loaded","loaded").removeClass("loading"),i.removeAttr("data-src"),"fade"===s.options.lazyEffect?i.fadeIn(400):i.show(),"function"==typeof s.options.afterLazyLoad&&s.options.afterLazyLoad.apply(this,[s.$elem])}function a(){r+=1,s.completeImg(i.get(0))||o===!0?n():r<=100?t.setTimeout(a,100):n()}var o,s=this,r=0;"DIV"===i.prop("tagName")?(i.css("background-image","url("+i.data("src")+")"),o=!0):i[0].src=i.data("src"),a()},autoHeight:function(){function i(){var i=e(o.$owlItems[o.currentItem]).height();o.wrapperOuter.css("height",i+"px"),o.wrapperOuter.hasClass("autoHeight")||t.setTimeout(function(){o.wrapperOuter.addClass("autoHeight")},0)}function n(){a+=1,o.completeImg(s.get(0))?i():a<=100?t.setTimeout(n,100):o.wrapperOuter.css("height","")}var a,o=this,s=e(o.$owlItems[o.currentItem]).find("img");void 0!==s.get(0)?(a=0,n()):i()},completeImg:function(e){var t;return!!e.complete&&(t=typeof e.naturalWidth,"undefined"===t||0!==e.naturalWidth)},onVisibleItems:function(){var t,i=this;for(i.options.addClassActive===!0&&i.$owlItems.removeClass("active"),i.visibleItems=[],t=i.currentItem;t<i.currentItem+i.options.items;t+=1)i.visibleItems.push(t),i.options.addClassActive===!0&&e(i.$owlItems[t]).addClass("active");i.owl.visibleItems=i.visibleItems},transitionTypes:function(e){var t=this;t.outClass="owl-"+e+"-out",t.inClass="owl-"+e+"-in"},singleItemTransition:function(){function e(e){return{position:"relative",left:e+"px"}}var t=this,i=t.outClass,n=t.inClass,a=t.$owlItems.eq(t.currentItem),o=t.$owlItems.eq(t.prevItem),s=Math.abs(t.positionsInArray[t.currentItem])+t.positionsInArray[t.prevItem],r=Math.abs(t.positionsInArray[t.currentItem])+t.itemWidth/2,l="webkitAnimationEnd oAnimationEnd MSAnimationEnd animationend";t.isTransition=!0,t.$owlWrapper.addClass("owl-origin").css({"-webkit-transform-origin":r+"px","-moz-perspective-origin":r+"px","perspective-origin":r+"px"}),o.css(e(s,10)).addClass(i).on(l,function(){t.endPrev=!0,o.off(l),t.clearTransStyle(o,i)}),a.addClass(n).on(l,function(){t.endCurrent=!0,a.off(l),t.clearTransStyle(a,n)})},clearTransStyle:function(e,t){var i=this;e.css({position:"",left:""}).removeClass(t),i.endPrev&&i.endCurrent&&(i.$owlWrapper.removeClass("owl-origin"),i.endPrev=!1,i.endCurrent=!1,i.isTransition=!1)},owlStatus:function(){var e=this;e.owl={userOptions:e.userOptions,baseElement:e.$elem,userItems:e.$userItems,owlItems:e.$owlItems,currentItem:e.currentItem,prevItem:e.prevItem,visibleItems:e.visibleItems,isTouch:e.browser.isTouch,browser:e.browser,dragDirection:e.dragDirection}},clearEvents:function(){var n=this;n.$elem.off(".owl owl mousedown.disableTextSelect"),e(i).off(".owl owl"),e(t).off("resize",n.resizer)},unWrap:function(){var e=this;0!==e.$elem.children().length&&(e.$owlWrapper.unwrap(),e.$userItems.unwrap().unwrap(),e.owlControls&&e.owlControls.remove()),e.clearEvents(),e.$elem.attr("style",e.$elem.data("owl-originalStyles")||"").attr("class",e.$elem.data("owl-originalClasses"))},destroy:function(){var e=this;e.stop(),t.clearInterval(e.checkVisible),e.unWrap(),e.$elem.removeData()},reinit:function(t){var i=this,n=e.extend({},i.userOptions,t);i.unWrap(),i.init(n,i.$elem)},addItem:function(e,t){var i,n=this;return!!e&&(0===n.$elem.children().length?(n.$elem.append(e),n.setVars(),!1):(n.unWrap(),i=void 0===t||t===-1?-1:t,i>=n.$userItems.length||i===-1?n.$userItems.eq(-1).after(e):n.$userItems.eq(i).before(e),void n.setVars()))},removeItem:function(e){var t,i=this;return 0!==i.$elem.children().length&&(t=void 0===e||e===-1?-1:e,i.unWrap(),i.$userItems.eq(t).remove(),void i.setVars())}};e.fn.owlCarousel=function(t){return this.each(function(){if(e(this).data("owl-init")===!0)return!1;e(this).data("owl-init",!0);var i=Object.create(n);i.init(t,this),e.data(this,"owlCarousel",i)})},e.fn.owlCarousel.options={items:5,itemsCustom:!1,itemsDesktop:[1199,4],itemsDesktopSmall:[979,3],itemsTablet:[768,2],itemsTabletSmall:!1,itemsMobile:[479,1],singleItem:!1,itemsScaleUp:!1,slideSpeed:200,paginationSpeed:800,rewindSpeed:1e3,autoPlay:!1,stopOnHover:!1,navigation:!1,navigationText:["prev","next"],rewindNav:!0,scrollPerPage:!1,pagination:!0,paginationNumbers:!1,responsive:!0,responsiveRefreshRate:200,responsiveBaseWidth:t,baseClass:"owl-carousel",theme:"owl-theme",lazyLoad:!1,lazyFollow:!0,lazyEffect:"fade",autoHeight:!1,jsonPath:!1,jsonSuccess:!1,dragBeforeAnimFinish:!0,mouseDrag:!0,touchDrag:!0,addClassActive:!1,transitionStyle:!1,beforeUpdate:!1,afterUpdate:!1,beforeInit:!1,afterInit:!1,beforeMove:!1,afterMove:!1,afterAction:!1,startDragging:!1,afterLazyLoad:!1}}(jQuery,window,document),jQuery.easing.jswing=jQuery.easing.swing,jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,t,i,n,a){return jQuery.easing[jQuery.easing.def](e,t,i,n,a)},easeInQuad:function(e,t,i,n,a){return n*(t/=a)*t+i},easeOutQuad:function(e,t,i,n,a){return-n*(t/=a)*(t-2)+i},easeInOutQuad:function(e,t,i,n,a){return(t/=a/2)<1?n/2*t*t+i:-n/2*(--t*(t-2)-1)+i},easeInCubic:function(e,t,i,n,a){return n*(t/=a)*t*t+i},easeOutCubic:function(e,t,i,n,a){return n*((t=t/a-1)*t*t+1)+i},easeInOutCubic:function(e,t,i,n,a){return(t/=a/2)<1?n/2*t*t*t+i:n/2*((t-=2)*t*t+2)+i},easeInQuart:function(e,t,i,n,a){return n*(t/=a)*t*t*t+i},easeOutQuart:function(e,t,i,n,a){return-n*((t=t/a-1)*t*t*t-1)+i},easeInOutQuart:function(e,t,i,n,a){return(t/=a/2)<1?n/2*t*t*t*t+i:-n/2*((t-=2)*t*t*t-2)+i},easeInQuint:function(e,t,i,n,a){return n*(t/=a)*t*t*t*t+i},easeOutQuint:function(e,t,i,n,a){return n*((t=t/a-1)*t*t*t*t+1)+i},easeInOutQuint:function(e,t,i,n,a){return(t/=a/2)<1?n/2*t*t*t*t*t+i:n/2*((t-=2)*t*t*t*t+2)+i},easeInSine:function(e,t,i,n,a){return-n*Math.cos(t/a*(Math.PI/2))+n+i},easeOutSine:function(e,t,i,n,a){return n*Math.sin(t/a*(Math.PI/2))+i},easeInOutSine:function(e,t,i,n,a){return-n/2*(Math.cos(Math.PI*t/a)-1)+i},easeInExpo:function(e,t,i,n,a){return 0==t?i:n*Math.pow(2,10*(t/a-1))+i},easeOutExpo:function(e,t,i,n,a){return t==a?i+n:n*(-Math.pow(2,-10*t/a)+1)+i},easeInOutExpo:function(e,t,i,n,a){return 0==t?i:t==a?i+n:(t/=a/2)<1?n/2*Math.pow(2,10*(t-1))+i:n/2*(-Math.pow(2,-10*--t)+2)+i},easeInCirc:function(e,t,i,n,a){return-n*(Math.sqrt(1-(t/=a)*t)-1)+i},easeOutCirc:function(e,t,i,n,a){return n*Math.sqrt(1-(t=t/a-1)*t)+i},easeInOutCirc:function(e,t,i,n,a){return(t/=a/2)<1?-n/2*(Math.sqrt(1-t*t)-1)+i:n/2*(Math.sqrt(1-(t-=2)*t)+1)+i},easeInElastic:function(e,t,i,n,a){var o=1.70158,s=0,r=n;if(0==t)return i;if(1==(t/=a))return i+n;if(s||(s=.3*a),r<Math.abs(n)){r=n;var o=s/4}else var o=s/(2*Math.PI)*Math.asin(n/r);return-(r*Math.pow(2,10*(t-=1))*Math.sin((t*a-o)*(2*Math.PI)/s))+i},easeOutElastic:function(e,t,i,n,a){var o=1.70158,s=0,r=n;if(0==t)return i;if(1==(t/=a))return i+n;if(s||(s=.3*a),r<Math.abs(n)){r=n;var o=s/4}else var o=s/(2*Math.PI)*Math.asin(n/r);return r*Math.pow(2,-10*t)*Math.sin((t*a-o)*(2*Math.PI)/s)+n+i},easeInOutElastic:function(e,t,i,n,a){var o=1.70158,s=0,r=n;if(0==t)return i;if(2==(t/=a/2))return i+n;if(s||(s=a*(.3*1.5)),r<Math.abs(n)){r=n;var o=s/4}else var o=s/(2*Math.PI)*Math.asin(n/r);return t<1?-.5*(r*Math.pow(2,10*(t-=1))*Math.sin((t*a-o)*(2*Math.PI)/s))+i:r*Math.pow(2,-10*(t-=1))*Math.sin((t*a-o)*(2*Math.PI)/s)*.5+n+i},easeInBack:function(e,t,i,n,a,o){return void 0==o&&(o=1.70158),n*(t/=a)*t*((o+1)*t-o)+i},easeOutBack:function(e,t,i,n,a,o){return void 0==o&&(o=1.70158),n*((t=t/a-1)*t*((o+1)*t+o)+1)+i},easeInOutBack:function(e,t,i,n,a,o){return void 0==o&&(o=1.70158),(t/=a/2)<1?n/2*(t*t*(((o*=1.525)+1)*t-o))+i:n/2*((t-=2)*t*(((o*=1.525)+1)*t+o)+2)+i},easeInBounce:function(e,t,i,n,a){return n-jQuery.easing.easeOutBounce(e,a-t,0,n,a)+i},easeOutBounce:function(e,t,i,n,a){return(t/=a)<1/2.75?n*(7.5625*t*t)+i:t<2/2.75?n*(7.5625*(t-=1.5/2.75)*t+.75)+i:t<2.5/2.75?n*(7.5625*(t-=2.25/2.75)*t+.9375)+i:n*(7.5625*(t-=2.625/2.75)*t+.984375)+i},easeInOutBounce:function(e,t,i,n,a){return t<a/2?.5*jQuery.easing.easeInBounce(e,2*t,0,n,a)+i:.5*jQuery.easing.easeOutBounce(e,2*t-a,0,n,a)+.5*n+i}}),function(e){"function"==typeof define&&define.amd?define(["jquery"],e):e("object"==typeof exports?require("jquery"):window.jQuery||window.Zepto)}(function(e){var t,i,n,a,o,s,r="Close",l="BeforeClose",u="AfterClose",c="BeforeAppend",d="MarkupParse",p="Open",m="Change",f="mfp",h="."+f,v="mfp-ready",g="mfp-removing",w="mfp-prevent-close",y=function(){},b=!!window.jQuery,I=e(window),C=function(e,i){t.ev.on(f+e+h,i)},x=function(t,i,n,a){var o=document.createElement("div");return o.className="mfp-"+t,n&&(o.innerHTML=n),a?i&&i.appendChild(o):(o=e(o),i&&o.appendTo(i)),o},k=function(i,n){t.ev.triggerHandler(f+i,n),t.st.callbacks&&(i=i.charAt(0).toLowerCase()+i.slice(1),t.st.callbacks[i]&&t.st.callbacks[i].apply(t,e.isArray(n)?n:[n]))},P=function(i){return i===s&&t.currTemplate.closeBtn||(t.currTemplate.closeBtn=e(t.st.closeMarkup.replace("%title%",t.st.tClose)),s=i),t.currTemplate.closeBtn},M=function(){e.magnificPopup.instance||(t=new y,t.init(),e.magnificPopup.instance=t)},S=function(){var e=document.createElement("p").style,t=["ms","O","Moz","Webkit"];if(void 0!==e.transition)return!0;for(;t.length;)if(t.pop()+"Transition"in e)return!0;return!1};y.prototype={constructor:y,init:function(){var i=navigator.appVersion;t.isLowIE=t.isIE8=document.all&&!document.addEventListener,t.isAndroid=/android/gi.test(i),t.isIOS=/iphone|ipad|ipod/gi.test(i),t.supportsTransition=S(),t.probablyMobile=t.isAndroid||t.isIOS||/(Opera Mini)|Kindle|webOS|BlackBerry|(Opera Mobi)|(Windows Phone)|IEMobile/i.test(navigator.userAgent),n=e(document),t.popupsCache={}},open:function(i){var a;if(i.isObj===!1){t.items=i.items.toArray(),t.index=0;var s,r=i.items;for(a=0;a<r.length;a++)if(s=r[a],s.parsed&&(s=s.el[0]),s===i.el[0]){t.index=a;break}}else t.items=e.isArray(i.items)?i.items:[i.items],t.index=i.index||0;if(t.isOpen)return void t.updateItemHTML();t.types=[],o="",i.mainEl&&i.mainEl.length?t.ev=i.mainEl.eq(0):t.ev=n,i.key?(t.popupsCache[i.key]||(t.popupsCache[i.key]={}),t.currTemplate=t.popupsCache[i.key]):t.currTemplate={},t.st=e.extend(!0,{},e.magnificPopup.defaults,i),t.fixedContentPos="auto"===t.st.fixedContentPos?!t.probablyMobile:t.st.fixedContentPos,t.st.modal&&(t.st.closeOnContentClick=!1,t.st.closeOnBgClick=!1,t.st.showCloseBtn=!1,t.st.enableEscapeKey=!1),t.bgOverlay||(t.bgOverlay=x("bg").on("click"+h,function(){t.close()}),t.wrap=x("wrap").attr("tabindex",-1).on("click"+h,function(e){t._checkIfClose(e.target)&&t.close()}),t.container=x("container",t.wrap)),t.contentContainer=x("content"),t.st.preloader&&(t.preloader=x("preloader",t.container,t.st.tLoading));var l=e.magnificPopup.modules;for(a=0;a<l.length;a++){var u=l[a];u=u.charAt(0).toUpperCase()+u.slice(1),t["init"+u].call(t)}k("BeforeOpen"),t.st.showCloseBtn&&(t.st.closeBtnInside?(C(d,function(e,t,i,n){i.close_replaceWith=P(n.type)}),o+=" mfp-close-btn-in"):t.wrap.append(P())),t.st.alignTop&&(o+=" mfp-align-top"),t.fixedContentPos?t.wrap.css({overflow:t.st.overflowY,overflowX:"hidden",overflowY:t.st.overflowY}):t.wrap.css({top:I.scrollTop(),position:"absolute"}),(t.st.fixedBgPos===!1||"auto"===t.st.fixedBgPos&&!t.fixedContentPos)&&t.bgOverlay.css({height:n.height(),position:"absolute"}),t.st.enableEscapeKey&&n.on("keyup"+h,function(e){27===e.keyCode&&t.close()}),I.on("resize"+h,function(){t.updateSize()}),t.st.closeOnContentClick||(o+=" mfp-auto-cursor"),o&&t.wrap.addClass(o);var c=t.wH=I.height(),m={};if(t.fixedContentPos&&t._hasScrollBar(c)){var f=t._getScrollbarSize();f&&(m.marginRight=f)}t.fixedContentPos&&(t.isIE7?e("body, html").css("overflow","hidden"):m.overflow="hidden");var g=t.st.mainClass;return t.isIE7&&(g+=" mfp-ie7"),g&&t._addClassToMFP(g),t.updateItemHTML(),k("BuildControls"),e("html").css(m),t.bgOverlay.add(t.wrap).prependTo(t.st.prependTo||e(document.body)),t._lastFocusedEl=document.activeElement,setTimeout(function(){t.content?(t._addClassToMFP(v),t._setFocus()):t.bgOverlay.addClass(v),n.on("focusin"+h,t._onFocusIn)},16),t.isOpen=!0,t.updateSize(c),k(p),i},close:function(){t.isOpen&&(k(l),t.isOpen=!1,t.st.removalDelay&&!t.isLowIE&&t.supportsTransition?(t._addClassToMFP(g),setTimeout(function(){t._close()},t.st.removalDelay)):t._close())},_close:function(){k(r);var i=g+" "+v+" ";if(t.bgOverlay.detach(),t.wrap.detach(),t.container.empty(),t.st.mainClass&&(i+=t.st.mainClass+" "),t._removeClassFromMFP(i),t.fixedContentPos){var a={marginRight:""};t.isIE7?e("body, html").css("overflow",""):a.overflow="",e("html").css(a)}n.off("keyup"+h+" focusin"+h),t.ev.off(h),t.wrap.attr("class","mfp-wrap").removeAttr("style"),t.bgOverlay.attr("class","mfp-bg"),t.container.attr("class","mfp-container"),!t.st.showCloseBtn||t.st.closeBtnInside&&t.currTemplate[t.currItem.type]!==!0||t.currTemplate.closeBtn&&t.currTemplate.closeBtn.detach(),t.st.autoFocusLast&&t._lastFocusedEl&&e(t._lastFocusedEl).focus(),t.currItem=null,t.content=null,t.currTemplate=null,t.prevHeight=0,k(u)},updateSize:function(e){if(t.isIOS){var i=document.documentElement.clientWidth/window.innerWidth,n=window.innerHeight*i;t.wrap.css("height",n),t.wH=n}else t.wH=e||I.height();t.fixedContentPos||t.wrap.css("height",t.wH),k("Resize")},updateItemHTML:function(){var i=t.items[t.index];t.contentContainer.detach(),t.content&&t.content.detach(),i.parsed||(i=t.parseEl(t.index));var n=i.type;if(k("BeforeChange",[t.currItem?t.currItem.type:"",n]),t.currItem=i,!t.currTemplate[n]){var o=!!t.st[n]&&t.st[n].markup;k("FirstMarkupParse",o),o?t.currTemplate[n]=e(o):t.currTemplate[n]=!0}a&&a!==i.type&&t.container.removeClass("mfp-"+a+"-holder");var s=t["get"+n.charAt(0).toUpperCase()+n.slice(1)](i,t.currTemplate[n]);t.appendContent(s,n),i.preloaded=!0,k(m,i),a=i.type,t.container.prepend(t.contentContainer),k("AfterChange")},appendContent:function(e,i){t.content=e,e?t.st.showCloseBtn&&t.st.closeBtnInside&&t.currTemplate[i]===!0?t.content.find(".mfp-close").length||t.content.append(P()):t.content=e:t.content="",k(c),t.container.addClass("mfp-"+i+"-holder"),t.contentContainer.append(t.content)},parseEl:function(i){var n,a=t.items[i];if(a.tagName?a={el:e(a)}:(n=a.type,a={data:a,src:a.src}),a.el){for(var o=t.types,s=0;s<o.length;s++)if(a.el.hasClass("mfp-"+o[s])){n=o[s];break}a.src=a.el.attr("data-mfp-src"),a.src||(a.src=a.el.attr("href"))}return a.type=n||t.st.type||"inline",a.index=i,a.parsed=!0,t.items[i]=a,k("ElementParse",a),t.items[i]},addGroup:function(e,i){var n=function(n){n.mfpEl=this,t._openClick(n,e,i)};i||(i={});var a="click.magnificPopup";i.mainEl=e,i.items?(i.isObj=!0,e.off(a).on(a,n)):(i.isObj=!1,i.delegate?e.off(a).on(a,i.delegate,n):(i.items=e,e.off(a).on(a,n)))},_openClick:function(i,n,a){var o=void 0!==a.midClick?a.midClick:e.magnificPopup.defaults.midClick;if(o||!(2===i.which||i.ctrlKey||i.metaKey||i.altKey||i.shiftKey)){var s=void 0!==a.disableOn?a.disableOn:e.magnificPopup.defaults.disableOn;if(s)if(e.isFunction(s)){if(!s.call(t))return!0}else if(I.width()<s)return!0;i.type&&(i.preventDefault(),t.isOpen&&i.stopPropagation()),a.el=e(i.mfpEl),a.delegate&&(a.items=n.find(a.delegate)),t.open(a)}},updateStatus:function(e,n){if(t.preloader){i!==e&&t.container.removeClass("mfp-s-"+i),n||"loading"!==e||(n=t.st.tLoading);var a={status:e,text:n};k("UpdateStatus",a),e=a.status,n=a.text,t.preloader.html(n),t.preloader.find("a").on("click",function(e){e.stopImmediatePropagation()}),t.container.addClass("mfp-s-"+e),i=e}},_checkIfClose:function(i){if(!e(i).hasClass(w)){var n=t.st.closeOnContentClick,a=t.st.closeOnBgClick;if(n&&a)return!0;if(!t.content||e(i).hasClass("mfp-close")||t.preloader&&i===t.preloader[0])return!0;if(i===t.content[0]||e.contains(t.content[0],i)){if(n)return!0}else if(a&&e.contains(document,i))return!0;return!1}},_addClassToMFP:function(e){t.bgOverlay.addClass(e),t.wrap.addClass(e)},_removeClassFromMFP:function(e){this.bgOverlay.removeClass(e),t.wrap.removeClass(e)},_hasScrollBar:function(e){return(t.isIE7?n.height():document.body.scrollHeight)>(e||I.height())},_setFocus:function(){(t.st.focus?t.content.find(t.st.focus).eq(0):t.wrap).focus()},_onFocusIn:function(i){if(i.target!==t.wrap[0]&&!e.contains(t.wrap[0],i.target))return t._setFocus(),!1},_parseMarkup:function(t,i,n){var a;n.data&&(i=e.extend(n.data,i)),k(d,[t,i,n]),e.each(i,function(i,n){if(void 0===n||n===!1)return!0;if(a=i.split("_"),a.length>1){var o=t.find(h+"-"+a[0]);if(o.length>0){var s=a[1];"replaceWith"===s?o[0]!==n[0]&&o.replaceWith(n):"img"===s?o.is("img")?o.attr("src",n):o.replaceWith(e("<img>").attr("src",n).attr("class",o.attr("class"))):o.attr(a[1],n)}}else t.find(h+"-"+i).html(n)})},_getScrollbarSize:function(){if(void 0===t.scrollbarSize){var e=document.createElement("div");e.style.cssText="width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;",document.body.appendChild(e),t.scrollbarSize=e.offsetWidth-e.clientWidth,document.body.removeChild(e)}return t.scrollbarSize}},e.magnificPopup={instance:null,proto:y.prototype,modules:[],open:function(t,i){return M(),t=t?e.extend(!0,{},t):{},t.isObj=!0,t.index=i||0,this.instance.open(t)},close:function(){return e.magnificPopup.instance&&e.magnificPopup.instance.close()},registerModule:function(t,i){i.options&&(e.magnificPopup.defaults[t]=i.options),e.extend(this.proto,i.proto),this.modules.push(t)},defaults:{disableOn:0,key:null,midClick:!1,mainClass:"",preloader:!0,focus:"",closeOnContentClick:!1,closeOnBgClick:!0,closeBtnInside:!0,showCloseBtn:!0,enableEscapeKey:!0,modal:!1,alignTop:!1,removalDelay:0,prependTo:null,fixedContentPos:"auto",fixedBgPos:"auto",overflowY:"auto",closeMarkup:'<button title="%title%" type="button" class="mfp-close">&#215;</button>',tClose:"Close (Esc)",tLoading:"Loading...",autoFocusLast:!0}},e.fn.magnificPopup=function(i){M();var n=e(this);if("string"==typeof i)if("open"===i){var a,o=b?n.data("magnificPopup"):n[0].magnificPopup,s=parseInt(arguments[1],10)||0;o.items?a=o.items[s]:(a=n,o.delegate&&(a=a.find(o.delegate)),a=a.eq(s)),t._openClick({mfpEl:a},n,o)}else t.isOpen&&t[i].apply(t,Array.prototype.slice.call(arguments,1));else i=e.extend(!0,{},i),b?n.data("magnificPopup",i):n[0].magnificPopup=i,t.addGroup(n,i);return n};var T,E,$,A="inline",O=function(){$&&(E.after($.addClass(T)).detach(),$=null)};e.magnificPopup.registerModule(A,{options:{hiddenClass:"hide",markup:"",tNotFound:"Content not found"},proto:{initInline:function(){t.types.push(A),C(r+"."+A,function(){O()})},getInline:function(i,n){if(O(),i.src){var a=t.st.inline,o=e(i.src);if(o.length){var s=o[0].parentNode;s&&s.tagName&&(E||(T=a.hiddenClass,E=x(T),T="mfp-"+T),$=o.after(E).detach().removeClass(T)),t.updateStatus("ready")}else t.updateStatus("error",a.tNotFound),o=e("<div>");return i.inlineElement=o,o}return t.updateStatus("ready"),t._parseMarkup(n,{},i),n}}});var z,_="ajax",H=function(){z&&e(document.body).removeClass(z)},F=function(){H(),t.req&&t.req.abort()};e.magnificPopup.registerModule(_,{options:{settings:null,cursor:"mfp-ajax-cur",tError:'<a href="%url%">The content</a> could not be loaded.'},proto:{initAjax:function(){t.types.push(_),z=t.st.ajax.cursor,C(r+"."+_,F),C("BeforeChange."+_,F)},getAjax:function(i){z&&e(document.body).addClass(z),t.updateStatus("loading");var n=e.extend({url:i.src,success:function(n,a,o){var s={data:n,xhr:o};k("ParseAjax",s),t.appendContent(e(s.data),_),i.finished=!0,H(),t._setFocus(),setTimeout(function(){t.wrap.addClass(v)},16),t.updateStatus("ready"),k("AjaxContentAdded")},error:function(){H(),i.finished=i.loadError=!0,t.updateStatus("error",t.st.ajax.tError.replace("%url%",i.src))}},t.st.ajax.settings);return t.req=e.ajax(n),""}}});var j,W=function(i){if(i.data&&void 0!==i.data.title)return i.data.title;var n=t.st.image.titleSrc;if(n){if(e.isFunction(n))return n.call(t,i);if(i.el)return i.el.attr(n)||""}return""};e.magnificPopup.registerModule("image",{options:{markup:'<div class="mfp-figure"><div class="mfp-close"></div><figure><div class="mfp-img"></div><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>',cursor:"mfp-zoom-out-cur",titleSrc:"title",verticalFit:!0,tError:'<a href="%url%">The image</a> could not be loaded.'},proto:{initImage:function(){var i=t.st.image,n=".image";t.types.push("image"),C(p+n,function(){"image"===t.currItem.type&&i.cursor&&e(document.body).addClass(i.cursor)}),C(r+n,function(){i.cursor&&e(document.body).removeClass(i.cursor),I.off("resize"+h)}),C("Resize"+n,t.resizeImage),t.isLowIE&&C("AfterChange",t.resizeImage)},resizeImage:function(){var e=t.currItem;if(e&&e.img&&t.st.image.verticalFit){var i=0;t.isLowIE&&(i=parseInt(e.img.css("padding-top"),10)+parseInt(e.img.css("padding-bottom"),10)),e.img.css("max-height",t.wH-i)}},_onImageHasSize:function(e){e.img&&(e.hasSize=!0,j&&clearInterval(j),e.isCheckingImgSize=!1,k("ImageHasSize",e),e.imgHidden&&(t.content&&t.content.removeClass("mfp-loading"),e.imgHidden=!1))},findImageSize:function(e){var i=0,n=e.img[0],a=function(o){j&&clearInterval(j),j=setInterval(function(){return n.naturalWidth>0?void t._onImageHasSize(e):(i>200&&clearInterval(j),i++,void(3===i?a(10):40===i?a(50):100===i&&a(500)))},o)};a(1)},getImage:function(i,n){var a=0,o=function(){i&&(i.img[0].complete?(i.img.off(".mfploader"),i===t.currItem&&(t._onImageHasSize(i),t.updateStatus("ready")),i.hasSize=!0,i.loaded=!0,k("ImageLoadComplete")):(a++,a<200?setTimeout(o,100):s()))},s=function(){i&&(i.img.off(".mfploader"),i===t.currItem&&(t._onImageHasSize(i),t.updateStatus("error",r.tError.replace("%url%",i.src))),i.hasSize=!0,i.loaded=!0,i.loadError=!0)},r=t.st.image,l=n.find(".mfp-img");if(l.length){var u=document.createElement("img");u.className="mfp-img",i.el&&i.el.find("img").length&&(u.alt=i.el.find("img").attr("alt")),i.img=e(u).on("load.mfploader",o).on("error.mfploader",s),u.src=i.src,l.is("img")&&(i.img=i.img.clone()),u=i.img[0],u.naturalWidth>0?i.hasSize=!0:u.width||(i.hasSize=!1)}return t._parseMarkup(n,{title:W(i),img_replaceWith:i.img},i),t.resizeImage(),i.hasSize?(j&&clearInterval(j),i.loadError?(n.addClass("mfp-loading"),t.updateStatus("error",r.tError.replace("%url%",i.src))):(n.removeClass("mfp-loading"),t.updateStatus("ready")),n):(t.updateStatus("loading"),i.loading=!0,i.hasSize||(i.imgHidden=!0,n.addClass("mfp-loading"),t.findImageSize(i)),n)}}});var D,N=function(){return void 0===D&&(D=void 0!==document.createElement("p").style.MozTransform),D};e.magnificPopup.registerModule("zoom",{options:{enabled:!1,easing:"ease-in-out",duration:300,opener:function(e){return e.is("img")?e:e.find("img")}},proto:{initZoom:function(){var e,i=t.st.zoom,n=".zoom";if(i.enabled&&t.supportsTransition){var a,o,s=i.duration,u=function(e){var t=e.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"),n="all "+i.duration/1e3+"s "+i.easing,a={position:"fixed",zIndex:9999,left:0,top:0,"-webkit-backface-visibility":"hidden"},o="transition";return a["-webkit-"+o]=a["-moz-"+o]=a["-o-"+o]=a[o]=n,t.css(a),t},c=function(){t.content.css("visibility","visible")};C("BuildControls"+n,function(){if(t._allowZoom()){if(clearTimeout(a),t.content.css("visibility","hidden"),e=t._getItemToZoom(),!e)return void c();o=u(e),o.css(t._getOffset()),t.wrap.append(o),a=setTimeout(function(){o.css(t._getOffset(!0)),a=setTimeout(function(){c(),setTimeout(function(){o.remove(),e=o=null,k("ZoomAnimationEnded")},16)},s)},16)}}),C(l+n,function(){if(t._allowZoom()){if(clearTimeout(a),t.st.removalDelay=s,!e){if(e=t._getItemToZoom(),!e)return;o=u(e)}o.css(t._getOffset(!0)),t.wrap.append(o),t.content.css("visibility","hidden"),setTimeout(function(){o.css(t._getOffset())},16)}}),C(r+n,function(){t._allowZoom()&&(c(),o&&o.remove(),e=null)})}},_allowZoom:function(){return"image"===t.currItem.type},_getItemToZoom:function(){return!!t.currItem.hasSize&&t.currItem.img},_getOffset:function(i){var n;n=i?t.currItem.img:t.st.zoom.opener(t.currItem.el||t.currItem);var a=n.offset(),o=parseInt(n.css("padding-top"),10),s=parseInt(n.css("padding-bottom"),10);a.top-=e(window).scrollTop()-o;var r={width:n.width(),height:(b?n.innerHeight():n[0].offsetHeight)-s-o};return N()?r["-moz-transform"]=r.transform="translate("+a.left+"px,"+a.top+"px)":(r.left=a.left,r.top=a.top),r}}});var L="iframe",V="//about:blank",B=function(e){if(t.currTemplate[L]){var i=t.currTemplate[L].find("iframe");i.length&&(e||(i[0].src=V),t.isIE8&&i.css("display",e?"block":"none"))}};e.magnificPopup.registerModule(L,{options:{markup:'<div class="mfp-iframe-scaler"><div class="mfp-close"></div><iframe class="mfp-iframe" src="//about:blank" frameborder="0" allowfullscreen></iframe></div>',srcAction:"iframe_src",patterns:{youtube:{index:"youtube.com",id:"v=",src:"//www.youtube.com/embed/%id%?autoplay=1"},vimeo:{index:"vimeo.com/",id:"/",src:"//player.vimeo.com/video/%id%?autoplay=1"},gmaps:{index:"//maps.google.",src:"%id%&output=embed"}}},proto:{initIframe:function(){t.types.push(L),C("BeforeChange",function(e,t,i){t!==i&&(t===L?B():i===L&&B(!0))}),C(r+"."+L,function(){B()})},getIframe:function(i,n){var a=i.src,o=t.st.iframe;e.each(o.patterns,function(){if(a.indexOf(this.index)>-1)return this.id&&(a="string"==typeof this.id?a.substr(a.lastIndexOf(this.id)+this.id.length,a.length):this.id.call(this,a)),a=this.src.replace("%id%",a),!1});var s={};return o.srcAction&&(s[o.srcAction]=a),t._parseMarkup(n,s,i),t.updateStatus("ready"),n}}});var q=function(e){var i=t.items.length;return e>i-1?e-i:e<0?i+e:e},R=function(e,t,i){return e.replace(/%curr%/gi,t+1).replace(/%total%/gi,i)};e.magnificPopup.registerModule("gallery",{options:{enabled:!1,arrowMarkup:'<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',preload:[0,2],navigateByImgClick:!0,arrows:!0,tPrev:"Previous (Left arrow key)",tNext:"Next (Right arrow key)",tCounter:"%curr% of %total%"},proto:{initGallery:function(){var i=t.st.gallery,a=".mfp-gallery";return t.direction=!0,!(!i||!i.enabled)&&(o+=" mfp-gallery",C(p+a,function(){i.navigateByImgClick&&t.wrap.on("click"+a,".mfp-img",function(){if(t.items.length>1)return t.next(),!1}),n.on("keydown"+a,function(e){37===e.keyCode?t.prev():39===e.keyCode&&t.next()})}),C("UpdateStatus"+a,function(e,i){i.text&&(i.text=R(i.text,t.currItem.index,t.items.length))}),C(d+a,function(e,n,a,o){var s=t.items.length;a.counter=s>1?R(i.tCounter,o.index,s):""}),C("BuildControls"+a,function(){if(t.items.length>1&&i.arrows&&!t.arrowLeft){var n=i.arrowMarkup,a=t.arrowLeft=e(n.replace(/%title%/gi,i.tPrev).replace(/%dir%/gi,"left")).addClass(w),o=t.arrowRight=e(n.replace(/%title%/gi,i.tNext).replace(/%dir%/gi,"right")).addClass(w);a.click(function(){t.prev()}),o.click(function(){t.next()}),t.container.append(a.add(o))}}),C(m+a,function(){t._preloadTimeout&&clearTimeout(t._preloadTimeout),t._preloadTimeout=setTimeout(function(){t.preloadNearbyImages(),t._preloadTimeout=null},16)}),void C(r+a,function(){n.off(a),t.wrap.off("click"+a),t.arrowRight=t.arrowLeft=null}))},next:function(){t.direction=!0,t.index=q(t.index+1),t.updateItemHTML()},prev:function(){t.direction=!1,t.index=q(t.index-1),t.updateItemHTML()},goTo:function(e){t.direction=e>=t.index,t.index=e,t.updateItemHTML()},preloadNearbyImages:function(){var e,i=t.st.gallery.preload,n=Math.min(i[0],t.items.length),a=Math.min(i[1],t.items.length);for(e=1;e<=(t.direction?a:n);e++)t._preloadItem(t.index+e);for(e=1;e<=(t.direction?n:a);e++)t._preloadItem(t.index-e)},_preloadItem:function(i){if(i=q(i),!t.items[i].preloaded){var n=t.items[i];n.parsed||(n=t.parseEl(i)),k("LazyLoad",n),"image"===n.type&&(n.img=e('<img class="mfp-img" />').on("load.mfploader",function(){n.hasSize=!0}).on("error.mfploader",function(){n.hasSize=!0,n.loadError=!0,k("LazyLoadError",n)}).attr("src",n.src)),n.preloaded=!0}}}});var Y="retina";e.magnificPopup.registerModule(Y,{options:{replaceSrc:function(e){return e.src.replace(/\.\w+$/,function(e){return"@2x"+e})},ratio:1},proto:{initRetina:function(){if(window.devicePixelRatio>1){var e=t.st.retina,i=e.ratio;i=isNaN(i)?i():i,i>1&&(C("ImageHasSize."+Y,function(e,t){t.img.css({"max-width":t.img[0].naturalWidth/i,width:"100%"})}),C("ElementParse."+Y,function(t,n){n.src=e.replaceSrc(n,i)}))}}}}),M()}),function(){var e,t,i,n,a,o=function(e,t){return function(){return e.apply(t,arguments)}},s=[].indexOf||function(e){for(var t=0,i=this.length;t<i;t++)if(t in this&&this[t]===e)return t;return-1};t=function(){function e(){}return e.prototype.extend=function(e,t){var i,n;for(i in t)n=t[i],null==e[i]&&(e[i]=n);return e},e.prototype.isMobile=function(e){return/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(e)},e.prototype.createEvent=function(e,t,i,n){var a;return null==t&&(t=!1),null==i&&(i=!1),null==n&&(n=null),null!=document.createEvent?(a=document.createEvent("CustomEvent"),a.initCustomEvent(e,t,i,n)):null!=document.createEventObject?(a=document.createEventObject(),a.eventType=e):a.eventName=e,a},e.prototype.emitEvent=function(e,t){return null!=e.dispatchEvent?e.dispatchEvent(t):t in(null!=e)?e[t]():"on"+t in(null!=e)?e["on"+t]():void 0},e.prototype.addEvent=function(e,t,i){return null!=e.addEventListener?e.addEventListener(t,i,!1):null!=e.attachEvent?e.attachEvent("on"+t,i):e[t]=i},e.prototype.removeEvent=function(e,t,i){return null!=e.removeEventListener?e.removeEventListener(t,i,!1):null!=e.detachEvent?e.detachEvent("on"+t,i):delete e[t]},e.prototype.innerHeight=function(){return"innerHeight"in window?window.innerHeight:document.documentElement.clientHeight},e}(),i=this.WeakMap||this.MozWeakMap||(i=function(){function e(){this.keys=[],this.values=[]}return e.prototype.get=function(e){var t,i,n,a,o;for(o=this.keys,t=n=0,a=o.length;n<a;t=++n)if(i=o[t],i===e)return this.values[t]},e.prototype.set=function(e,t){var i,n,a,o,s;for(s=this.keys,i=a=0,o=s.length;a<o;i=++a)if(n=s[i],n===e)return void(this.values[i]=t);
-return this.keys.push(e),this.values.push(t)},e}()),e=this.MutationObserver||this.WebkitMutationObserver||this.MozMutationObserver||(e=function(){function e(){"undefined"!=typeof console&&null!==console&&console.warn("MutationObserver is not supported by your browser."),"undefined"!=typeof console&&null!==console&&console.warn("WOW.js cannot detect dom mutations, please call .sync() after loading new content.")}return e.notSupported=!0,e.prototype.observe=function(){},e}()),n=this.getComputedStyle||function(e,t){return this.getPropertyValue=function(t){var i;return"float"===t&&(t="styleFloat"),a.test(t)&&t.replace(a,function(e,t){return t.toUpperCase()}),(null!=(i=e.currentStyle)?i[t]:void 0)||null},this},a=/(\-([a-z]){1})/g,this.WOW=function(){function a(e){null==e&&(e={}),this.scrollCallback=o(this.scrollCallback,this),this.scrollHandler=o(this.scrollHandler,this),this.resetAnimation=o(this.resetAnimation,this),this.start=o(this.start,this),this.scrolled=!0,this.config=this.util().extend(e,this.defaults),this.animationNameCache=new i,this.wowEvent=this.util().createEvent(this.config.boxClass)}return a.prototype.defaults={boxClass:"wow",animateClass:"animated",offset:0,mobile:!0,live:!0,callback:null},a.prototype.init=function(){var e;return this.element=window.document.documentElement,"interactive"===(e=document.readyState)||"complete"===e?this.start():this.util().addEvent(document,"DOMContentLoaded",this.start),this.finished=[]},a.prototype.start=function(){var t,i,n,a;if(this.stopped=!1,this.boxes=function(){var e,i,n,a;for(n=this.element.querySelectorAll("."+this.config.boxClass),a=[],e=0,i=n.length;e<i;e++)t=n[e],a.push(t);return a}.call(this),this.all=function(){var e,i,n,a;for(n=this.boxes,a=[],e=0,i=n.length;e<i;e++)t=n[e],a.push(t);return a}.call(this),this.boxes.length)if(this.disabled())this.resetStyle();else for(a=this.boxes,i=0,n=a.length;i<n;i++)t=a[i],this.applyStyle(t,!0);if(this.disabled()||(this.util().addEvent(window,"scroll",this.scrollHandler),this.util().addEvent(window,"resize",this.scrollHandler),this.interval=setInterval(this.scrollCallback,50)),this.config.live)return new e(function(e){return function(t){var i,n,a,o,s;for(s=[],i=0,n=t.length;i<n;i++)o=t[i],s.push(function(){var e,t,i,n;for(i=o.addedNodes||[],n=[],e=0,t=i.length;e<t;e++)a=i[e],n.push(this.doSync(a));return n}.call(e));return s}}(this)).observe(document.body,{childList:!0,subtree:!0})},a.prototype.stop=function(){if(this.stopped=!0,this.util().removeEvent(window,"scroll",this.scrollHandler),this.util().removeEvent(window,"resize",this.scrollHandler),null!=this.interval)return clearInterval(this.interval)},a.prototype.sync=function(t){if(e.notSupported)return this.doSync(this.element)},a.prototype.doSync=function(e){var t,i,n,a,o;if(null==e&&(e=this.element),1===e.nodeType){for(e=e.parentNode||e,a=e.querySelectorAll("."+this.config.boxClass),o=[],i=0,n=a.length;i<n;i++)t=a[i],s.call(this.all,t)<0?(this.boxes.push(t),this.all.push(t),this.stopped||this.disabled()?this.resetStyle():this.applyStyle(t,!0),o.push(this.scrolled=!0)):o.push(void 0);return o}},a.prototype.show=function(e){return this.applyStyle(e),e.className=e.className+" "+this.config.animateClass,null!=this.config.callback&&this.config.callback(e),this.util().emitEvent(e,this.wowEvent),this.util().addEvent(e,"animationend",this.resetAnimation),this.util().addEvent(e,"oanimationend",this.resetAnimation),this.util().addEvent(e,"webkitAnimationEnd",this.resetAnimation),this.util().addEvent(e,"MSAnimationEnd",this.resetAnimation),e},a.prototype.applyStyle=function(e,t){var i,n,a;return n=e.getAttribute("data-wow-duration"),i=e.getAttribute("data-wow-delay"),a=e.getAttribute("data-wow-iteration"),this.animate(function(o){return function(){return o.customStyle(e,t,n,i,a)}}(this))},a.prototype.animate=function(){return"requestAnimationFrame"in window?function(e){return window.requestAnimationFrame(e)}:function(e){return e()}}(),a.prototype.resetStyle=function(){var e,t,i,n,a;for(n=this.boxes,a=[],t=0,i=n.length;t<i;t++)e=n[t],a.push(e.style.visibility="visible");return a},a.prototype.resetAnimation=function(e){var t;if(e.type.toLowerCase().indexOf("animationend")>=0)return t=e.target||e.srcElement,t.className=t.className.replace(this.config.animateClass,"").trim()},a.prototype.customStyle=function(e,t,i,n,a){return t&&this.cacheAnimationName(e),e.style.visibility=t?"hidden":"visible",i&&this.vendorSet(e.style,{animationDuration:i}),n&&this.vendorSet(e.style,{animationDelay:n}),a&&this.vendorSet(e.style,{animationIterationCount:a}),this.vendorSet(e.style,{animationName:t?"none":this.cachedAnimationName(e)}),e},a.prototype.vendors=["moz","webkit"],a.prototype.vendorSet=function(e,t){var i,n,a,o;n=[];for(i in t)a=t[i],e[""+i]=a,n.push(function(){var t,n,s,r;for(s=this.vendors,r=[],t=0,n=s.length;t<n;t++)o=s[t],r.push(e[""+o+i.charAt(0).toUpperCase()+i.substr(1)]=a);return r}.call(this));return n},a.prototype.vendorCSS=function(e,t){var i,a,o,s,r,l;for(r=n(e),s=r.getPropertyCSSValue(t),o=this.vendors,i=0,a=o.length;i<a;i++)l=o[i],s=s||r.getPropertyCSSValue("-"+l+"-"+t);return s},a.prototype.animationName=function(e){var t;try{t=this.vendorCSS(e,"animation-name").cssText}catch(i){t=n(e).getPropertyValue("animation-name")}return"none"===t?"":t},a.prototype.cacheAnimationName=function(e){return this.animationNameCache.set(e,this.animationName(e))},a.prototype.cachedAnimationName=function(e){return this.animationNameCache.get(e)},a.prototype.scrollHandler=function(){return this.scrolled=!0},a.prototype.scrollCallback=function(){var e;if(this.scrolled&&(this.scrolled=!1,this.boxes=function(){var t,i,n,a;for(n=this.boxes,a=[],t=0,i=n.length;t<i;t++)e=n[t],e&&(this.isVisible(e)?this.show(e):a.push(e));return a}.call(this),!this.boxes.length&&!this.config.live))return this.stop()},a.prototype.offsetTop=function(e){for(var t;void 0===e.offsetTop;)e=e.parentNode;for(t=e.offsetTop;e=e.offsetParent;)t+=e.offsetTop;return t},a.prototype.isVisible=function(e){var t,i,n,a,o;return i=e.getAttribute("data-wow-offset")||this.config.offset,o=window.pageYOffset,a=o+Math.min(this.element.clientHeight,this.util().innerHeight())-i,n=this.offsetTop(e),t=n+e.clientHeight,n<=a&&t>=o},a.prototype.util=function(){return null!=this._util?this._util:this._util=new t},a.prototype.disabled=function(){return!this.config.mobile&&this.util().isMobile(navigator.userAgent)},a}()}.call(this),$(function(){$("#contactForm input,#contactForm textarea").jqBootstrapValidation({preventSubmit:!0,submitError:function(e,t,i){},submitSuccess:function(e,t){t.preventDefault();var i=$("input#name").val(),n=$("input#email").val(),a=$("input#phone").val(),o=$("textarea#message").val(),s=i;s.indexOf(" ")>=0&&(s=i.split(" ").slice(0,-1).join(" ")),$.ajax({url:"./mail/contact_me.php",type:"POST",data:{name:i,phone:a,email:n,message:o},cache:!1,success:function(){$("#success").html("<div class='alert alert-success'>"),$("#success > .alert-success").html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>"),$("#success > .alert-success").append("<strong>Your message has been sent. </strong>"),$("#success > .alert-success").append("</div>"),$("#contactForm").trigger("reset")},error:function(){$("#success").html("<div class='alert alert-danger'>"),$("#success > .alert-danger").html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>"),$("#success > .alert-danger").append("<strong>Sorry "+s+", it seems that my mail server is not responding. Please try again later!"),$("#success > .alert-danger").append("</div>"),$("#contactForm").trigger("reset")}})},filter:function(){return $(this).is(":visible")}}),$('a[data-toggle="tab"]').click(function(e){e.preventDefault(),$(this).tab("show")})}),$("#name").focus(function(){$("#success").html("")}),function(e){function t(e){return new RegExp("^"+e+"$")}function i(e,t){for(var i=Array.prototype.slice.call(arguments).splice(2),n=e.split("."),a=n.pop(),o=0;o<n.length;o++)t=t[n[o]];return t[a].apply(this,i)}var n=[],a={options:{prependExistingHelpBlock:!1,sniffHtml:!0,preventSubmit:!0,submitError:!1,submitSuccess:!1,semanticallyStrict:!1,autoAdd:{helpBlocks:!0},filter:function(){return!0}},methods:{init:function(t){var i=e.extend(!0,{},a);i.options=e.extend(!0,i.options,t);var r=this,l=e.unique(r.map(function(){return e(this).parents("form")[0]}).toArray());return e(l).bind("submit",function(t){var n=e(this),a=0,o=n.find("input,textarea,select").not("[type=submit],[type=image]").filter(i.options.filter);o.trigger("submit.validation").trigger("validationLostFocus.validation"),o.each(function(t,i){var n=e(i),o=n.parents(".control-group").first();o.hasClass("warning")&&(o.removeClass("warning").addClass("error"),a++)}),o.trigger("validationLostFocus.validation"),a?(i.options.preventSubmit&&t.preventDefault(),n.addClass("error"),e.isFunction(i.options.submitError)&&i.options.submitError(n,t,o.jqBootstrapValidation("collectErrors",!0))):(n.removeClass("error"),e.isFunction(i.options.submitSuccess)&&i.options.submitSuccess(n,t))}),this.each(function(){var t=e(this),a=t.parents(".control-group").first(),r=a.find(".help-block").first(),l=t.parents("form").first(),u=[];if(!r.length&&i.options.autoAdd&&i.options.autoAdd.helpBlocks&&(r=e('<div class="help-block" />'),a.find(".controls").append(r),n.push(r[0])),i.options.sniffHtml){var c="";if(void 0!==t.attr("pattern")&&(c="Not in the expected format<!-- data-validation-pattern-message to override -->",t.data("validationPatternMessage")&&(c=t.data("validationPatternMessage")),t.data("validationPatternMessage",c),t.data("validationPatternRegex",t.attr("pattern"))),void 0!==t.attr("max")||void 0!==t.attr("aria-valuemax")){var d=void 0!==t.attr("max")?t.attr("max"):t.attr("aria-valuemax");c="Too high: Maximum of '"+d+"'<!-- data-validation-max-message to override -->",t.data("validationMaxMessage")&&(c=t.data("validationMaxMessage")),t.data("validationMaxMessage",c),t.data("validationMaxMax",d)}if(void 0!==t.attr("min")||void 0!==t.attr("aria-valuemin")){var p=void 0!==t.attr("min")?t.attr("min"):t.attr("aria-valuemin");c="Too low: Minimum of '"+p+"'<!-- data-validation-min-message to override -->",t.data("validationMinMessage")&&(c=t.data("validationMinMessage")),t.data("validationMinMessage",c),t.data("validationMinMin",p)}void 0!==t.attr("maxlength")&&(c="Too long: Maximum of '"+t.attr("maxlength")+"' characters<!-- data-validation-maxlength-message to override -->",t.data("validationMaxlengthMessage")&&(c=t.data("validationMaxlengthMessage")),t.data("validationMaxlengthMessage",c),t.data("validationMaxlengthMaxlength",t.attr("maxlength"))),void 0!==t.attr("minlength")&&(c="Too short: Minimum of '"+t.attr("minlength")+"' characters<!-- data-validation-minlength-message to override -->",t.data("validationMinlengthMessage")&&(c=t.data("validationMinlengthMessage")),t.data("validationMinlengthMessage",c),t.data("validationMinlengthMinlength",t.attr("minlength"))),void 0===t.attr("required")&&void 0===t.attr("aria-required")||(c=i.builtInValidators.required.message,t.data("validationRequiredMessage")&&(c=t.data("validationRequiredMessage")),t.data("validationRequiredMessage",c)),void 0!==t.attr("type")&&"number"===t.attr("type").toLowerCase()&&(c=i.builtInValidators.number.message,t.data("validationNumberMessage")&&(c=t.data("validationNumberMessage")),t.data("validationNumberMessage",c)),void 0!==t.attr("type")&&"email"===t.attr("type").toLowerCase()&&(c="Not a valid email address<!-- data-validator-validemail-message to override -->",t.data("validationValidemailMessage")?c=t.data("validationValidemailMessage"):t.data("validationEmailMessage")&&(c=t.data("validationEmailMessage")),t.data("validationValidemailMessage",c)),void 0!==t.attr("minchecked")&&(c="Not enough options checked; Minimum of '"+t.attr("minchecked")+"' required<!-- data-validation-minchecked-message to override -->",t.data("validationMincheckedMessage")&&(c=t.data("validationMincheckedMessage")),t.data("validationMincheckedMessage",c),t.data("validationMincheckedMinchecked",t.attr("minchecked"))),void 0!==t.attr("maxchecked")&&(c="Too many options checked; Maximum of '"+t.attr("maxchecked")+"' required<!-- data-validation-maxchecked-message to override -->",t.data("validationMaxcheckedMessage")&&(c=t.data("validationMaxcheckedMessage")),t.data("validationMaxcheckedMessage",c),t.data("validationMaxcheckedMaxchecked",t.attr("maxchecked")))}void 0!==t.data("validation")&&(u=t.data("validation").split(",")),e.each(t.data(),function(e,t){var i=e.replace(/([A-Z])/g,",$1").split(",");"validation"===i[0]&&i[1]&&u.push(i[1])});var m=u,f=[];do e.each(u,function(e,t){u[e]=o(t)}),u=e.unique(u),f=[],e.each(m,function(n,a){if(void 0!==t.data("validation"+a+"Shortcut"))e.each(t.data("validation"+a+"Shortcut").split(","),function(e,t){f.push(t)});else if(i.builtInValidators[a.toLowerCase()]){var s=i.builtInValidators[a.toLowerCase()];"shortcut"===s.type.toLowerCase()&&e.each(s.shortcut.split(","),function(e,t){t=o(t),f.push(t),u.push(t)})}}),m=f;while(m.length>0);var h={};e.each(u,function(n,a){var s=t.data("validation"+a+"Message"),r=void 0!==s,l=!1;if(s=s?s:"'"+a+"' validation failed <!-- Add attribute 'data-validation-"+a.toLowerCase()+"-message' to input to change this message -->",e.each(i.validatorTypes,function(i,n){void 0===h[i]&&(h[i]=[]),l||void 0===t.data("validation"+a+o(n.name))||(h[i].push(e.extend(!0,{name:o(n.name),message:s},n.init(t,a))),l=!0)}),!l&&i.builtInValidators[a.toLowerCase()]){var u=e.extend(!0,{},i.builtInValidators[a.toLowerCase()]);r&&(u.message=s);var c=u.type.toLowerCase();"shortcut"===c?l=!0:e.each(i.validatorTypes,function(i,n){void 0===h[i]&&(h[i]=[]),l||c!==i.toLowerCase()||(t.data("validation"+a+o(n.name),u[n.name.toLowerCase()]),h[c].push(e.extend(u,n.init(t,a))),l=!0)})}l||e.error("Cannot find validation info for '"+a+"'")}),r.data("original-contents",r.data("original-contents")?r.data("original-contents"):r.html()),r.data("original-role",r.data("original-role")?r.data("original-role"):r.attr("role")),a.data("original-classes",a.data("original-clases")?a.data("original-classes"):a.attr("class")),t.data("original-aria-invalid",t.data("original-aria-invalid")?t.data("original-aria-invalid"):t.attr("aria-invalid")),t.bind("validation.validation",function(n,a){var o=s(t),r=[];return e.each(h,function(n,s){(o||o.length||a&&a.includeEmpty||i.validatorTypes[n].blockSubmit&&a&&a.submitting)&&e.each(s,function(e,a){i.validatorTypes[n].validate(t,o,a)&&r.push(a.message)})}),r}),t.bind("getValidators.validation",function(){return h}),t.bind("submit.validation",function(){return t.triggerHandler("change.validation",{submitting:!0})}),t.bind(["keyup","focus","blur","click","keydown","keypress","change"].join(".validation ")+".validation",function(n,o){var u=s(t),c=[];a.find("input,textarea,select").each(function(i,n){var a=c.length;if(e.each(e(n).triggerHandler("validation.validation",o),function(e,t){c.push(t)}),c.length>a)e(n).attr("aria-invalid","true");else{var s=t.data("original-aria-invalid");e(n).attr("aria-invalid",void 0!==s&&s)}}),l.find("input,select,textarea").not(t).not('[name="'+t.attr("name")+'"]').trigger("validationLostFocus.validation"),c=e.unique(c.sort()),c.length?(a.removeClass("success error").addClass("warning"),i.options.semanticallyStrict&&1===c.length?r.html(c[0]+(i.options.prependExistingHelpBlock?r.data("original-contents"):"")):r.html('<ul role="alert"><li>'+c.join("</li><li>")+"</li></ul>"+(i.options.prependExistingHelpBlock?r.data("original-contents"):""))):(a.removeClass("warning error success"),u.length>0&&a.addClass("success"),r.html(r.data("original-contents"))),"blur"===n.type&&a.removeClass("success")}),t.bind("validationLostFocus.validation",function(){a.removeClass("success")})})},destroy:function(){return this.each(function(){var t=e(this),i=t.parents(".control-group").first(),a=i.find(".help-block").first();t.unbind(".validation"),a.html(a.data("original-contents")),i.attr("class",i.data("original-classes")),t.attr("aria-invalid",t.data("original-aria-invalid")),a.attr("role",t.data("original-role")),n.indexOf(a[0])>-1&&a.remove()})},collectErrors:function(t){var i={};return this.each(function(t,n){var a=e(n),o=a.attr("name"),s=a.triggerHandler("validation.validation",{includeEmpty:!0});i[o]=e.extend(!0,s,i[o])}),e.each(i,function(e,t){0===t.length&&delete i[e]}),i},hasErrors:function(){var t=[];return this.each(function(i,n){t=t.concat(e(n).triggerHandler("getValidators.validation")?e(n).triggerHandler("validation.validation",{submitting:!0}):[])}),t.length>0},override:function(t){a=e.extend(!0,a,t)}},validatorTypes:{callback:{name:"callback",init:function(e,t){return{validatorName:t,callback:e.data("validation"+t+"Callback"),lastValue:e.val(),lastValid:!0,lastFinished:!0}},validate:function(e,t,n){if(n.lastValue===t&&n.lastFinished)return!n.lastValid;if(n.lastFinished===!0){n.lastValue=t,n.lastValid=!0,n.lastFinished=!1;var a=n,o=e;i(n.callback,window,e,t,function(e){a.lastValue===e.value&&(a.lastValid=e.valid,e.message&&(a.message=e.message),a.lastFinished=!0,o.data("validation"+a.validatorName+"Message",a.message),setTimeout(function(){o.trigger("change.validation")},1))})}return!1}},ajax:{name:"ajax",init:function(e,t){return{validatorName:t,url:e.data("validation"+t+"Ajax"),lastValue:e.val(),lastValid:!0,lastFinished:!0}},validate:function(t,i,n){return""+n.lastValue==""+i&&n.lastFinished===!0?n.lastValid===!1:(n.lastFinished===!0&&(n.lastValue=i,n.lastValid=!0,n.lastFinished=!1,e.ajax({url:n.url,data:"value="+i+"&field="+t.attr("name"),dataType:"json",success:function(e){""+n.lastValue==""+e.value&&(n.lastValid=!!e.valid,e.message&&(n.message=e.message),n.lastFinished=!0,t.data("validation"+n.validatorName+"Message",n.message),setTimeout(function(){t.trigger("change.validation")},1))},failure:function(){n.lastValid=!0,n.message="ajax call failed",n.lastFinished=!0,t.data("validation"+n.validatorName+"Message",n.message),setTimeout(function(){t.trigger("change.validation")},1)}})),!1)}},regex:{name:"regex",init:function(e,i){return{regex:t(e.data("validation"+i+"Regex"))}},validate:function(e,t,i){return!i.regex.test(t)&&!i.negative||i.regex.test(t)&&i.negative}},required:{name:"required",init:function(e,t){return{}},validate:function(e,t,i){return!(0!==t.length||i.negative)||!!(t.length>0&&i.negative)},blockSubmit:!0},match:{name:"match",init:function(e,t){var i=e.parents("form").first().find('[name="'+e.data("validation"+t+"Match")+'"]').first();return i.bind("validation.validation",function(){e.trigger("change.validation",{submitting:!0})}),{element:i}},validate:function(e,t,i){return t!==i.element.val()&&!i.negative||t===i.element.val()&&i.negative},blockSubmit:!0},max:{name:"max",init:function(e,t){return{max:e.data("validation"+t+"Max")}},validate:function(e,t,i){return parseFloat(t,10)>parseFloat(i.max,10)&&!i.negative||parseFloat(t,10)<=parseFloat(i.max,10)&&i.negative}},min:{name:"min",init:function(e,t){return{min:e.data("validation"+t+"Min")}},validate:function(e,t,i){return parseFloat(t)<parseFloat(i.min)&&!i.negative||parseFloat(t)>=parseFloat(i.min)&&i.negative}},maxlength:{name:"maxlength",init:function(e,t){return{maxlength:e.data("validation"+t+"Maxlength")}},validate:function(e,t,i){return t.length>i.maxlength&&!i.negative||t.length<=i.maxlength&&i.negative}},minlength:{name:"minlength",init:function(e,t){return{minlength:e.data("validation"+t+"Minlength")}},validate:function(e,t,i){return t.length<i.minlength&&!i.negative||t.length>=i.minlength&&i.negative}},maxchecked:{name:"maxchecked",init:function(e,t){var i=e.parents("form").first().find('[name="'+e.attr("name")+'"]');return i.bind("click.validation",function(){e.trigger("change.validation",{includeEmpty:!0})}),{maxchecked:e.data("validation"+t+"Maxchecked"),elements:i}},validate:function(e,t,i){return i.elements.filter(":checked").length>i.maxchecked&&!i.negative||i.elements.filter(":checked").length<=i.maxchecked&&i.negative},blockSubmit:!0},minchecked:{name:"minchecked",init:function(e,t){var i=e.parents("form").first().find('[name="'+e.attr("name")+'"]');return i.bind("click.validation",function(){e.trigger("change.validation",{includeEmpty:!0})}),{minchecked:e.data("validation"+t+"Minchecked"),elements:i}},validate:function(e,t,i){return i.elements.filter(":checked").length<i.minchecked&&!i.negative||i.elements.filter(":checked").length>=i.minchecked&&i.negative},blockSubmit:!0}},builtInValidators:{email:{name:"Email",type:"shortcut",shortcut:"validemail"},validemail:{name:"Validemail",type:"regex",regex:"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",message:"Not a valid email address<!-- data-validator-validemail-message to override -->"},passwordagain:{name:"Passwordagain",type:"match",match:"password",message:"Does not match the given password<!-- data-validator-paswordagain-message to override -->"},positive:{name:"Positive",type:"shortcut",shortcut:"number,positivenumber"},negative:{name:"Negative",type:"shortcut",shortcut:"number,negativenumber"},number:{name:"Number",type:"regex",regex:"([+-]?\\d+(\\.\\d*)?([eE][+-]?[0-9]+)?)?",message:"Must be a number<!-- data-validator-number-message to override -->"},integer:{name:"Integer",type:"regex",regex:"[+-]?\\d+",message:"No decimal places allowed<!-- data-validator-integer-message to override -->"},positivenumber:{name:"Positivenumber",type:"min",min:0,message:"Must be a positive number<!-- data-validator-positivenumber-message to override -->"},negativenumber:{name:"Negativenumber",type:"max",max:0,message:"Must be a negative number<!-- data-validator-negativenumber-message to override -->"},required:{name:"Required",type:"required",message:"This is required<!-- data-validator-required-message to override -->"},checkone:{name:"Checkone",type:"minchecked",minchecked:1,message:"Check at least one option<!-- data-validation-checkone-message to override -->"}}},o=function(e){return e.toLowerCase().replace(/(^|\s)([a-z])/g,function(e,t,i){return t+i.toUpperCase()})},s=function(t){var i=t.val(),n=t.attr("type");return"checkbox"===n&&(i=t.is(":checked")?i:""),"radio"===n&&(i=e('input[name="'+t.attr("name")+'"]:checked').length>0?i:""),i};e.fn.jqBootstrapValidation=function(t){return a.methods[t]?a.methods[t].apply(this,Array.prototype.slice.call(arguments,1)):"object"!=typeof t&&t?(e.error("Method "+t+" does not exist on jQuery.jqBootstrapValidation"),null):a.methods.init.apply(this,arguments)},e.jqBootstrapValidation=function(t){e(":input").not("[type=image],[type=submit]").jqBootstrapValidation.apply(this,arguments)}}(jQuery),!function(e){"function"==typeof define&&define.amd?define(["jquery","./core"],e):e(jQuery,Formstone)}(function(e,t){"use strict";function i(t){t=t||{};for(var i in y)y.hasOwnProperty(i)&&(d[i]=t[i]?e.merge(t[i],d[i]):d[i]);d=e.extend(d,t),d.minWidth.sort(h.sortDesc),d.maxWidth.sort(h.sortAsc),d.minHeight.sort(h.sortDesc),d.maxHeight.sort(h.sortAsc);for(var n in y)if(y.hasOwnProperty(n)){w[n]={};for(var a in d[n])if(d[n].hasOwnProperty(a)){var o=window.matchMedia("("+y[n]+": "+(d[n][a]===1/0?1e5:d[n][a])+d.unit+")");o.addListener(s),w[n][d[n][a]]=o}}s()}function n(e,t,i){var n=f.matchMedia(t),a=l(n.media);g[a]||(g[a]={mq:n,active:!0,enter:{},leave:{}},g[a].mq.addListener(r));for(var o in i)i.hasOwnProperty(o)&&g[a].hasOwnProperty(o)&&(g[a][o][e]=i[o]);var s=g[a],u=n.matches;u&&s[p.enter].hasOwnProperty(e)?(s[p.enter][e].apply(n),s.active=!0):!u&&s[p.leave].hasOwnProperty(e)&&(s[p.leave][e].apply(n),s.active=!1)}function a(e,t){if(e)if(t){var i=l(t);g[i]&&(g[i].enter[e]&&delete g[i].enter[e],g[i].leave[e]&&delete g[i].leave[e])}else for(var n in g)g.hasOwnProperty(n)&&(g[n].enter[e]&&delete g[n].enter[e],g[n].leave[e]&&delete g[n].leave[e])}function o(){v={unit:d.unit};for(var e in y)if(y.hasOwnProperty(e))for(var i in w[e])if(w[e].hasOwnProperty(i)){var n="Infinity"===i?1/0:parseInt(i,10),a=y[e].indexOf("width")>-1?t.fallbackWidth:t.fallbackHeight,o=e.indexOf("max")>-1;t.support.nativeMatchMedia?w[e][i].matches&&(o?(!v[e]||n<v[e])&&(v[e]=n):(!v[e]||n>v[e])&&(v[e]=n)):o?!v[e]&&n>a&&(v[e]=n):(!v[e]&&0!==v[e]||n>v[e]&&n<a)&&(v[e]=n)}}function s(){o(),m.trigger(p.mqChange,[v])}function r(e){var t=l(e.media),i=g[t],n=e.matches,a=n?p.enter:p.leave;if(i&&(i.active||!i.active&&n)){for(var o in i[a])i[a].hasOwnProperty(o)&&i[a][o].apply(i.mq);i.active=!0}}function l(e){return e.replace(/[^a-z0-9\s]/gi,"").replace(/[_\s]/g,"").replace(/^\s+|\s+$/g,"")}function u(){return v}var c=t.Plugin("mediaquery",{utilities:{_initialize:i,state:u,bind:n,unbind:a},events:{mqChange:"mqchange"}}),d={minWidth:[0],maxWidth:[1/0],minHeight:[0],maxHeight:[1/0],unit:"px"},p=e.extend(c.events,{enter:"enter",leave:"leave"}),m=t.$window,f=m[0],h=c.functions,v=null,g=[],w={},y={minWidth:"min-width",maxWidth:"max-width",minHeight:"min-height",maxHeight:"max-height"}});var isPhoneDevice="ontouchstart"in document.documentElement;$(document).ready(function(){isPhoneDevice||(wow=new WOW({offset:50}),wow.init())}),function(e){"use strict";e("a.page-scroll").bind("click",function(t){var i=e(this);e("html, body").stop().animate({scrollTop:e(i.attr("href")).offset().top-50},1250,"easeInOutExpo"),t.preventDefault()}),e("body").on("input propertychange",".floating-label-form-group",function(t){e(this).toggleClass("floating-label-form-group-with-value",!!e(t.target).val())}).on("focus",".floating-label-form-group",function(){e(this).addClass("floating-label-form-group-with-focus")}).on("blur",".floating-label-form-group",function(){e(this).removeClass("floating-label-form-group-with-focus")}),e(".navbar-collapse ul li a").click(function(){e(".navbar-toggle:visible").click()}),e(".portfolio-carousel").owlCarousel({singleItem:!0,navigation:!0,pagination:!1,navigationText:["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],autoHeight:!0,mouseDrag:!1,touchDrag:!1,transitionStyle:"fadeUp"}),e(".portfolio-gallery").owlCarousel({items:3}),e(".gallery-link").magnificPopup({type:"image",gallery:{enabled:!0},image:{titleSrc:"title"}}),e("body").scrollspy({target:".navbar-fixed-top",offset:51})}(jQuery);
-// Header background  enable
-var jsheader = $('#js_header');
+"use strict";
+
+! function(a) {
+    "function" == typeof define && define.amd ? define(["jquery"], a) : a(jQuery);
+}(function(a) {
+    function b(a) {
+        m.Plugins[a].initialized || (m.Plugins[a].methods._setup.call(document), m.Plugins[a].initialized = !0);
+    }
+
+    function c(a, b, c, d) {
+        var e, f = {
+            raw: {}
+        };
+        d = d || {};
+        for (e in d) d.hasOwnProperty(e) && ("classes" === a ? (f.raw[d[e]] = b + "-" + d[e],
+            f[d[e]] = "." + b + "-" + d[e]) : (f.raw[e] = d[e], f[e] = d[e] + "." + b));
+        for (e in c) c.hasOwnProperty(e) && ("classes" === a ? (f.raw[e] = c[e].replace(/{ns}/g, b),
+            f[e] = c[e].replace(/{ns}/g, "." + b)) : (f.raw[e] = c[e].replace(/.{ns}/g, ""),
+            f[e] = c[e].replace(/{ns}/g, b)));
+        return f;
+    }
+
+    function d() {
+        var a, b = {
+                WebkitTransition: "webkitTransitionEnd",
+                MozTransition: "transitionend",
+                OTransition: "otransitionend",
+                transition: "transitionend"
+            },
+            c = ["transition", "-webkit-transition"],
+            d = {
+                transform: "transform",
+                MozTransform: "-moz-transform",
+                OTransform: "-o-transform",
+                msTransform: "-ms-transform",
+                webkitTransform: "-webkit-transform"
+            },
+            e = "transitionend",
+            f = "",
+            g = "",
+            h = document.createElement("div");
+        for (a in b)
+            if (b.hasOwnProperty(a) && a in h.style) {
+                e = b[a], m.support.transition = !0;
+                break;
+            }
+        p.transitionEnd = e + ".{ns}";
+        for (a in c)
+            if (c.hasOwnProperty(a) && c[a] in h.style) {
+                f = c[a];
+                break;
+            }
+        m.transition = f;
+        for (a in d)
+            if (d.hasOwnProperty(a) && d[a] in h.style) {
+                m.support.transform = !0, g = d[a];
+                break;
+            }
+        m.transform = g;
+    }
+
+    function e() {
+        m.windowWidth = m.$window.width(), m.windowHeight = m.$window.height(), q = l.startTimer(q, r, f);
+    }
+
+    function f() {
+        for (var a in m.ResizeHandlers) m.ResizeHandlers.hasOwnProperty(a) && m.ResizeHandlers[a].callback.call(window, m.windowWidth, m.windowHeight);
+    }
+
+    function g() {
+        if (m.support.raf) {
+            m.window.requestAnimationFrame(g);
+            for (var a in m.RAFHandlers) m.RAFHandlers.hasOwnProperty(a) && m.RAFHandlers[a].callback.call(window);
+        }
+    }
+
+    function h(a, b) {
+        return parseInt(a.priority) - parseInt(b.priority);
+    }
+    var i = "undefined" != typeof window ? window : this,
+        j = i.document,
+        k = function() {
+            this.Version = "1.3.0", this.Plugins = {}, this.DontConflict = !1, this.Conflicts = {
+                    fn: {}
+                }, this.ResizeHandlers = [], this.RAFHandlers = [], this.window = i, this.$window = a(i),
+                this.document = j, this.$document = a(j), this.$body = null, this.windowWidth = 0,
+                this.windowHeight = 0, this.fallbackWidth = 1024, this.fallbackHeight = 768, this.userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera,
+                this.isFirefox = /Firefox/i.test(this.userAgent), this.isChrome = /Chrome/i.test(this.userAgent),
+                this.isSafari = /Safari/i.test(this.userAgent) && !this.isChrome, this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(this.userAgent),
+                this.isIEMobile = /IEMobile/i.test(this.userAgent), this.isFirefoxMobile = this.isFirefox && this.isMobile,
+                this.transform = null, this.transition = null, this.support = {
+                    file: !!(window.File && window.FileList && window.FileReader),
+                    history: !!(window.history && window.history.pushState && window.history.replaceState),
+                    matchMedia: !(!window.matchMedia && !window.msMatchMedia),
+                    pointer: !!window.PointerEvent,
+                    raf: !(!window.requestAnimationFrame || !window.cancelAnimationFrame),
+                    touch: !!("ontouchstart" in window || window.DocumentTouch && document instanceof window.DocumentTouch),
+                    transition: !1,
+                    transform: !1
+                };
+        },
+        l = {
+            killEvent: function(a, b) {
+                try {
+                    a.preventDefault(), a.stopPropagation(), b && a.stopImmediatePropagation();
+                } catch (a) {}
+            },
+            startTimer: function(a, b, c, d) {
+                return l.clearTimer(a), d ? setInterval(c, b) : setTimeout(c, b);
+            },
+            clearTimer: function(a, b) {
+                a && (b ? clearInterval(a) : clearTimeout(a), a = null);
+            },
+            sortAsc: function(a, b) {
+                return parseInt(a, 10) - parseInt(b, 10);
+            },
+            sortDesc: function(a, b) {
+                return parseInt(b, 10) - parseInt(a, 10);
+            },
+            decodeEntities: function(a) {
+                var b = m.document.createElement("textarea");
+                return b.innerHTML = a, b.value;
+            },
+            parseQueryString: function(a) {
+                for (var b = {}, c = a.slice(a.indexOf("?") + 1).split("&"), d = 0; d < c.length; d++) {
+                    var e = c[d].split("=");
+                    b[e[0]] = e[1];
+                }
+                return b;
+            }
+        },
+        m = new k(),
+        n = a.Deferred(),
+        o = {
+            base: "{ns}",
+            element: "{ns}-element"
+        },
+        p = {
+            namespace: ".{ns}",
+            beforeUnload: "beforeunload.{ns}",
+            blur: "blur.{ns}",
+            change: "change.{ns}",
+            click: "click.{ns}",
+            dblClick: "dblclick.{ns}",
+            drag: "drag.{ns}",
+            dragEnd: "dragend.{ns}",
+            dragEnter: "dragenter.{ns}",
+            dragLeave: "dragleave.{ns}",
+            dragOver: "dragover.{ns}",
+            dragStart: "dragstart.{ns}",
+            drop: "drop.{ns}",
+            error: "error.{ns}",
+            focus: "focus.{ns}",
+            focusIn: "focusin.{ns}",
+            focusOut: "focusout.{ns}",
+            input: "input.{ns}",
+            keyDown: "keydown.{ns}",
+            keyPress: "keypress.{ns}",
+            keyUp: "keyup.{ns}",
+            load: "load.{ns}",
+            mouseDown: "mousedown.{ns}",
+            mouseEnter: "mouseenter.{ns}",
+            mouseLeave: "mouseleave.{ns}",
+            mouseMove: "mousemove.{ns}",
+            mouseOut: "mouseout.{ns}",
+            mouseOver: "mouseover.{ns}",
+            mouseUp: "mouseup.{ns}",
+            panStart: "panstart.{ns}",
+            pan: "pan.{ns}",
+            panEnd: "panend.{ns}",
+            resize: "resize.{ns}",
+            scaleStart: "scalestart.{ns}",
+            scaleEnd: "scaleend.{ns}",
+            scale: "scale.{ns}",
+            scroll: "scroll.{ns}",
+            select: "select.{ns}",
+            swipe: "swipe.{ns}",
+            touchCancel: "touchcancel.{ns}",
+            touchEnd: "touchend.{ns}",
+            touchLeave: "touchleave.{ns}",
+            touchMove: "touchmove.{ns}",
+            touchStart: "touchstart.{ns}"
+        };
+    k.prototype.NoConflict = function() {
+        m.DontConflict = !0;
+        for (var b in m.Plugins) m.Plugins.hasOwnProperty(b) && (a[b] = m.Conflicts[b],
+            a.fn[b] = m.Conflicts.fn[b]);
+    }, k.prototype.Plugin = function(d, e) {
+        return m.Plugins[d] = function(b, d) {
+            function e(c) {
+                var e, f, h, i = "object" === a.type(c),
+                    j = this,
+                    k = a();
+                for (c = a.extend(!0, {}, d.defaults || {}, i ? c : {}), f = 0, h = j.length; f < h; f++)
+                    if (e = j.eq(f), !g(e)) {
+                        var l = "__" + d.guid++,
+                            m = d.classes.raw.base + l,
+                            n = e.data(b + "-options"),
+                            o = a.extend(!0, {
+                                $el: e,
+                                guid: l,
+                                rawGuid: m,
+                                dotGuid: "." + m
+                            }, c, "object" === a.type(n) ? n : {});
+                        e.addClass(d.classes.raw.element).data(r, o), d.methods._construct.apply(e, [o].concat(Array.prototype.slice.call(arguments, i ? 1 : 0))),
+                            k = k.add(e);
+                    }
+                for (f = 0, h = k.length; f < h; f++) e = k.eq(f), d.methods._postConstruct.apply(e, [g(e)]);
+                return j;
+            }
+
+            function f(a) {
+                d.functions.iterate.apply(this, [d.methods._destruct].concat(Array.prototype.slice.call(arguments, 1))),
+                    this.removeClass(d.classes.raw.element).removeData(r);
+            }
+
+            function g(a) {
+                return a.data(r);
+            }
+
+            function i(b) {
+                if (this instanceof a) {
+                    var c = d.methods[b];
+                    return "object" !== a.type(b) && b ? c && 0 !== b.indexOf("_") ? d.functions.iterate.apply(this, [c].concat(Array.prototype.slice.call(arguments, 1))) : this : e.apply(this, arguments);
+                }
+            }
+
+            function j(b) {
+                var c = d.utilities[b] || d.utilities._initialize || !1;
+                if (c) return c.apply(window, Array.prototype.slice.call(arguments, "object" === a.type(b) ? 0 : 1));
+            }
+
+            function k(b) {
+                d.defaults = a.extend(!0, d.defaults, b || {});
+            }
+
+            function n(b) {
+                for (var c = this, d = 0, e = c.length; d < e; d++) {
+                    var f = c.eq(d),
+                        h = g(f) || {};
+                    "undefined" !== a.type(h.$el) && b.apply(f, [h].concat(Array.prototype.slice.call(arguments, 1)));
+                }
+                return c;
+            }
+            var q = "fs-" + b,
+                r = "fs" + b.replace(/(^|\s)([a-z])/g, function(a, b, c) {
+                    return b + c.toUpperCase();
+                });
+            return d.initialized = !1, d.priority = d.priority || 10, d.classes = c("classes", q, o, d.classes),
+                d.events = c("events", b, p, d.events), d.functions = a.extend({
+                    getData: g,
+                    iterate: n
+                }, l, d.functions), d.methods = a.extend(!0, {
+                    _setup: a.noop,
+                    _construct: a.noop,
+                    _postConstruct: a.noop,
+                    _destruct: a.noop,
+                    _resize: !1,
+                    destroy: f
+                }, d.methods), d.utilities = a.extend(!0, {
+                    _initialize: !1,
+                    _delegate: !1,
+                    defaults: k
+                }, d.utilities), d.widget && (m.Conflicts.fn[b] = a.fn[b], a.fn[r] = i, m.DontConflict || (a.fn[b] = a.fn[r])),
+                m.Conflicts[b] = a[b], a[r] = d.utilities._delegate || j, m.DontConflict || (a[b] = a[r]),
+                d.namespace = b, d.namespaceClean = r, d.guid = 0, d.methods._resize && (m.ResizeHandlers.push({
+                    namespace: b,
+                    priority: d.priority,
+                    callback: d.methods._resize
+                }), m.ResizeHandlers.sort(h)), d.methods._raf && (m.RAFHandlers.push({
+                    namespace: b,
+                    priority: d.priority,
+                    callback: d.methods._raf
+                }), m.RAFHandlers.sort(h)), d;
+        }(d, e), n.then(function() {
+            b(d);
+        }), m.Plugins[d];
+    };
+    var q = null,
+        r = 20;
+    return m.$window.on("resize.fs", e), e(), g(), a(function() {
+            m.$body = a("body"), n.resolve(), m.support.nativeMatchMedia = m.support.matchMedia && !a("html").hasClass("no-matchmedia");
+        }), p.clickTouchStart = p.click + " " + p.touchStart, d(), window.Formstone = m,
+        m;
+}),
+function(a) {
+    function b(a) {
+        return new RegExp("(^|\\s+)" + a + "(\\s+|$)");
+    }
+
+    function c(a, b) {
+        var c = d(a, b) ? f : e;
+        c(a, b);
+    }
+    var d, e, f;
+    "classList" in document.documentElement ? (d = function(a, b) {
+        return a.classList.contains(b);
+    }, e = function(a, b) {
+        a.classList.add(b);
+    }, f = function(a, b) {
+        a.classList.remove(b);
+    }) : (d = function(a, c) {
+        return b(c).test(a.className);
+    }, e = function(a, b) {
+        d(a, b) || (a.className = a.className + " " + b);
+    }, f = function(a, c) {
+        a.className = a.className.replace(b(c), " ");
+    });
+    var g = {
+        hasClass: d,
+        addClass: e,
+        removeClass: f,
+        toggleClass: c,
+        has: d,
+        add: e,
+        remove: f,
+        toggle: c
+    };
+    "function" == typeof define && define.amd ? define(g) : "object" == typeof exports ? module.exports = g : a.classie = g;
+}(window);
+
+var cbpAnimatedHeader = function() {
+    function a() {
+        window.addEventListener("scroll", function(a) {
+            f || (f = !0, setTimeout(b, 250));
+        }, !1);
+    }
+
+    function b() {
+        var a = c();
+        a >= g ? classie.remove(e, "navbar-expanded") : classie.add(e, "navbar-expanded"),
+            f = !1;
+    }
+
+    function c() {
+        return window.pageYOffset || d.scrollTop;
+    }
+    var d = document.documentElement,
+        e = document.querySelector(".navbar-fixed-top"),
+        f = !1,
+        g = 200;
+    a();
+}();
+
+! function(a) {
+    "function" == typeof define && define.amd ? define(["jquery", "./core", "./transition"], a) : a(jQuery, Formstone);
+}(function(a, b) {
+    function c() {
+        e(), G.on("scroll", e);
+    }
+
+    function d() {
+        E.iterate.call(I, v), E.iterate.call(J, x), E.iterate.call(J, y);
+    }
+
+    function e() {
+        H = G.scrollTop() + b.windowHeight, H < 0 && (H = 0), E.iterate.call(J, y);
+    }
+
+    function f() {
+        I = a(B.base), J = a(B.lazy), E.iterate.call(J, x);
+    }
+
+    function g(b) {
+        b.youTubeGuid = 0, b.$container = a('<div class="' + C.container + '"></div>').appendTo(this),
+            b.thisClasses = [C.base, b.customClass], b.visible = !0, b.lazy && (b.visible = !1,
+                b.thisClasses.push(C.lazy)), this.addClass(b.thisClasses.join(" ")), f(), b.lazy ? (x(b),
+                y(b)) : i(b);
+    }
+
+    function h(a) {
+        a.$container.remove(), this.removeClass(a.thisClasses.join(" ")).off(D.namespace),
+            f();
+    }
+
+    function i(a) {
+        if (a.visible) {
+            var b = a.source;
+            a.source = null, j(a, b, !0);
+        }
+    }
+
+    function j(b, c, d) {
+        if (c !== b.source && b.visible) {
+            if (b.source = c, b.responsive = !1, b.isYouTube = !1, "object" === a.type(c) && "string" === a.type(c.video)) {
+                var e = c.video.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
+                e && e.length >= 1 && (b.isYouTube = !0, b.videoId = e[1]);
+            }
+            var f = !b.isYouTube && "object" === a.type(c) && (c.hasOwnProperty("mp4") || c.hasOwnProperty("ogg") || c.hasOwnProperty("webm"));
+            if (b.video = b.isYouTube || f, b.playing = !1, b.isYouTube) b.playerReady = !1,
+                b.posterLoaded = !1, n(b, c, d);
+            else if ("object" === a.type(c) && c.hasOwnProperty("poster")) m(b, c, d);
+            else {
+                var g = c;
+                if ("object" === a.type(c)) {
+                    var h, i = [],
+                        j = [];
+                    for (h in c) c.hasOwnProperty(h) && j.push(h);
+                    j.sort(E.sortAsc);
+                    for (h in j) j.hasOwnProperty(h) && i.push({
+                        width: parseInt(j[h]),
+                        url: c[j[h]],
+                        mq: F.matchMedia("(min-width: " + parseInt(j[h]) + "px)")
+                    });
+                    b.responsive = !0, b.sources = i, g = k(b);
+                }
+                l(b, g, !1, d);
+            }
+        } else b.$el.trigger(D.loaded);
+    }
+
+    function k(a) {
+        var c = a.source;
+        if (a.responsive) {
+            c = a.sources[0].url;
+            for (var d in a.sources) a.sources.hasOwnProperty(d) && (b.support.nativeMatchMedia ? a.sources[d].mq.matches && (c = a.sources[d].url) : a.sources[d].width < b.fallbackWidth && (c = a.sources[d].url));
+        }
+        return c;
+    }
+
+    function l(b, c, d, e) {
+        var f = [C.media, C.image, e !== !0 ? C.animated : ""].join(" "),
+            g = a('<div class="' + f + '" aria-hidden="true"><img alt=""></div>'),
+            h = g.find("img"),
+            i = c;
+        h.one(D.load, function() {
+                K && g.addClass(C.native).css({
+                    backgroundImage: "url('" + i + "')"
+                }), g.fsTransition({
+                    property: "opacity"
+                }, function() {
+                    d || o(b);
+                }).css({
+                    opacity: 1
+                }), w(b), d && !e || b.$el.trigger(D.loaded);
+            }).one(D.error, b, p).attr("src", i), b.responsive && g.addClass(C.responsive),
+            b.$container.append(g), (h[0].complete || 4 === h[0].readyState) && h.trigger(D.load),
+            b.currentSource = i;
+    }
+
+    function m(c, d, e) {
+        if (c.source && c.source.poster && (l(c, c.source.poster, !0, !0), e = !1), !b.isMobile) {
+            var f = [C.media, C.video, e !== !0 ? C.animated : ""].join(" "),
+                g = '<div class="' + f + '" aria-hidden="true">';
+            g += "<video", c.loop && (g += " loop"), c.mute && (g += " muted"), g += ">", c.source.webm && (g += '<source src="' + c.source.webm + '" type="video/webm" />'),
+                c.source.mp4 && (g += '<source src="' + c.source.mp4 + '" type="video/mp4" />'),
+                c.source.ogg && (g += '<source src="' + c.source.ogg + '" type="video/ogg" />'),
+                g += "</video>", g += "</div>";
+            var h = a(g),
+                i = h.find("video");
+            i.one(D.loadedMetaData, function(a) {
+                h.fsTransition({
+                    property: "opacity"
+                }, function() {
+                    o(c);
+                }).css({
+                    opacity: 1
+                }), w(c), c.$el.trigger(D.loaded), c.autoPlay && s(c);
+            }), c.$container.append(h);
+        }
+    }
+
+    function n(c, d, e) {
+        if (!c.videoId) {
+            var f = d.match(/^.*(?:youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/);
+            c.videoId = f[1];
+        }
+        if (c.posterLoaded || (c.source.poster || (c.source.poster = "//img.youtube.com/vi/" + c.videoId + "/0.jpg"),
+                c.posterLoaded = !0, l(c, c.source.poster, !0, e), e = !1), !b.isMobile)
+            if (a("script[src*='youtube.com/iframe_api']").length || a("head").append('<script src="//www.youtube.com/iframe_api"></script>'),
+                L) {
+                var g = c.guid + "_" + c.youTubeGuid++,
+                    h = [C.media, C.embed, e !== !0 ? C.animated : ""].join(" "),
+                    i = '<div class="' + h + '" aria-hidden="true">';
+                i += '<div id="' + g + '"></div>', i += "</div>";
+                var j = a(i),
+                    k = a.extend(!0, {}, {
+                        controls: 0,
+                        rel: 0,
+                        showinfo: 0,
+                        wmode: "transparent",
+                        enablejsapi: 1,
+                        version: 3,
+                        playerapiid: g,
+                        loop: c.loop ? 1 : 0,
+                        autoplay: 1,
+                        origin: F.location.protocol + "//" + F.location.host
+                    }, c.youtubeOptions);
+                k.autoplay = 1, c.$container.append(j), c.player && (c.oldPlayer = c.player, c.player = null),
+                    c.player = new F.YT.Player(g, {
+                        videoId: c.videoId,
+                        playerVars: k,
+                        events: {
+                            onReady: function(a) {
+                                c.playerReady = !0, c.mute && c.player.mute(), c.autoPlay || c.player.pauseVideo();
+                            },
+                            onStateChange: function(a) {
+                                c.playing || a.data !== F.YT.PlayerState.PLAYING ? c.loop && c.playing && a.data === F.YT.PlayerState.ENDED && c.player.playVideo() : (c.playing = !0,
+                                    j.fsTransition({
+                                        property: "opacity"
+                                    }, function() {
+                                        o(c);
+                                    }).css({
+                                        opacity: 1
+                                    }), w(c), c.$el.trigger(D.loaded)), c.$el.find(B.embed).addClass(C.ready);
+                            },
+                            onPlaybackQualityChange: function(a) {},
+                            onPlaybackRateChange: function(a) {},
+                            onError: function(a) {
+                                p({
+                                    data: c
+                                });
+                            },
+                            onApiChange: function(a) {}
+                        }
+                    }), w(c);
+            } else M.push({
+                data: c,
+                source: d
+            });
+    }
+
+    function o(a) {
+        var b = a.$container.find(B.media);
+        b.length >= 1 && (b.not(":last").remove(), a.oldPlayer = null);
+    }
+
+    function p(a) {
+        var b = a.data;
+        b.$el.trigger(D.error);
+    }
+
+    function q(a) {
+        var b = a.$container.find(B.media);
+        b.length >= 1 && b.fsTransition({
+            property: "opacity"
+        }, function() {
+            b.remove(), delete a.source;
+        }).css({
+            opacity: 0
+        });
+    }
+
+    function r(a) {
+        if (a.video && a.playing) {
+            if (a.isYouTube) a.playerReady ? a.player.pauseVideo() : a.autoPlay = !1;
+            else {
+                var b = a.$container.find("video");
+                b.length && b[0].pause();
+            }
+            a.playing = !1;
+        }
+    }
+
+    function s(a) {
+        if (a.video && !a.playing)
+            if (a.isYouTube) a.playerReady ? a.player.playVideo() : a.autoPlay = !0;
+            else {
+                var b = a.$container.find("video");
+                b.length && b[0].play(), a.playing = !0;
+            }
+    }
+
+    function t(a) {
+        if (a.video)
+            if (a.isYouTube && a.playerReady) a.player.mute();
+            else {
+                var b = a.$container.find("video");
+                b.length && (b[0].muted = !0);
+            }
+        a.mute = !0;
+    }
+
+    function u(a) {
+        if (a.video) {
+            if (a.isYouTube && a.playerReady) a.player.unMute();
+            else {
+                var b = a.$container.find("video");
+                b.length && (b[0].muted = !1);
+            }
+            a.playing = !0;
+        }
+        a.mute = !1;
+    }
+
+    function v(a) {
+        if (a.visible)
+            if (a.responsive) {
+                var b = k(a);
+                b !== a.currentSource ? l(a, b, !1, !0) : w(a);
+            } else w(a);
+    }
+
+    function w(a) {
+        for (var b = a.$container.find(B.media), c = 0, d = b.length; c < d; c++) {
+            var e = b.eq(c),
+                f = a.isYouTube ? "iframe" : e.find("video").length ? "video" : "img",
+                g = e.find(f);
+            if (g.length && ("img" !== f || !K)) {
+                var h = a.$el.outerWidth(),
+                    i = a.$el.outerHeight(),
+                    j = z(a, g);
+                a.width = j.width, a.height = j.height, a.left = 0, a.top = 0;
+                var k = a.isYouTube ? a.embedRatio : a.width / a.height;
+                a.height = i, a.width = a.height * k, a.width < h && (a.width = h, a.height = a.width / k),
+                    a.left = -(a.width - h) / 2, a.top = -(a.height - i) / 2, e.css({
+                        height: a.height,
+                        width: a.width,
+                        left: a.left,
+                        top: a.top
+                    });
+            }
+        }
+    }
+
+    function x(a) {
+        a.scrollTop = a.$el.offset().top;
+    }
+
+    function y(a) {
+        !a.visible && a.scrollTop < H + a.lazyEdge && (a.visible = !0, i(a));
+    }
+
+    function z(b, c) {
+        if (b.isYouTube) return {
+            height: 500,
+            width: 500 / b.embedRatio
+        };
+        if (c.is("img")) {
+            var d = c[0];
+            if ("undefined" !== a.type(d.naturalHeight)) return {
+                height: d.naturalHeight,
+                width: d.naturalWidth
+            };
+            var e = new Image();
+            return e.src = d.src, {
+                height: e.height,
+                width: e.width
+            };
+        }
+        return {
+            height: c[0].videoHeight,
+            width: c[0].videoWidth
+        };
+    }
+    var A = b.Plugin("background", {
+            widget: !0,
+            defaults: {
+                autoPlay: !0,
+                customClass: "",
+                embedRatio: 1.777777,
+                lazy: !1,
+                lazyEdge: 100,
+                loop: !0,
+                mute: !0,
+                source: null,
+                youtubeOptions: {}
+            },
+            classes: ["container", "media", "animated", "responsive", "native", "fixed", "ready", "lazy"],
+            events: {
+                loaded: "loaded",
+                ready: "ready",
+                loadedMetaData: "loadedmetadata"
+            },
+            methods: {
+                _setup: c,
+                _construct: g,
+                _destruct: h,
+                _resize: d,
+                play: s,
+                pause: r,
+                mute: t,
+                unmute: u,
+                resize: w,
+                load: j,
+                unload: q
+            }
+        }),
+        B = A.classes,
+        C = B.raw,
+        D = A.events,
+        E = A.functions,
+        F = b.window,
+        G = b.$window,
+        H = 0,
+        I = [],
+        J = [],
+        K = "backgroundSize" in b.document.documentElement.style,
+        L = !1,
+        M = [];
+    F.onYouTubeIframeAPIReady = function() {
+        L = !0;
+        for (var a in M) M.hasOwnProperty(a) && n(M[a].data, M[a].source);
+        M = [];
+    };
+}), "function" != typeof Object.create && (Object.create = function(a) {
+        function b() {}
+        return b.prototype = a, new b();
+    }),
+    function(a, b, c) {
+        var d = {
+            init: function(b, c) {
+                var d = this;
+                d.$elem = a(c), d.options = a.extend({}, a.fn.owlCarousel.options, d.$elem.data(), b),
+                    d.userOptions = b, d.loadContent();
+            },
+            loadContent: function() {
+                function b(a) {
+                    var b, c = "";
+                    if ("function" == typeof d.options.jsonSuccess) d.options.jsonSuccess.apply(this, [a]);
+                    else {
+                        for (b in a.owl) a.owl.hasOwnProperty(b) && (c += a.owl[b].item);
+                        d.$elem.html(c);
+                    }
+                    d.logIn();
+                }
+                var c, d = this;
+                "function" == typeof d.options.beforeInit && d.options.beforeInit.apply(this, [d.$elem]),
+                    "string" == typeof d.options.jsonPath ? (c = d.options.jsonPath, a.getJSON(c, b)) : d.logIn();
+            },
+            logIn: function() {
+                var a = this;
+                a.$elem.data("owl-originalStyles", a.$elem.attr("style")).data("owl-originalClasses", a.$elem.attr("class")),
+                    a.$elem.css({
+                        opacity: 0
+                    }), a.orignalItems = a.options.items, a.checkBrowser(), a.wrapperWidth = 0, a.checkVisible = null,
+                    a.setVars();
+            },
+            setVars: function() {
+                var a = this;
+                return 0 !== a.$elem.children().length && (a.baseClass(), a.eventTypes(), a.$userItems = a.$elem.children(),
+                    a.itemsAmount = a.$userItems.length, a.wrapItems(), a.$owlItems = a.$elem.find(".owl-item"),
+                    a.$owlWrapper = a.$elem.find(".owl-wrapper"), a.playDirection = "next", a.prevItem = 0,
+                    a.prevArr = [0], a.currentItem = 0, a.customEvents(), void a.onStartup());
+            },
+            onStartup: function() {
+                var a = this;
+                a.updateItems(), a.calculateAll(), a.buildControls(), a.updateControls(), a.response(),
+                    a.moveEvents(), a.stopOnHover(), a.owlStatus(), a.options.transitionStyle !== !1 && a.transitionTypes(a.options.transitionStyle),
+                    a.options.autoPlay === !0 && (a.options.autoPlay = 5e3), a.play(), a.$elem.find(".owl-wrapper").css("display", "block"),
+                    a.$elem.is(":visible") ? a.$elem.css("opacity", 1) : a.watchVisibility(), a.onstartup = !1,
+                    a.eachMoveUpdate(), "function" == typeof a.options.afterInit && a.options.afterInit.apply(this, [a.$elem]);
+            },
+            eachMoveUpdate: function() {
+                var a = this;
+                a.options.lazyLoad === !0 && a.lazyLoad(), a.options.autoHeight === !0 && a.autoHeight(),
+                    a.onVisibleItems(), "function" == typeof a.options.afterAction && a.options.afterAction.apply(this, [a.$elem]);
+            },
+            updateVars: function() {
+                var a = this;
+                "function" == typeof a.options.beforeUpdate && a.options.beforeUpdate.apply(this, [a.$elem]),
+                    a.watchVisibility(), a.updateItems(), a.calculateAll(), a.updatePosition(), a.updateControls(),
+                    a.eachMoveUpdate(), "function" == typeof a.options.afterUpdate && a.options.afterUpdate.apply(this, [a.$elem]);
+            },
+            reload: function() {
+                var a = this;
+                b.setTimeout(function() {
+                    a.updateVars();
+                }, 0);
+            },
+            watchVisibility: function() {
+                var a = this;
+                return a.$elem.is(":visible") === !1 && (a.$elem.css({
+                    opacity: 0
+                }), b.clearInterval(a.autoPlayInterval), b.clearInterval(a.checkVisible), void(a.checkVisible = b.setInterval(function() {
+                    a.$elem.is(":visible") && (a.reload(), a.$elem.animate({
+                        opacity: 1
+                    }, 200), b.clearInterval(a.checkVisible));
+                }, 500)));
+            },
+            wrapItems: function() {
+                var a = this;
+                a.$userItems.wrapAll('<div class="owl-wrapper">').wrap('<div class="owl-item"></div>'),
+                    a.$elem.find(".owl-wrapper").wrap('<div class="owl-wrapper-outer">'), a.wrapperOuter = a.$elem.find(".owl-wrapper-outer"),
+                    a.$elem.css("display", "block");
+            },
+            baseClass: function() {
+                var a = this,
+                    b = a.$elem.hasClass(a.options.baseClass),
+                    c = a.$elem.hasClass(a.options.theme);
+                b || a.$elem.addClass(a.options.baseClass), c || a.$elem.addClass(a.options.theme);
+            },
+            updateItems: function() {
+                var b, c, d = this;
+                if (d.options.responsive === !1) return !1;
+                if (d.options.singleItem === !0) return d.options.items = d.orignalItems = 1, d.options.itemsCustom = !1,
+                    d.options.itemsDesktop = !1, d.options.itemsDesktopSmall = !1, d.options.itemsTablet = !1,
+                    d.options.itemsTabletSmall = !1, d.options.itemsMobile = !1, !1;
+                if (b = a(d.options.responsiveBaseWidth).width(), b > (d.options.itemsDesktop[0] || d.orignalItems) && (d.options.items = d.orignalItems),
+                    d.options.itemsCustom !== !1)
+                    for (d.options.itemsCustom.sort(function(a, b) {
+                            return a[0] - b[0];
+                        }), c = 0; c < d.options.itemsCustom.length; c += 1) d.options.itemsCustom[c][0] <= b && (d.options.items = d.options.itemsCustom[c][1]);
+                else b <= d.options.itemsDesktop[0] && d.options.itemsDesktop !== !1 && (d.options.items = d.options.itemsDesktop[1]),
+                    b <= d.options.itemsDesktopSmall[0] && d.options.itemsDesktopSmall !== !1 && (d.options.items = d.options.itemsDesktopSmall[1]),
+                    b <= d.options.itemsTablet[0] && d.options.itemsTablet !== !1 && (d.options.items = d.options.itemsTablet[1]),
+                    b <= d.options.itemsTabletSmall[0] && d.options.itemsTabletSmall !== !1 && (d.options.items = d.options.itemsTabletSmall[1]),
+                    b <= d.options.itemsMobile[0] && d.options.itemsMobile !== !1 && (d.options.items = d.options.itemsMobile[1]);
+                d.options.items > d.itemsAmount && d.options.itemsScaleUp === !0 && (d.options.items = d.itemsAmount);
+            },
+            response: function() {
+                var c, d, e = this;
+                return e.options.responsive === !0 && (d = a(b).width(), e.resizer = function() {
+                    a(b).width() !== d && (e.options.autoPlay !== !1 && b.clearInterval(e.autoPlayInterval),
+                        b.clearTimeout(c), c = b.setTimeout(function() {
+                            d = a(b).width(), e.updateVars();
+                        }, e.options.responsiveRefreshRate));
+                }, void a(b).resize(e.resizer));
+            },
+            updatePosition: function() {
+                var a = this;
+                a.jumpTo(a.currentItem), a.options.autoPlay !== !1 && a.checkAp();
+            },
+            appendItemsSizes: function() {
+                var b = this,
+                    c = 0,
+                    d = b.itemsAmount - b.options.items;
+                b.$owlItems.each(function(e) {
+                    var f = a(this);
+                    f.css({
+                            width: b.itemWidth
+                        }).data("owl-item", Number(e)), e % b.options.items !== 0 && e !== d || e > d || (c += 1),
+                        f.data("owl-roundPages", c);
+                });
+            },
+            appendWrapperSizes: function() {
+                var a = this,
+                    b = a.$owlItems.length * a.itemWidth;
+                a.$owlWrapper.css({
+                    width: 2 * b,
+                    left: 0
+                }), a.appendItemsSizes();
+            },
+            calculateAll: function() {
+                var a = this;
+                a.calculateWidth(), a.appendWrapperSizes(), a.loops(), a.max();
+            },
+            calculateWidth: function() {
+                var a = this;
+                a.itemWidth = Math.round(a.$elem.width() / a.options.items);
+            },
+            max: function() {
+                var a = this,
+                    b = (a.itemsAmount * a.itemWidth - a.options.items * a.itemWidth) * -1;
+                return a.options.items > a.itemsAmount ? (a.maximumItem = 0, b = 0, a.maximumPixels = 0) : (a.maximumItem = a.itemsAmount - a.options.items,
+                    a.maximumPixels = b), b;
+            },
+            min: function() {
+                return 0;
+            },
+            loops: function() {
+                var b, c, d, e = this,
+                    f = 0,
+                    g = 0;
+                for (e.positionsInArray = [0], e.pagesInArray = [], b = 0; b < e.itemsAmount; b += 1) g += e.itemWidth,
+                    e.positionsInArray.push(-g), e.options.scrollPerPage === !0 && (c = a(e.$owlItems[b]),
+                        d = c.data("owl-roundPages"), d !== f && (e.pagesInArray[f] = e.positionsInArray[b],
+                            f = d));
+            },
+            buildControls: function() {
+                var b = this;
+                b.options.navigation !== !0 && b.options.pagination !== !0 || (b.owlControls = a('<div class="owl-controls"/>').toggleClass("clickable", !b.browser.isTouch).appendTo(b.$elem)),
+                    b.options.pagination === !0 && b.buildPagination(), b.options.navigation === !0 && b.buildButtons();
+            },
+            buildButtons: function() {
+                var b = this,
+                    c = a('<div class="owl-buttons"/>');
+                b.owlControls.append(c), b.buttonPrev = a("<div/>", {
+                    "class": "owl-prev",
+                    html: b.options.navigationText[0] || ""
+                }), b.buttonNext = a("<div/>", {
+                    "class": "owl-next",
+                    html: b.options.navigationText[1] || ""
+                }), c.append(b.buttonPrev).append(b.buttonNext), c.on("touchstart.owlControls mousedown.owlControls", 'div[class^="owl"]', function(a) {
+                    a.preventDefault();
+                }), c.on("touchend.owlControls mouseup.owlControls", 'div[class^="owl"]', function(c) {
+                    c.preventDefault(), a(this).hasClass("owl-next") ? b.next() : b.prev();
+                });
+            },
+            buildPagination: function() {
+                var b = this;
+                b.paginationWrapper = a('<div class="owl-pagination"/>'), b.owlControls.append(b.paginationWrapper),
+                    b.paginationWrapper.on("touchend.owlControls mouseup.owlControls", ".owl-page", function(c) {
+                        c.preventDefault(), Number(a(this).data("owl-page")) !== b.currentItem && b.goTo(Number(a(this).data("owl-page")), !0);
+                    });
+            },
+            updatePagination: function() {
+                var b, c, d, e, f, g, h = this;
+                if (h.options.pagination === !1) return !1;
+                for (h.paginationWrapper.html(""), b = 0, c = h.itemsAmount - h.itemsAmount % h.options.items,
+                    e = 0; e < h.itemsAmount; e += 1) e % h.options.items === 0 && (b += 1, c === e && (d = h.itemsAmount - h.options.items),
+                    f = a("<div/>", {
+                        "class": "owl-page"
+                    }), g = a("<span></span>", {
+                        text: h.options.paginationNumbers === !0 ? b : "",
+                        "class": h.options.paginationNumbers === !0 ? "owl-numbers" : ""
+                    }), f.append(g), f.data("owl-page", c === e ? d : e), f.data("owl-roundPages", b),
+                    h.paginationWrapper.append(f));
+                h.checkPagination();
+            },
+            checkPagination: function() {
+                var b = this;
+                return b.options.pagination !== !1 && void b.paginationWrapper.find(".owl-page").each(function() {
+                    a(this).data("owl-roundPages") === a(b.$owlItems[b.currentItem]).data("owl-roundPages") && (b.paginationWrapper.find(".owl-page").removeClass("active"),
+                        a(this).addClass("active"));
+                });
+            },
+            checkNavigation: function() {
+                var a = this;
+                return a.options.navigation !== !1 && void(a.options.rewindNav === !1 && (0 === a.currentItem && 0 === a.maximumItem ? (a.buttonPrev.addClass("disabled"),
+                    a.buttonNext.addClass("disabled")) : 0 === a.currentItem && 0 !== a.maximumItem ? (a.buttonPrev.addClass("disabled"),
+                    a.buttonNext.removeClass("disabled")) : a.currentItem === a.maximumItem ? (a.buttonPrev.removeClass("disabled"),
+                    a.buttonNext.addClass("disabled")) : 0 !== a.currentItem && a.currentItem !== a.maximumItem && (a.buttonPrev.removeClass("disabled"),
+                    a.buttonNext.removeClass("disabled"))));
+            },
+            updateControls: function() {
+                var a = this;
+                a.updatePagination(), a.checkNavigation(), a.owlControls && (a.options.items >= a.itemsAmount ? a.owlControls.hide() : a.owlControls.show());
+            },
+            destroyControls: function() {
+                var a = this;
+                a.owlControls && a.owlControls.remove();
+            },
+            next: function(a) {
+                var b = this;
+                if (b.isTransition) return !1;
+                if (b.currentItem += b.options.scrollPerPage === !0 ? b.options.items : 1, b.currentItem > b.maximumItem + (b.options.scrollPerPage === !0 ? b.options.items - 1 : 0)) {
+                    if (b.options.rewindNav !== !0) return b.currentItem = b.maximumItem, !1;
+                    b.currentItem = 0, a = "rewind";
+                }
+                b.goTo(b.currentItem, a);
+            },
+            prev: function(a) {
+                var b = this;
+                if (b.isTransition) return !1;
+                if (b.options.scrollPerPage === !0 && b.currentItem > 0 && b.currentItem < b.options.items ? b.currentItem = 0 : b.currentItem -= b.options.scrollPerPage === !0 ? b.options.items : 1,
+                    b.currentItem < 0) {
+                    if (b.options.rewindNav !== !0) return b.currentItem = 0, !1;
+                    b.currentItem = b.maximumItem, a = "rewind";
+                }
+                b.goTo(b.currentItem, a);
+            },
+            goTo: function(a, c, d) {
+                var e, f = this;
+                return !f.isTransition && ("function" == typeof f.options.beforeMove && f.options.beforeMove.apply(this, [f.$elem]),
+                    a >= f.maximumItem ? a = f.maximumItem : a <= 0 && (a = 0), f.currentItem = f.owl.currentItem = a,
+                    f.options.transitionStyle !== !1 && "drag" !== d && 1 === f.options.items && f.browser.support3d === !0 ? (f.swapSpeed(0),
+                        f.browser.support3d === !0 ? f.transition3d(f.positionsInArray[a]) : f.css2slide(f.positionsInArray[a], 1),
+                        f.afterGo(), f.singleItemTransition(), !1) : (e = f.positionsInArray[a], f.browser.support3d === !0 ? (f.isCss3Finish = !1,
+                            c === !0 ? (f.swapSpeed("paginationSpeed"), b.setTimeout(function() {
+                                f.isCss3Finish = !0;
+                            }, f.options.paginationSpeed)) : "rewind" === c ? (f.swapSpeed(f.options.rewindSpeed),
+                                b.setTimeout(function() {
+                                    f.isCss3Finish = !0;
+                                }, f.options.rewindSpeed)) : (f.swapSpeed("slideSpeed"), b.setTimeout(function() {
+                                f.isCss3Finish = !0;
+                            }, f.options.slideSpeed)), f.transition3d(e)) : c === !0 ? f.css2slide(e, f.options.paginationSpeed) : "rewind" === c ? f.css2slide(e, f.options.rewindSpeed) : f.css2slide(e, f.options.slideSpeed),
+                        void f.afterGo()));
+            },
+            jumpTo: function(a) {
+                var b = this;
+                "function" == typeof b.options.beforeMove && b.options.beforeMove.apply(this, [b.$elem]),
+                    a >= b.maximumItem || a === -1 ? a = b.maximumItem : a <= 0 && (a = 0), b.swapSpeed(0),
+                    b.browser.support3d === !0 ? b.transition3d(b.positionsInArray[a]) : b.css2slide(b.positionsInArray[a], 1),
+                    b.currentItem = b.owl.currentItem = a, b.afterGo();
+            },
+            afterGo: function() {
+                var a = this;
+                a.prevArr.push(a.currentItem), a.prevItem = a.owl.prevItem = a.prevArr[a.prevArr.length - 2],
+                    a.prevArr.shift(0), a.prevItem !== a.currentItem && (a.checkPagination(), a.checkNavigation(),
+                        a.eachMoveUpdate(), a.options.autoPlay !== !1 && a.checkAp()), "function" == typeof a.options.afterMove && a.prevItem !== a.currentItem && a.options.afterMove.apply(this, [a.$elem]);
+            },
+            stop: function() {
+                var a = this;
+                a.apStatus = "stop", b.clearInterval(a.autoPlayInterval);
+            },
+            checkAp: function() {
+                var a = this;
+                "stop" !== a.apStatus && a.play();
+            },
+            play: function() {
+                var a = this;
+                return a.apStatus = "play", a.options.autoPlay !== !1 && (b.clearInterval(a.autoPlayInterval),
+                    void(a.autoPlayInterval = b.setInterval(function() {
+                        a.next(!0);
+                    }, a.options.autoPlay)));
+            },
+            swapSpeed: function(a) {
+                var b = this;
+                "slideSpeed" === a ? b.$owlWrapper.css(b.addCssSpeed(b.options.slideSpeed)) : "paginationSpeed" === a ? b.$owlWrapper.css(b.addCssSpeed(b.options.paginationSpeed)) : "string" != typeof a && b.$owlWrapper.css(b.addCssSpeed(a));
+            },
+            addCssSpeed: function(a) {
+                return {
+                    "-webkit-transition": "all " + a + "ms ease",
+                    "-moz-transition": "all " + a + "ms ease",
+                    "-o-transition": "all " + a + "ms ease",
+                    transition: "all " + a + "ms ease"
+                };
+            },
+            removeTransition: function() {
+                return {
+                    "-webkit-transition": "",
+                    "-moz-transition": "",
+                    "-o-transition": "",
+                    transition: ""
+                };
+            },
+            doTranslate: function(a) {
+                return {
+                    "-webkit-transform": "translate3d(" + a + "px, 0px, 0px)",
+                    "-moz-transform": "translate3d(" + a + "px, 0px, 0px)",
+                    "-o-transform": "translate3d(" + a + "px, 0px, 0px)",
+                    "-ms-transform": "translate3d(" + a + "px, 0px, 0px)",
+                    transform: "translate3d(" + a + "px, 0px,0px)"
+                };
+            },
+            transition3d: function(a) {
+                var b = this;
+                b.$owlWrapper.css(b.doTranslate(a));
+            },
+            css2move: function(a) {
+                var b = this;
+                b.$owlWrapper.css({
+                    left: a
+                });
+            },
+            css2slide: function(a, b) {
+                var c = this;
+                c.isCssFinish = !1, c.$owlWrapper.stop(!0, !0).animate({
+                    left: a
+                }, {
+                    duration: b || c.options.slideSpeed,
+                    complete: function() {
+                        c.isCssFinish = !0;
+                    }
+                });
+            },
+            checkBrowser: function() {
+                var a, d, e, f, g = this,
+                    h = "translate3d(0px, 0px, 0px)",
+                    i = c.createElement("div");
+                i.style.cssText = "  -moz-transform:" + h + "; -ms-transform:" + h + "; -o-transform:" + h + "; -webkit-transform:" + h + "; transform:" + h,
+                    a = /translate3d\(0px, 0px, 0px\)/g, d = i.style.cssText.match(a), e = null !== d && 1 === d.length,
+                    f = "ontouchstart" in b || b.navigator.msMaxTouchPoints, g.browser = {
+                        support3d: e,
+                        isTouch: f
+                    };
+            },
+            moveEvents: function() {
+                var a = this;
+                a.options.mouseDrag === !1 && a.options.touchDrag === !1 || (a.gestures(), a.disabledEvents());
+            },
+            eventTypes: function() {
+                var a = this,
+                    b = ["s", "e", "x"];
+                a.ev_types = {}, a.options.mouseDrag === !0 && a.options.touchDrag === !0 ? b = ["touchstart.owl mousedown.owl", "touchmove.owl mousemove.owl", "touchend.owl touchcancel.owl mouseup.owl"] : a.options.mouseDrag === !1 && a.options.touchDrag === !0 ? b = ["touchstart.owl", "touchmove.owl", "touchend.owl touchcancel.owl"] : a.options.mouseDrag === !0 && a.options.touchDrag === !1 && (b = ["mousedown.owl", "mousemove.owl", "mouseup.owl"]),
+                    a.ev_types.start = b[0], a.ev_types.move = b[1], a.ev_types.end = b[2];
+            },
+            disabledEvents: function() {
+                var b = this;
+                b.$elem.on("dragstart.owl", function(a) {
+                    a.preventDefault();
+                }), b.$elem.on("mousedown.disableTextSelect", function(b) {
+                    return a(b.target).is("input, textarea, select, option");
+                });
+            },
+            gestures: function() {
+                function d(a) {
+                    if (void 0 !== a.touches) return {
+                        x: a.touches[0].pageX,
+                        y: a.touches[0].pageY
+                    };
+                    if (void 0 === a.touches) {
+                        if (void 0 !== a.pageX) return {
+                            x: a.pageX,
+                            y: a.pageY
+                        };
+                        if (void 0 === a.pageX) return {
+                            x: a.clientX,
+                            y: a.clientY
+                        };
+                    }
+                }
+
+                function e(b) {
+                    "on" === b ? (a(c).on(i.ev_types.move, g), a(c).on(i.ev_types.end, h)) : "off" === b && (a(c).off(i.ev_types.move),
+                        a(c).off(i.ev_types.end));
+                }
+
+                function f(c) {
+                    var f, g = c.originalEvent || c || b.event;
+                    if (3 === g.which) return !1;
+                    if (!(i.itemsAmount <= i.options.items)) {
+                        if (i.isCssFinish === !1 && !i.options.dragBeforeAnimFinish) return !1;
+                        if (i.isCss3Finish === !1 && !i.options.dragBeforeAnimFinish) return !1;
+                        i.options.autoPlay !== !1 && b.clearInterval(i.autoPlayInterval), i.browser.isTouch === !0 || i.$owlWrapper.hasClass("grabbing") || i.$owlWrapper.addClass("grabbing"),
+                            i.newPosX = 0, i.newRelativeX = 0, a(this).css(i.removeTransition()), f = a(this).position(),
+                            j.relativePos = f.left, j.offsetX = d(g).x - f.left, j.offsetY = d(g).y - f.top,
+                            e("on"), j.sliding = !1, j.targetElement = g.target || g.srcElement;
+                    }
+                }
+
+                function g(e) {
+                    var f, g, h = e.originalEvent || e || b.event;
+                    i.newPosX = d(h).x - j.offsetX, i.newPosY = d(h).y - j.offsetY, i.newRelativeX = i.newPosX - j.relativePos,
+                        "function" == typeof i.options.startDragging && j.dragging !== !0 && 0 !== i.newRelativeX && (j.dragging = !0,
+                            i.options.startDragging.apply(i, [i.$elem])), (i.newRelativeX > 8 || i.newRelativeX < -8) && i.browser.isTouch === !0 && (void 0 !== h.preventDefault ? h.preventDefault() : h.returnValue = !1,
+                            j.sliding = !0), (i.newPosY > 10 || i.newPosY < -10) && j.sliding === !1 && a(c).off("touchmove.owl"),
+                        f = function() {
+                            return i.newRelativeX / 5;
+                        }, g = function() {
+                            return i.maximumPixels + i.newRelativeX / 5;
+                        }, i.newPosX = Math.max(Math.min(i.newPosX, f()), g()), i.browser.support3d === !0 ? i.transition3d(i.newPosX) : i.css2move(i.newPosX);
+                }
+
+                function h(c) {
+                    var d, f, g, h = c.originalEvent || c || b.event;
+                    h.target = h.target || h.srcElement, j.dragging = !1, i.browser.isTouch !== !0 && i.$owlWrapper.removeClass("grabbing"),
+                        i.newRelativeX < 0 ? i.dragDirection = i.owl.dragDirection = "left" : i.dragDirection = i.owl.dragDirection = "right",
+                        0 !== i.newRelativeX && (d = i.getNewPosition(), i.goTo(d, !1, "drag"), j.targetElement === h.target && i.browser.isTouch !== !0 && (a(h.target).on("click.disable", function(b) {
+                            b.stopImmediatePropagation(), b.stopPropagation(), b.preventDefault(), a(b.target).off("click.disable");
+                        }), f = a._data(h.target, "events").click, g = f.pop(), f.splice(0, 0, g))), e("off");
+                }
+                var i = this,
+                    j = {
+                        offsetX: 0,
+                        offsetY: 0,
+                        baseElWidth: 0,
+                        relativePos: 0,
+                        position: null,
+                        minSwipe: null,
+                        maxSwipe: null,
+                        sliding: null,
+                        dargging: null,
+                        targetElement: null
+                    };
+                i.isCssFinish = !0, i.$elem.on(i.ev_types.start, ".owl-wrapper", f);
+            },
+            getNewPosition: function() {
+                var a = this,
+                    b = a.closestItem();
+                return b > a.maximumItem ? (a.currentItem = a.maximumItem, b = a.maximumItem) : a.newPosX >= 0 && (b = 0,
+                    a.currentItem = 0), b;
+            },
+            closestItem: function() {
+                var b = this,
+                    c = b.options.scrollPerPage === !0 ? b.pagesInArray : b.positionsInArray,
+                    d = b.newPosX,
+                    e = null;
+                return a.each(c, function(f, g) {
+                    d - b.itemWidth / 20 > c[f + 1] && d - b.itemWidth / 20 < g && "left" === b.moveDirection() ? (e = g,
+                        b.options.scrollPerPage === !0 ? b.currentItem = a.inArray(e, b.positionsInArray) : b.currentItem = f) : d + b.itemWidth / 20 < g && d + b.itemWidth / 20 > (c[f + 1] || c[f] - b.itemWidth) && "right" === b.moveDirection() && (b.options.scrollPerPage === !0 ? (e = c[f + 1] || c[c.length - 1],
+                        b.currentItem = a.inArray(e, b.positionsInArray)) : (e = c[f + 1], b.currentItem = f + 1));
+                }), b.currentItem;
+            },
+            moveDirection: function() {
+                var a, b = this;
+                return b.newRelativeX < 0 ? (a = "right", b.playDirection = "next") : (a = "left",
+                    b.playDirection = "prev"), a;
+            },
+            customEvents: function() {
+                var a = this;
+                a.$elem.on("owl.next", function() {
+                    a.next();
+                }), a.$elem.on("owl.prev", function() {
+                    a.prev();
+                }), a.$elem.on("owl.play", function(b, c) {
+                    a.options.autoPlay = c, a.play(), a.hoverStatus = "play";
+                }), a.$elem.on("owl.stop", function() {
+                    a.stop(), a.hoverStatus = "stop";
+                }), a.$elem.on("owl.goTo", function(b, c) {
+                    a.goTo(c);
+                }), a.$elem.on("owl.jumpTo", function(b, c) {
+                    a.jumpTo(c);
+                });
+            },
+            stopOnHover: function() {
+                var a = this;
+                a.options.stopOnHover === !0 && a.browser.isTouch !== !0 && a.options.autoPlay !== !1 && (a.$elem.on("mouseover", function() {
+                    a.stop();
+                }), a.$elem.on("mouseout", function() {
+                    "stop" !== a.hoverStatus && a.play();
+                }));
+            },
+            lazyLoad: function() {
+                var b, c, d, e, f, g = this;
+                if (g.options.lazyLoad === !1) return !1;
+                for (b = 0; b < g.itemsAmount; b += 1) c = a(g.$owlItems[b]), "loaded" !== c.data("owl-loaded") && (d = c.data("owl-item"),
+                    e = c.find(".lazyOwl"), "string" == typeof e.data("src") ? (void 0 === c.data("owl-loaded") && (e.hide(),
+                            c.addClass("loading").data("owl-loaded", "checked")), f = g.options.lazyFollow !== !0 || d >= g.currentItem,
+                        f && d < g.currentItem + g.options.items && e.length && g.lazyPreload(c, e)) : c.data("owl-loaded", "loaded"));
+            },
+            lazyPreload: function(a, c) {
+                function d() {
+                    a.data("owl-loaded", "loaded").removeClass("loading"), c.removeAttr("data-src"),
+                        "fade" === g.options.lazyEffect ? c.fadeIn(400) : c.show(), "function" == typeof g.options.afterLazyLoad && g.options.afterLazyLoad.apply(this, [g.$elem]);
+                }
+
+                function e() {
+                    h += 1, g.completeImg(c.get(0)) || f === !0 ? d() : h <= 100 ? b.setTimeout(e, 100) : d();
+                }
+                var f, g = this,
+                    h = 0;
+                "DIV" === c.prop("tagName") ? (c.css("background-image", "url(" + c.data("src") + ")"),
+                    f = !0) : c[0].src = c.data("src"), e();
+            },
+            autoHeight: function() {
+                function c() {
+                    var c = a(f.$owlItems[f.currentItem]).height();
+                    f.wrapperOuter.css("height", c + "px"), f.wrapperOuter.hasClass("autoHeight") || b.setTimeout(function() {
+                        f.wrapperOuter.addClass("autoHeight");
+                    }, 0);
+                }
+
+                function d() {
+                    e += 1, f.completeImg(g.get(0)) ? c() : e <= 100 ? b.setTimeout(d, 100) : f.wrapperOuter.css("height", "");
+                }
+                var e, f = this,
+                    g = a(f.$owlItems[f.currentItem]).find("img");
+                void 0 !== g.get(0) ? (e = 0, d()) : c();
+            },
+            completeImg: function(a) {
+                var b;
+                return !!a.complete && (b = typeof a.naturalWidth, "undefined" === b || 0 !== a.naturalWidth);
+            },
+            onVisibleItems: function() {
+                var b, c = this;
+                for (c.options.addClassActive === !0 && c.$owlItems.removeClass("active"), c.visibleItems = [],
+                    b = c.currentItem; b < c.currentItem + c.options.items; b += 1) c.visibleItems.push(b),
+                    c.options.addClassActive === !0 && a(c.$owlItems[b]).addClass("active");
+                c.owl.visibleItems = c.visibleItems;
+            },
+            transitionTypes: function(a) {
+                var b = this;
+                b.outClass = "owl-" + a + "-out", b.inClass = "owl-" + a + "-in";
+            },
+            singleItemTransition: function() {
+                function a(a) {
+                    return {
+                        position: "relative",
+                        left: a + "px"
+                    };
+                }
+                var b = this,
+                    c = b.outClass,
+                    d = b.inClass,
+                    e = b.$owlItems.eq(b.currentItem),
+                    f = b.$owlItems.eq(b.prevItem),
+                    g = Math.abs(b.positionsInArray[b.currentItem]) + b.positionsInArray[b.prevItem],
+                    h = Math.abs(b.positionsInArray[b.currentItem]) + b.itemWidth / 2,
+                    i = "webkitAnimationEnd oAnimationEnd MSAnimationEnd animationend";
+                b.isTransition = !0, b.$owlWrapper.addClass("owl-origin").css({
+                    "-webkit-transform-origin": h + "px",
+                    "-moz-perspective-origin": h + "px",
+                    "perspective-origin": h + "px"
+                }), f.css(a(g, 10)).addClass(c).on(i, function() {
+                    b.endPrev = !0, f.off(i), b.clearTransStyle(f, c);
+                }), e.addClass(d).on(i, function() {
+                    b.endCurrent = !0, e.off(i), b.clearTransStyle(e, d);
+                });
+            },
+            clearTransStyle: function(a, b) {
+                var c = this;
+                a.css({
+                    position: "",
+                    left: ""
+                }).removeClass(b), c.endPrev && c.endCurrent && (c.$owlWrapper.removeClass("owl-origin"),
+                    c.endPrev = !1, c.endCurrent = !1, c.isTransition = !1);
+            },
+            owlStatus: function() {
+                var a = this;
+                a.owl = {
+                    userOptions: a.userOptions,
+                    baseElement: a.$elem,
+                    userItems: a.$userItems,
+                    owlItems: a.$owlItems,
+                    currentItem: a.currentItem,
+                    prevItem: a.prevItem,
+                    visibleItems: a.visibleItems,
+                    isTouch: a.browser.isTouch,
+                    browser: a.browser,
+                    dragDirection: a.dragDirection
+                };
+            },
+            clearEvents: function() {
+                var d = this;
+                d.$elem.off(".owl owl mousedown.disableTextSelect"), a(c).off(".owl owl"), a(b).off("resize", d.resizer);
+            },
+            unWrap: function() {
+                var a = this;
+                0 !== a.$elem.children().length && (a.$owlWrapper.unwrap(), a.$userItems.unwrap().unwrap(),
+                    a.owlControls && a.owlControls.remove()), a.clearEvents(), a.$elem.attr("style", a.$elem.data("owl-originalStyles") || "").attr("class", a.$elem.data("owl-originalClasses"));
+            },
+            destroy: function() {
+                var a = this;
+                a.stop(), b.clearInterval(a.checkVisible), a.unWrap(), a.$elem.removeData();
+            },
+            reinit: function(b) {
+                var c = this,
+                    d = a.extend({}, c.userOptions, b);
+                c.unWrap(), c.init(d, c.$elem);
+            },
+            addItem: function(a, b) {
+                var c, d = this;
+                return !!a && (0 === d.$elem.children().length ? (d.$elem.append(a), d.setVars(), !1) : (d.unWrap(), c = void 0 === b || b === -1 ? -1 : b, c >= d.$userItems.length || c === -1 ? d.$userItems.eq(-1).after(a) : d.$userItems.eq(c).before(a),
+                    void d.setVars()));
+            },
+            removeItem: function(a) {
+                var b, c = this;
+                return 0 !== c.$elem.children().length && (b = void 0 === a || a === -1 ? -1 : a,
+                    c.unWrap(), c.$userItems.eq(b).remove(), void c.setVars());
+            }
+        };
+        a.fn.owlCarousel = function(b) {
+            return this.each(function() {
+                if (a(this).data("owl-init") === !0) return !1;
+                a(this).data("owl-init", !0);
+                var c = Object.create(d);
+                c.init(b, this), a.data(this, "owlCarousel", c);
+            });
+        }, a.fn.owlCarousel.options = {
+            items: 5,
+            itemsCustom: !1,
+            itemsDesktop: [1199, 4],
+            itemsDesktopSmall: [979, 3],
+            itemsTablet: [768, 2],
+            itemsTabletSmall: !1,
+            itemsMobile: [479, 1],
+            singleItem: !1,
+            itemsScaleUp: !1,
+            slideSpeed: 200,
+            paginationSpeed: 800,
+            rewindSpeed: 1e3,
+            autoPlay: !1,
+            stopOnHover: !1,
+            navigation: !1,
+            navigationText: ["prev", "next"],
+            rewindNav: !0,
+            scrollPerPage: !1,
+            pagination: !0,
+            paginationNumbers: !1,
+            responsive: !0,
+            responsiveRefreshRate: 200,
+            responsiveBaseWidth: b,
+            baseClass: "owl-carousel",
+            theme: "owl-theme",
+            lazyLoad: !1,
+            lazyFollow: !0,
+            lazyEffect: "fade",
+            autoHeight: !1,
+            jsonPath: !1,
+            jsonSuccess: !1,
+            dragBeforeAnimFinish: !0,
+            mouseDrag: !0,
+            touchDrag: !0,
+            addClassActive: !1,
+            transitionStyle: !1,
+            beforeUpdate: !1,
+            afterUpdate: !1,
+            beforeInit: !1,
+            afterInit: !1,
+            beforeMove: !1,
+            afterMove: !1,
+            afterAction: !1,
+            startDragging: !1,
+            afterLazyLoad: !1
+        };
+    }(jQuery, window, document), jQuery.easing.jswing = jQuery.easing.swing, jQuery.extend(jQuery.easing, {
+        def: "easeOutQuad",
+        swing: function(a, b, c, d, e) {
+            return jQuery.easing[jQuery.easing.def](a, b, c, d, e);
+        },
+        easeInQuad: function(a, b, c, d, e) {
+            return d * (b /= e) * b + c;
+        },
+        easeOutQuad: function(a, b, c, d, e) {
+            return -d * (b /= e) * (b - 2) + c;
+        },
+        easeInOutQuad: function(a, b, c, d, e) {
+            return (b /= e / 2) < 1 ? d / 2 * b * b + c : -d / 2 * (--b * (b - 2) - 1) + c;
+        },
+        easeInCubic: function(a, b, c, d, e) {
+            return d * (b /= e) * b * b + c;
+        },
+        easeOutCubic: function(a, b, c, d, e) {
+            return d * ((b = b / e - 1) * b * b + 1) + c;
+        },
+        easeInOutCubic: function(a, b, c, d, e) {
+            return (b /= e / 2) < 1 ? d / 2 * b * b * b + c : d / 2 * ((b -= 2) * b * b + 2) + c;
+        },
+        easeInQuart: function(a, b, c, d, e) {
+            return d * (b /= e) * b * b * b + c;
+        },
+        easeOutQuart: function(a, b, c, d, e) {
+            return -d * ((b = b / e - 1) * b * b * b - 1) + c;
+        },
+        easeInOutQuart: function(a, b, c, d, e) {
+            return (b /= e / 2) < 1 ? d / 2 * b * b * b * b + c : -d / 2 * ((b -= 2) * b * b * b - 2) + c;
+        },
+        easeInQuint: function(a, b, c, d, e) {
+            return d * (b /= e) * b * b * b * b + c;
+        },
+        easeOutQuint: function(a, b, c, d, e) {
+            return d * ((b = b / e - 1) * b * b * b * b + 1) + c;
+        },
+        easeInOutQuint: function(a, b, c, d, e) {
+            return (b /= e / 2) < 1 ? d / 2 * b * b * b * b * b + c : d / 2 * ((b -= 2) * b * b * b * b + 2) + c;
+        },
+        easeInSine: function(a, b, c, d, e) {
+            return -d * Math.cos(b / e * (Math.PI / 2)) + d + c;
+        },
+        easeOutSine: function(a, b, c, d, e) {
+            return d * Math.sin(b / e * (Math.PI / 2)) + c;
+        },
+        easeInOutSine: function(a, b, c, d, e) {
+            return -d / 2 * (Math.cos(Math.PI * b / e) - 1) + c;
+        },
+        easeInExpo: function(a, b, c, d, e) {
+            return 0 == b ? c : d * Math.pow(2, 10 * (b / e - 1)) + c;
+        },
+        easeOutExpo: function(a, b, c, d, e) {
+            return b == e ? c + d : d * (-Math.pow(2, -10 * b / e) + 1) + c;
+        },
+        easeInOutExpo: function(a, b, c, d, e) {
+            return 0 == b ? c : b == e ? c + d : (b /= e / 2) < 1 ? d / 2 * Math.pow(2, 10 * (b - 1)) + c : d / 2 * (-Math.pow(2, -10 * --b) + 2) + c;
+        },
+        easeInCirc: function(a, b, c, d, e) {
+            return -d * (Math.sqrt(1 - (b /= e) * b) - 1) + c;
+        },
+        easeOutCirc: function(a, b, c, d, e) {
+            return d * Math.sqrt(1 - (b = b / e - 1) * b) + c;
+        },
+        easeInOutCirc: function(a, b, c, d, e) {
+            return (b /= e / 2) < 1 ? -d / 2 * (Math.sqrt(1 - b * b) - 1) + c : d / 2 * (Math.sqrt(1 - (b -= 2) * b) + 1) + c;
+        },
+        easeInElastic: function(a, b, c, d, e) {
+            var f = 1.70158,
+                g = 0,
+                h = d;
+            if (0 == b) return c;
+            if (1 == (b /= e)) return c + d;
+            if (g || (g = .3 * e), h < Math.abs(d)) {
+                h = d;
+                var f = g / 4;
+            } else var f = g / (2 * Math.PI) * Math.asin(d / h);
+            return -(h * Math.pow(2, 10 * (b -= 1)) * Math.sin(2 * (b * e - f) * Math.PI / g)) + c;
+        },
+        easeOutElastic: function(a, b, c, d, e) {
+            var f = 1.70158,
+                g = 0,
+                h = d;
+            if (0 == b) return c;
+            if (1 == (b /= e)) return c + d;
+            if (g || (g = .3 * e), h < Math.abs(d)) {
+                h = d;
+                var f = g / 4;
+            } else var f = g / (2 * Math.PI) * Math.asin(d / h);
+            return h * Math.pow(2, -10 * b) * Math.sin(2 * (b * e - f) * Math.PI / g) + d + c;
+        },
+        easeInOutElastic: function(a, b, c, d, e) {
+            var f = 1.70158,
+                g = 0,
+                h = d;
+            if (0 == b) return c;
+            if (2 == (b /= e / 2)) return c + d;
+            if (g || (g = .3 * e * 1.5), h < Math.abs(d)) {
+                h = d;
+                var f = g / 4;
+            } else var f = g / (2 * Math.PI) * Math.asin(d / h);
+            return b < 1 ? -.5 * h * Math.pow(2, 10 * (b -= 1)) * Math.sin(2 * (b * e - f) * Math.PI / g) + c : h * Math.pow(2, -10 * (b -= 1)) * Math.sin(2 * (b * e - f) * Math.PI / g) * .5 + d + c;
+        },
+        easeInBack: function(a, b, c, d, e, f) {
+            return void 0 == f && (f = 1.70158), d * (b /= e) * b * ((f + 1) * b - f) + c;
+        },
+        easeOutBack: function(a, b, c, d, e, f) {
+            return void 0 == f && (f = 1.70158), d * ((b = b / e - 1) * b * ((f + 1) * b + f) + 1) + c;
+        },
+        easeInOutBack: function(a, b, c, d, e, f) {
+            return void 0 == f && (f = 1.70158), (b /= e / 2) < 1 ? d / 2 * b * b * (((f *= 1.525) + 1) * b - f) + c : d / 2 * ((b -= 2) * b * (((f *= 1.525) + 1) * b + f) + 2) + c;
+        },
+        easeInBounce: function(a, b, c, d, e) {
+            return d - jQuery.easing.easeOutBounce(a, e - b, 0, d, e) + c;
+        },
+        easeOutBounce: function(a, b, c, d, e) {
+            return (b /= e) < 1 / 2.75 ? 7.5625 * d * b * b + c : b < 2 / 2.75 ? d * (7.5625 * (b -= 1.5 / 2.75) * b + .75) + c : b < 2.5 / 2.75 ? d * (7.5625 * (b -= 2.25 / 2.75) * b + .9375) + c : d * (7.5625 * (b -= 2.625 / 2.75) * b + .984375) + c;
+        },
+        easeInOutBounce: function(a, b, c, d, e) {
+            return b < e / 2 ? .5 * jQuery.easing.easeInBounce(a, 2 * b, 0, d, e) + c : .5 * jQuery.easing.easeOutBounce(a, 2 * b - e, 0, d, e) + .5 * d + c;
+        }
+    }),
+    function(a) {
+        "function" == typeof define && define.amd ? define(["jquery"], a) : a("object" == typeof exports ? require("jquery") : window.jQuery || window.Zepto);
+    }(function(a) {
+        var b, c, d, e, f, g, h = "Close",
+            i = "BeforeClose",
+            j = "AfterClose",
+            k = "BeforeAppend",
+            l = "MarkupParse",
+            m = "Open",
+            n = "Change",
+            o = "mfp",
+            p = "." + o,
+            q = "mfp-ready",
+            r = "mfp-removing",
+            s = "mfp-prevent-close",
+            t = function() {},
+            u = !!window.jQuery,
+            v = a(window),
+            w = function(a, c) {
+                b.ev.on(o + a + p, c);
+            },
+            x = function(b, c, d, e) {
+                var f = document.createElement("div");
+                return f.className = "mfp-" + b, d && (f.innerHTML = d), e ? c && c.appendChild(f) : (f = a(f),
+                    c && f.appendTo(c)), f;
+            },
+            y = function(c, d) {
+                b.ev.triggerHandler(o + c, d), b.st.callbacks && (c = c.charAt(0).toLowerCase() + c.slice(1),
+                    b.st.callbacks[c] && b.st.callbacks[c].apply(b, a.isArray(d) ? d : [d]));
+            },
+            z = function(c) {
+                return c === g && b.currTemplate.closeBtn || (b.currTemplate.closeBtn = a(b.st.closeMarkup.replace("%title%", b.st.tClose)),
+                    g = c), b.currTemplate.closeBtn;
+            },
+            A = function() {
+                a.magnificPopup.instance || (b = new t(), b.init(), a.magnificPopup.instance = b);
+            },
+            B = function() {
+                var a = document.createElement("p").style,
+                    b = ["ms", "O", "Moz", "Webkit"];
+                if (void 0 !== a.transition) return !0;
+                for (; b.length;)
+                    if (b.pop() + "Transition" in a) return !0;
+                return !1;
+            };
+        t.prototype = {
+            constructor: t,
+            init: function() {
+                var c = navigator.appVersion;
+                b.isLowIE = b.isIE8 = document.all && !document.addEventListener, b.isAndroid = /android/gi.test(c),
+                    b.isIOS = /iphone|ipad|ipod/gi.test(c), b.supportsTransition = B(), b.probablyMobile = b.isAndroid || b.isIOS || /(Opera Mini)|Kindle|webOS|BlackBerry|(Opera Mobi)|(Windows Phone)|IEMobile/i.test(navigator.userAgent),
+                    d = a(document), b.popupsCache = {};
+            },
+            open: function(c) {
+                var e;
+                if (c.isObj === !1) {
+                    b.items = c.items.toArray(), b.index = 0;
+                    var g, h = c.items;
+                    for (e = 0; e < h.length; e++)
+                        if (g = h[e], g.parsed && (g = g.el[0]), g === c.el[0]) {
+                            b.index = e;
+                            break;
+                        }
+                } else b.items = a.isArray(c.items) ? c.items : [c.items], b.index = c.index || 0;
+                if (b.isOpen) return void b.updateItemHTML();
+                b.types = [], f = "", c.mainEl && c.mainEl.length ? b.ev = c.mainEl.eq(0) : b.ev = d,
+                    c.key ? (b.popupsCache[c.key] || (b.popupsCache[c.key] = {}), b.currTemplate = b.popupsCache[c.key]) : b.currTemplate = {},
+                    b.st = a.extend(!0, {}, a.magnificPopup.defaults, c), b.fixedContentPos = "auto" === b.st.fixedContentPos ? !b.probablyMobile : b.st.fixedContentPos,
+                    b.st.modal && (b.st.closeOnContentClick = !1, b.st.closeOnBgClick = !1, b.st.showCloseBtn = !1,
+                        b.st.enableEscapeKey = !1), b.bgOverlay || (b.bgOverlay = x("bg").on("click" + p, function() {
+                        b.close();
+                    }), b.wrap = x("wrap").attr("tabindex", -1).on("click" + p, function(a) {
+                        b._checkIfClose(a.target) && b.close();
+                    }), b.container = x("container", b.wrap)), b.contentContainer = x("content"), b.st.preloader && (b.preloader = x("preloader", b.container, b.st.tLoading));
+                var i = a.magnificPopup.modules;
+                for (e = 0; e < i.length; e++) {
+                    var j = i[e];
+                    j = j.charAt(0).toUpperCase() + j.slice(1), b["init" + j].call(b);
+                }
+                y("BeforeOpen"), b.st.showCloseBtn && (b.st.closeBtnInside ? (w(l, function(a, b, c, d) {
+                        c.close_replaceWith = z(d.type);
+                    }), f += " mfp-close-btn-in") : b.wrap.append(z())), b.st.alignTop && (f += " mfp-align-top"),
+                    b.fixedContentPos ? b.wrap.css({
+                        overflow: b.st.overflowY,
+                        overflowX: "hidden",
+                        overflowY: b.st.overflowY
+                    }) : b.wrap.css({
+                        top: v.scrollTop(),
+                        position: "absolute"
+                    }), (b.st.fixedBgPos === !1 || "auto" === b.st.fixedBgPos && !b.fixedContentPos) && b.bgOverlay.css({
+                        height: d.height(),
+                        position: "absolute"
+                    }), b.st.enableEscapeKey && d.on("keyup" + p, function(a) {
+                        27 === a.keyCode && b.close();
+                    }), v.on("resize" + p, function() {
+                        b.updateSize();
+                    }), b.st.closeOnContentClick || (f += " mfp-auto-cursor"), f && b.wrap.addClass(f);
+                var k = b.wH = v.height(),
+                    n = {};
+                if (b.fixedContentPos && b._hasScrollBar(k)) {
+                    var o = b._getScrollbarSize();
+                    o && (n.marginRight = o);
+                }
+                b.fixedContentPos && (b.isIE7 ? a("body, html").css("overflow", "hidden") : n.overflow = "hidden");
+                var r = b.st.mainClass;
+                return b.isIE7 && (r += " mfp-ie7"), r && b._addClassToMFP(r), b.updateItemHTML(),
+                    y("BuildControls"), a("html").css(n), b.bgOverlay.add(b.wrap).prependTo(b.st.prependTo || a(document.body)),
+                    b._lastFocusedEl = document.activeElement, setTimeout(function() {
+                        b.content ? (b._addClassToMFP(q), b._setFocus()) : b.bgOverlay.addClass(q), d.on("focusin" + p, b._onFocusIn);
+                    }, 16), b.isOpen = !0, b.updateSize(k), y(m), c;
+            },
+            close: function() {
+                b.isOpen && (y(i), b.isOpen = !1, b.st.removalDelay && !b.isLowIE && b.supportsTransition ? (b._addClassToMFP(r),
+                    setTimeout(function() {
+                        b._close();
+                    }, b.st.removalDelay)) : b._close());
+            },
+            _close: function() {
+                y(h);
+                var c = r + " " + q + " ";
+                if (b.bgOverlay.detach(), b.wrap.detach(), b.container.empty(), b.st.mainClass && (c += b.st.mainClass + " "),
+                    b._removeClassFromMFP(c), b.fixedContentPos) {
+                    var e = {
+                        marginRight: ""
+                    };
+                    b.isIE7 ? a("body, html").css("overflow", "") : e.overflow = "", a("html").css(e);
+                }
+                d.off("keyup" + p + " focusin" + p), b.ev.off(p), b.wrap.attr("class", "mfp-wrap").removeAttr("style"),
+                    b.bgOverlay.attr("class", "mfp-bg"), b.container.attr("class", "mfp-container"), !b.st.showCloseBtn || b.st.closeBtnInside && b.currTemplate[b.currItem.type] !== !0 || b.currTemplate.closeBtn && b.currTemplate.closeBtn.detach(),
+                    b.st.autoFocusLast && b._lastFocusedEl && a(b._lastFocusedEl).focus(), b.currItem = null,
+                    b.content = null, b.currTemplate = null, b.prevHeight = 0, y(j);
+            },
+            updateSize: function(a) {
+                if (b.isIOS) {
+                    var c = document.documentElement.clientWidth / window.innerWidth,
+                        d = window.innerHeight * c;
+                    b.wrap.css("height", d), b.wH = d;
+                } else b.wH = a || v.height();
+                b.fixedContentPos || b.wrap.css("height", b.wH), y("Resize");
+            },
+            updateItemHTML: function() {
+                var c = b.items[b.index];
+                b.contentContainer.detach(), b.content && b.content.detach(), c.parsed || (c = b.parseEl(b.index));
+                var d = c.type;
+                if (y("BeforeChange", [b.currItem ? b.currItem.type : "", d]), b.currItem = c, !b.currTemplate[d]) {
+                    var f = !!b.st[d] && b.st[d].markup;
+                    y("FirstMarkupParse", f), f ? b.currTemplate[d] = a(f) : b.currTemplate[d] = !0;
+                }
+                e && e !== c.type && b.container.removeClass("mfp-" + e + "-holder");
+                var g = b["get" + d.charAt(0).toUpperCase() + d.slice(1)](c, b.currTemplate[d]);
+                b.appendContent(g, d), c.preloaded = !0, y(n, c), e = c.type, b.container.prepend(b.contentContainer),
+                    y("AfterChange");
+            },
+            appendContent: function(a, c) {
+                b.content = a, a ? b.st.showCloseBtn && b.st.closeBtnInside && b.currTemplate[c] === !0 ? b.content.find(".mfp-close").length || b.content.append(z()) : b.content = a : b.content = "",
+                    y(k), b.container.addClass("mfp-" + c + "-holder"), b.contentContainer.append(b.content);
+            },
+            parseEl: function(c) {
+                var d, e = b.items[c];
+                if (e.tagName ? e = {
+                        el: a(e)
+                    } : (d = e.type, e = {
+                        data: e,
+                        src: e.src
+                    }), e.el) {
+                    for (var f = b.types, g = 0; g < f.length; g++)
+                        if (e.el.hasClass("mfp-" + f[g])) {
+                            d = f[g];
+                            break;
+                        }
+                    e.src = e.el.attr("data-mfp-src"), e.src || (e.src = e.el.attr("href"));
+                }
+                return e.type = d || b.st.type || "inline", e.index = c, e.parsed = !0, b.items[c] = e,
+                    y("ElementParse", e), b.items[c];
+            },
+            addGroup: function(a, c) {
+                var d = function(d) {
+                    d.mfpEl = this, b._openClick(d, a, c);
+                };
+                c || (c = {});
+                var e = "click.magnificPopup";
+                c.mainEl = a, c.items ? (c.isObj = !0, a.off(e).on(e, d)) : (c.isObj = !1, c.delegate ? a.off(e).on(e, c.delegate, d) : (c.items = a,
+                    a.off(e).on(e, d)));
+            },
+            _openClick: function(c, d, e) {
+                var f = void 0 !== e.midClick ? e.midClick : a.magnificPopup.defaults.midClick;
+                if (f || !(2 === c.which || c.ctrlKey || c.metaKey || c.altKey || c.shiftKey)) {
+                    var g = void 0 !== e.disableOn ? e.disableOn : a.magnificPopup.defaults.disableOn;
+                    if (g)
+                        if (a.isFunction(g)) {
+                            if (!g.call(b)) return !0;
+                        } else if (v.width() < g) return !0;
+                    c.type && (c.preventDefault(), b.isOpen && c.stopPropagation()), e.el = a(c.mfpEl),
+                        e.delegate && (e.items = d.find(e.delegate)), b.open(e);
+                }
+            },
+            updateStatus: function(a, d) {
+                if (b.preloader) {
+                    c !== a && b.container.removeClass("mfp-s-" + c), d || "loading" !== a || (d = b.st.tLoading);
+                    var e = {
+                        status: a,
+                        text: d
+                    };
+                    y("UpdateStatus", e), a = e.status, d = e.text, b.preloader.html(d), b.preloader.find("a").on("click", function(a) {
+                        a.stopImmediatePropagation();
+                    }), b.container.addClass("mfp-s-" + a), c = a;
+                }
+            },
+            _checkIfClose: function(c) {
+                if (!a(c).hasClass(s)) {
+                    var d = b.st.closeOnContentClick,
+                        e = b.st.closeOnBgClick;
+                    if (d && e) return !0;
+                    if (!b.content || a(c).hasClass("mfp-close") || b.preloader && c === b.preloader[0]) return !0;
+                    if (c === b.content[0] || a.contains(b.content[0], c)) {
+                        if (d) return !0;
+                    } else if (e && a.contains(document, c)) return !0;
+                    return !1;
+                }
+            },
+            _addClassToMFP: function(a) {
+                b.bgOverlay.addClass(a), b.wrap.addClass(a);
+            },
+            _removeClassFromMFP: function(a) {
+                this.bgOverlay.removeClass(a), b.wrap.removeClass(a);
+            },
+            _hasScrollBar: function(a) {
+                return (b.isIE7 ? d.height() : document.body.scrollHeight) > (a || v.height());
+            },
+            _setFocus: function() {
+                (b.st.focus ? b.content.find(b.st.focus).eq(0) : b.wrap).focus();
+            },
+            _onFocusIn: function(c) {
+                if (c.target !== b.wrap[0] && !a.contains(b.wrap[0], c.target)) return b._setFocus(), !1;
+            },
+            _parseMarkup: function(b, c, d) {
+                var e;
+                d.data && (c = a.extend(d.data, c)), y(l, [b, c, d]), a.each(c, function(c, d) {
+                    if (void 0 === d || d === !1) return !0;
+                    if (e = c.split("_"), e.length > 1) {
+                        var f = b.find(p + "-" + e[0]);
+                        if (f.length > 0) {
+                            var g = e[1];
+                            "replaceWith" === g ? f[0] !== d[0] && f.replaceWith(d) : "img" === g ? f.is("img") ? f.attr("src", d) : f.replaceWith(a("<img>").attr("src", d).attr("class", f.attr("class"))) : f.attr(e[1], d);
+                        }
+                    } else b.find(p + "-" + c).html(d);
+                });
+            },
+            _getScrollbarSize: function() {
+                if (void 0 === b.scrollbarSize) {
+                    var a = document.createElement("div");
+                    a.style.cssText = "width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;",
+                        document.body.appendChild(a), b.scrollbarSize = a.offsetWidth - a.clientWidth, document.body.removeChild(a);
+                }
+                return b.scrollbarSize;
+            }
+        }, a.magnificPopup = {
+            instance: null,
+            proto: t.prototype,
+            modules: [],
+            open: function(b, c) {
+                return A(), b = b ? a.extend(!0, {}, b) : {}, b.isObj = !0, b.index = c || 0, this.instance.open(b);
+            },
+            close: function() {
+                return a.magnificPopup.instance && a.magnificPopup.instance.close();
+            },
+            registerModule: function(b, c) {
+                c.options && (a.magnificPopup.defaults[b] = c.options), a.extend(this.proto, c.proto),
+                    this.modules.push(b);
+            },
+            defaults: {
+                disableOn: 0,
+                key: null,
+                midClick: !1,
+                mainClass: "",
+                preloader: !0,
+                focus: "",
+                closeOnContentClick: !1,
+                closeOnBgClick: !0,
+                closeBtnInside: !0,
+                showCloseBtn: !0,
+                enableEscapeKey: !0,
+                modal: !1,
+                alignTop: !1,
+                removalDelay: 0,
+                prependTo: null,
+                fixedContentPos: "auto",
+                fixedBgPos: "auto",
+                overflowY: "auto",
+                closeMarkup: '<button title="%title%" type="button" class="mfp-close">&#215;</button>',
+                tClose: "Close (Esc)",
+                tLoading: "Loading...",
+                autoFocusLast: !0
+            }
+        }, a.fn.magnificPopup = function(c) {
+            A();
+            var d = a(this);
+            if ("string" == typeof c)
+                if ("open" === c) {
+                    var e, f = u ? d.data("magnificPopup") : d[0].magnificPopup,
+                        g = parseInt(arguments[1], 10) || 0;
+                    f.items ? e = f.items[g] : (e = d, f.delegate && (e = e.find(f.delegate)), e = e.eq(g)),
+                        b._openClick({
+                            mfpEl: e
+                        }, d, f);
+                } else b.isOpen && b[c].apply(b, Array.prototype.slice.call(arguments, 1));
+            else c = a.extend(!0, {}, c),
+                u ? d.data("magnificPopup", c) : d[0].magnificPopup = c, b.addGroup(d, c);
+            return d;
+        };
+        var C, D, E, F = "inline",
+            G = function() {
+                E && (D.after(E.addClass(C)).detach(), E = null);
+            };
+        a.magnificPopup.registerModule(F, {
+            options: {
+                hiddenClass: "hide",
+                markup: "",
+                tNotFound: "Content not found"
+            },
+            proto: {
+                initInline: function() {
+                    b.types.push(F), w(h + "." + F, function() {
+                        G();
+                    });
+                },
+                getInline: function(c, d) {
+                    if (G(), c.src) {
+                        var e = b.st.inline,
+                            f = a(c.src);
+                        if (f.length) {
+                            var g = f[0].parentNode;
+                            g && g.tagName && (D || (C = e.hiddenClass, D = x(C), C = "mfp-" + C), E = f.after(D).detach().removeClass(C)),
+                                b.updateStatus("ready");
+                        } else b.updateStatus("error", e.tNotFound), f = a("<div>");
+                        return c.inlineElement = f, f;
+                    }
+                    return b.updateStatus("ready"), b._parseMarkup(d, {}, c), d;
+                }
+            }
+        });
+        var H, I = "ajax",
+            J = function() {
+                H && a(document.body).removeClass(H);
+            },
+            K = function() {
+                J(), b.req && b.req.abort();
+            };
+        a.magnificPopup.registerModule(I, {
+            options: {
+                settings: null,
+                cursor: "mfp-ajax-cur",
+                tError: '<a href="%url%">The content</a> could not be loaded.'
+            },
+            proto: {
+                initAjax: function() {
+                    b.types.push(I), H = b.st.ajax.cursor, w(h + "." + I, K), w("BeforeChange." + I, K);
+                },
+                getAjax: function(c) {
+                    H && a(document.body).addClass(H), b.updateStatus("loading");
+                    var d = a.extend({
+                        url: c.src,
+                        success: function(d, e, f) {
+                            var g = {
+                                data: d,
+                                xhr: f
+                            };
+                            y("ParseAjax", g), b.appendContent(a(g.data), I), c.finished = !0, J(), b._setFocus(),
+                                setTimeout(function() {
+                                    b.wrap.addClass(q);
+                                }, 16), b.updateStatus("ready"), y("AjaxContentAdded");
+                        },
+                        error: function() {
+                            J(), c.finished = c.loadError = !0, b.updateStatus("error", b.st.ajax.tError.replace("%url%", c.src));
+                        }
+                    }, b.st.ajax.settings);
+                    return b.req = a.ajax(d), "";
+                }
+            }
+        });
+        var L, M = function(c) {
+            if (c.data && void 0 !== c.data.title) return c.data.title;
+            var d = b.st.image.titleSrc;
+            if (d) {
+                if (a.isFunction(d)) return d.call(b, c);
+                if (c.el) return c.el.attr(d) || "";
+            }
+            return "";
+        };
+        a.magnificPopup.registerModule("image", {
+            options: {
+                markup: '<div class="mfp-figure"><div class="mfp-close"></div><figure><div class="mfp-img"></div><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>',
+                cursor: "mfp-zoom-out-cur",
+                titleSrc: "title",
+                verticalFit: !0,
+                tError: '<a href="%url%">The image</a> could not be loaded.'
+            },
+            proto: {
+                initImage: function() {
+                    var c = b.st.image,
+                        d = ".image";
+                    b.types.push("image"), w(m + d, function() {
+                        "image" === b.currItem.type && c.cursor && a(document.body).addClass(c.cursor);
+                    }), w(h + d, function() {
+                        c.cursor && a(document.body).removeClass(c.cursor), v.off("resize" + p);
+                    }), w("Resize" + d, b.resizeImage), b.isLowIE && w("AfterChange", b.resizeImage);
+                },
+                resizeImage: function() {
+                    var a = b.currItem;
+                    if (a && a.img && b.st.image.verticalFit) {
+                        var c = 0;
+                        b.isLowIE && (c = parseInt(a.img.css("padding-top"), 10) + parseInt(a.img.css("padding-bottom"), 10)),
+                            a.img.css("max-height", b.wH - c);
+                    }
+                },
+                _onImageHasSize: function(a) {
+                    a.img && (a.hasSize = !0, L && clearInterval(L), a.isCheckingImgSize = !1, y("ImageHasSize", a),
+                        a.imgHidden && (b.content && b.content.removeClass("mfp-loading"), a.imgHidden = !1));
+                },
+                findImageSize: function(a) {
+                    var c = 0,
+                        d = a.img[0],
+                        e = function(f) {
+                            L && clearInterval(L), L = setInterval(function() {
+                                return d.naturalWidth > 0 ? void b._onImageHasSize(a) : (c > 200 && clearInterval(L),
+                                    c++, void(3 === c ? e(10) : 40 === c ? e(50) : 100 === c && e(500)));
+                            }, f);
+                        };
+                    e(1);
+                },
+                getImage: function(c, d) {
+                    var e = 0,
+                        f = function() {
+                            c && (c.img[0].complete ? (c.img.off(".mfploader"), c === b.currItem && (b._onImageHasSize(c),
+                                b.updateStatus("ready")), c.hasSize = !0, c.loaded = !0, y("ImageLoadComplete")) : (e++,
+                                e < 200 ? setTimeout(f, 100) : g()));
+                        },
+                        g = function() {
+                            c && (c.img.off(".mfploader"), c === b.currItem && (b._onImageHasSize(c), b.updateStatus("error", h.tError.replace("%url%", c.src))),
+                                c.hasSize = !0, c.loaded = !0, c.loadError = !0);
+                        },
+                        h = b.st.image,
+                        i = d.find(".mfp-img");
+                    if (i.length) {
+                        var j = document.createElement("img");
+                        j.className = "mfp-img", c.el && c.el.find("img").length && (j.alt = c.el.find("img").attr("alt")),
+                            c.img = a(j).on("load.mfploader", f).on("error.mfploader", g), j.src = c.src, i.is("img") && (c.img = c.img.clone()),
+                            j = c.img[0], j.naturalWidth > 0 ? c.hasSize = !0 : j.width || (c.hasSize = !1);
+                    }
+                    return b._parseMarkup(d, {
+                        title: M(c),
+                        img_replaceWith: c.img
+                    }, c), b.resizeImage(), c.hasSize ? (L && clearInterval(L), c.loadError ? (d.addClass("mfp-loading"),
+                        b.updateStatus("error", h.tError.replace("%url%", c.src))) : (d.removeClass("mfp-loading"),
+                        b.updateStatus("ready")), d) : (b.updateStatus("loading"), c.loading = !0, c.hasSize || (c.imgHidden = !0,
+                        d.addClass("mfp-loading"), b.findImageSize(c)), d);
+                }
+            }
+        });
+        var N, O = function() {
+            return void 0 === N && (N = void 0 !== document.createElement("p").style.MozTransform),
+                N;
+        };
+        a.magnificPopup.registerModule("zoom", {
+            options: {
+                enabled: !1,
+                easing: "ease-in-out",
+                duration: 300,
+                opener: function(a) {
+                    return a.is("img") ? a : a.find("img");
+                }
+            },
+            proto: {
+                initZoom: function() {
+                    var a, c = b.st.zoom,
+                        d = ".zoom";
+                    if (c.enabled && b.supportsTransition) {
+                        var e, f, g = c.duration,
+                            j = function(a) {
+                                var b = a.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"),
+                                    d = "all " + c.duration / 1e3 + "s " + c.easing,
+                                    e = {
+                                        position: "fixed",
+                                        zIndex: 9999,
+                                        left: 0,
+                                        top: 0,
+                                        "-webkit-backface-visibility": "hidden"
+                                    },
+                                    f = "transition";
+                                return e["-webkit-" + f] = e["-moz-" + f] = e["-o-" + f] = e[f] = d, b.css(e), b;
+                            },
+                            k = function() {
+                                b.content.css("visibility", "visible");
+                            };
+                        w("BuildControls" + d, function() {
+                            if (b._allowZoom()) {
+                                if (clearTimeout(e), b.content.css("visibility", "hidden"), a = b._getItemToZoom(), !a) return void k();
+                                f = j(a), f.css(b._getOffset()), b.wrap.append(f), e = setTimeout(function() {
+                                    f.css(b._getOffset(!0)), e = setTimeout(function() {
+                                        k(), setTimeout(function() {
+                                            f.remove(), a = f = null, y("ZoomAnimationEnded");
+                                        }, 16);
+                                    }, g);
+                                }, 16);
+                            }
+                        }), w(i + d, function() {
+                            if (b._allowZoom()) {
+                                if (clearTimeout(e), b.st.removalDelay = g, !a) {
+                                    if (a = b._getItemToZoom(), !a) return;
+                                    f = j(a);
+                                }
+                                f.css(b._getOffset(!0)), b.wrap.append(f), b.content.css("visibility", "hidden"),
+                                    setTimeout(function() {
+                                        f.css(b._getOffset());
+                                    }, 16);
+                            }
+                        }), w(h + d, function() {
+                            b._allowZoom() && (k(), f && f.remove(), a = null);
+                        });
+                    }
+                },
+                _allowZoom: function() {
+                    return "image" === b.currItem.type;
+                },
+                _getItemToZoom: function() {
+                    return !!b.currItem.hasSize && b.currItem.img;
+                },
+                _getOffset: function(c) {
+                    var d;
+                    d = c ? b.currItem.img : b.st.zoom.opener(b.currItem.el || b.currItem);
+                    var e = d.offset(),
+                        f = parseInt(d.css("padding-top"), 10),
+                        g = parseInt(d.css("padding-bottom"), 10);
+                    e.top -= a(window).scrollTop() - f;
+                    var h = {
+                        width: d.width(),
+                        height: (u ? d.innerHeight() : d[0].offsetHeight) - g - f
+                    };
+                    return O() ? h["-moz-transform"] = h.transform = "translate(" + e.left + "px," + e.top + "px)" : (h.left = e.left,
+                        h.top = e.top), h;
+                }
+            }
+        });
+        var P = "iframe",
+            Q = "//about:blank",
+            R = function(a) {
+                if (b.currTemplate[P]) {
+                    var c = b.currTemplate[P].find("iframe");
+                    c.length && (a || (c[0].src = Q), b.isIE8 && c.css("display", a ? "block" : "none"));
+                }
+            };
+        a.magnificPopup.registerModule(P, {
+            options: {
+                markup: '<div class="mfp-iframe-scaler"><div class="mfp-close"></div><iframe class="mfp-iframe" src="//about:blank" frameborder="0" allowfullscreen></iframe></div>',
+                srcAction: "iframe_src",
+                patterns: {
+                    youtube: {
+                        index: "youtube.com",
+                        id: "v=",
+                        src: "//www.youtube.com/embed/%id%?autoplay=1"
+                    },
+                    vimeo: {
+                        index: "vimeo.com/",
+                        id: "/",
+                        src: "//player.vimeo.com/video/%id%?autoplay=1"
+                    },
+                    gmaps: {
+                        index: "//maps.google.",
+                        src: "%id%&output=embed"
+                    }
+                }
+            },
+            proto: {
+                initIframe: function() {
+                    b.types.push(P), w("BeforeChange", function(a, b, c) {
+                        b !== c && (b === P ? R() : c === P && R(!0));
+                    }), w(h + "." + P, function() {
+                        R();
+                    });
+                },
+                getIframe: function(c, d) {
+                    var e = c.src,
+                        f = b.st.iframe;
+                    a.each(f.patterns, function() {
+                        if (e.indexOf(this.index) > -1) return this.id && (e = "string" == typeof this.id ? e.substr(e.lastIndexOf(this.id) + this.id.length, e.length) : this.id.call(this, e)),
+                            e = this.src.replace("%id%", e), !1;
+                    });
+                    var g = {};
+                    return f.srcAction && (g[f.srcAction] = e), b._parseMarkup(d, g, c), b.updateStatus("ready"),
+                        d;
+                }
+            }
+        });
+        var S = function(a) {
+                var c = b.items.length;
+                return a > c - 1 ? a - c : a < 0 ? c + a : a;
+            },
+            T = function(a, b, c) {
+                return a.replace(/%curr%/gi, b + 1).replace(/%total%/gi, c);
+            };
+        a.magnificPopup.registerModule("gallery", {
+            options: {
+                enabled: !1,
+                arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
+                preload: [0, 2],
+                navigateByImgClick: !0,
+                arrows: !0,
+                tPrev: "Previous (Left arrow key)",
+                tNext: "Next (Right arrow key)",
+                tCounter: "%curr% of %total%"
+            },
+            proto: {
+                initGallery: function() {
+                    var c = b.st.gallery,
+                        e = ".mfp-gallery";
+                    return b.direction = !0, !(!c || !c.enabled) && (f += " mfp-gallery", w(m + e, function() {
+                        c.navigateByImgClick && b.wrap.on("click" + e, ".mfp-img", function() {
+                            if (b.items.length > 1) return b.next(), !1;
+                        }), d.on("keydown" + e, function(a) {
+                            37 === a.keyCode ? b.prev() : 39 === a.keyCode && b.next();
+                        });
+                    }), w("UpdateStatus" + e, function(a, c) {
+                        c.text && (c.text = T(c.text, b.currItem.index, b.items.length));
+                    }), w(l + e, function(a, d, e, f) {
+                        var g = b.items.length;
+                        e.counter = g > 1 ? T(c.tCounter, f.index, g) : "";
+                    }), w("BuildControls" + e, function() {
+                        if (b.items.length > 1 && c.arrows && !b.arrowLeft) {
+                            var d = c.arrowMarkup,
+                                e = b.arrowLeft = a(d.replace(/%title%/gi, c.tPrev).replace(/%dir%/gi, "left")).addClass(s),
+                                f = b.arrowRight = a(d.replace(/%title%/gi, c.tNext).replace(/%dir%/gi, "right")).addClass(s);
+                            e.click(function() {
+                                b.prev();
+                            }), f.click(function() {
+                                b.next();
+                            }), b.container.append(e.add(f));
+                        }
+                    }), w(n + e, function() {
+                        b._preloadTimeout && clearTimeout(b._preloadTimeout), b._preloadTimeout = setTimeout(function() {
+                            b.preloadNearbyImages(), b._preloadTimeout = null;
+                        }, 16);
+                    }), void w(h + e, function() {
+                        d.off(e), b.wrap.off("click" + e), b.arrowRight = b.arrowLeft = null;
+                    }));
+                },
+                next: function() {
+                    b.direction = !0, b.index = S(b.index + 1), b.updateItemHTML();
+                },
+                prev: function() {
+                    b.direction = !1, b.index = S(b.index - 1), b.updateItemHTML();
+                },
+                goTo: function(a) {
+                    b.direction = a >= b.index, b.index = a, b.updateItemHTML();
+                },
+                preloadNearbyImages: function() {
+                    var a, c = b.st.gallery.preload,
+                        d = Math.min(c[0], b.items.length),
+                        e = Math.min(c[1], b.items.length);
+                    for (a = 1; a <= (b.direction ? e : d); a++) b._preloadItem(b.index + a);
+                    for (a = 1; a <= (b.direction ? d : e); a++) b._preloadItem(b.index - a);
+                },
+                _preloadItem: function(c) {
+                    if (c = S(c), !b.items[c].preloaded) {
+                        var d = b.items[c];
+                        d.parsed || (d = b.parseEl(c)), y("LazyLoad", d), "image" === d.type && (d.img = a('<img class="mfp-img" />').on("load.mfploader", function() {
+                            d.hasSize = !0;
+                        }).on("error.mfploader", function() {
+                            d.hasSize = !0, d.loadError = !0, y("LazyLoadError", d);
+                        }).attr("src", d.src)), d.preloaded = !0;
+                    }
+                }
+            }
+        });
+        var U = "retina";
+        a.magnificPopup.registerModule(U, {
+            options: {
+                replaceSrc: function(a) {
+                    return a.src.replace(/\.\w+$/, function(a) {
+                        return "@2x" + a;
+                    });
+                },
+                ratio: 1
+            },
+            proto: {
+                initRetina: function() {
+                    if (window.devicePixelRatio > 1) {
+                        var a = b.st.retina,
+                            c = a.ratio;
+                        c = isNaN(c) ? c() : c, c > 1 && (w("ImageHasSize." + U, function(a, b) {
+                            b.img.css({
+                                "max-width": b.img[0].naturalWidth / c,
+                                width: "100%"
+                            });
+                        }), w("ElementParse." + U, function(b, d) {
+                            d.src = a.replaceSrc(d, c);
+                        }));
+                    }
+                }
+            }
+        }), A();
+    }),
+    function() {
+        var a, b, c, d, e, f = function(a, b) {
+                return function() {
+                    return a.apply(b, arguments);
+                };
+            },
+            g = [].indexOf || function(a) {
+                for (var b = 0, c = this.length; b < c; b++)
+                    if (b in this && this[b] === a) return b;
+                return -1;
+            };
+        b = function() {
+            function a() {}
+            return a.prototype.extend = function(a, b) {
+                var c, d;
+                for (c in b) d = b[c], null == a[c] && (a[c] = d);
+                return a;
+            }, a.prototype.isMobile = function(a) {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(a);
+            }, a.prototype.createEvent = function(a, b, c, d) {
+                var e;
+                return null == b && (b = !1), null == c && (c = !1), null == d && (d = null), null != document.createEvent ? (e = document.createEvent("CustomEvent"),
+                    e.initCustomEvent(a, b, c, d)) : null != document.createEventObject ? (e = document.createEventObject(),
+                    e.eventType = a) : e.eventName = a, e;
+            }, a.prototype.emitEvent = function(a, b) {
+                return null != a.dispatchEvent ? a.dispatchEvent(b) : b in (null != a) ? a[b]() : "on" + b in (null != a) ? a["on" + b]() : void 0;
+            }, a.prototype.addEvent = function(a, b, c) {
+                return null != a.addEventListener ? a.addEventListener(b, c, !1) : null != a.attachEvent ? a.attachEvent("on" + b, c) : a[b] = c;
+            }, a.prototype.removeEvent = function(a, b, c) {
+                return null != a.removeEventListener ? a.removeEventListener(b, c, !1) : null != a.detachEvent ? a.detachEvent("on" + b, c) : delete a[b];
+            }, a.prototype.innerHeight = function() {
+                return "innerHeight" in window ? window.innerHeight : document.documentElement.clientHeight;
+            }, a;
+        }(), c = this.WeakMap || this.MozWeakMap || (c = function() {
+            function a() {
+                this.keys = [], this.values = [];
+            }
+            return a.prototype.get = function(a) {
+                var b, c, d, e, f;
+                for (f = this.keys, b = d = 0, e = f.length; d < e; b = ++d)
+                    if (c = f[b], c === a) return this.values[b];
+            }, a.prototype.set = function(a, b) {
+                var c, d, e, f, g;
+                for (g = this.keys, c = e = 0, f = g.length; e < f; c = ++e)
+                    if (d = g[c], d === a) return void(this.values[c] = b);
+                return this.keys.push(a), this.values.push(b);
+            }, a;
+        }()), a = this.MutationObserver || this.WebkitMutationObserver || this.MozMutationObserver || (a = function() {
+            function a() {
+                "undefined" != typeof console && null !== console && console.warn("MutationObserver is not supported by your browser."),
+                    "undefined" != typeof console && null !== console && console.warn("WOW.js cannot detect dom mutations, please call .sync() after loading new content.");
+            }
+            return a.notSupported = !0, a.prototype.observe = function() {}, a;
+        }()), d = this.getComputedStyle || function(a, b) {
+            return this.getPropertyValue = function(b) {
+                var c;
+                return "float" === b && (b = "styleFloat"), e.test(b) && b.replace(e, function(a, b) {
+                    return b.toUpperCase();
+                }), (null != (c = a.currentStyle) ? c[b] : void 0) || null;
+            }, this;
+        }, e = /(\-([a-z]){1})/g, this.WOW = function() {
+            function e(a) {
+                null == a && (a = {}), this.scrollCallback = f(this.scrollCallback, this), this.scrollHandler = f(this.scrollHandler, this),
+                    this.resetAnimation = f(this.resetAnimation, this), this.start = f(this.start, this),
+                    this.scrolled = !0, this.config = this.util().extend(a, this.defaults), this.animationNameCache = new c(),
+                    this.wowEvent = this.util().createEvent(this.config.boxClass);
+            }
+            return e.prototype.defaults = {
+                boxClass: "wow",
+                animateClass: "animated",
+                offset: 0,
+                mobile: !0,
+                live: !0,
+                callback: null
+            }, e.prototype.init = function() {
+                var a;
+                return this.element = window.document.documentElement, "interactive" === (a = document.readyState) || "complete" === a ? this.start() : this.util().addEvent(document, "DOMContentLoaded", this.start),
+                    this.finished = [];
+            }, e.prototype.start = function() {
+                var b, c, d, e;
+                if (this.stopped = !1, this.boxes = function() {
+                        var a, c, d, e;
+                        for (d = this.element.querySelectorAll("." + this.config.boxClass), e = [], a = 0,
+                            c = d.length; a < c; a++) b = d[a], e.push(b);
+                        return e;
+                    }.call(this), this.all = function() {
+                        var a, c, d, e;
+                        for (d = this.boxes, e = [], a = 0, c = d.length; a < c; a++) b = d[a], e.push(b);
+                        return e;
+                    }.call(this), this.boxes.length)
+                    if (this.disabled()) this.resetStyle();
+                    else
+                        for (e = this.boxes,
+                            c = 0, d = e.length; c < d; c++) b = e[c], this.applyStyle(b, !0);
+                if (this.disabled() || (this.util().addEvent(window, "scroll", this.scrollHandler),
+                        this.util().addEvent(window, "resize", this.scrollHandler), this.interval = setInterval(this.scrollCallback, 50)),
+                    this.config.live) return new a(function(a) {
+                    return function(b) {
+                        var c, d, e, f, g;
+                        for (g = [], c = 0, d = b.length; c < d; c++) f = b[c], g.push(function() {
+                            var a, b, c, d;
+                            for (c = f.addedNodes || [], d = [], a = 0, b = c.length; a < b; a++) e = c[a],
+                                d.push(this.doSync(e));
+                            return d;
+                        }.call(a));
+                        return g;
+                    };
+                }(this)).observe(document.body, {
+                    childList: !0,
+                    subtree: !0
+                });
+            }, e.prototype.stop = function() {
+                if (this.stopped = !0, this.util().removeEvent(window, "scroll", this.scrollHandler),
+                    this.util().removeEvent(window, "resize", this.scrollHandler), null != this.interval) return clearInterval(this.interval);
+            }, e.prototype.sync = function(b) {
+                if (a.notSupported) return this.doSync(this.element);
+            }, e.prototype.doSync = function(a) {
+                var b, c, d, e, f;
+                if (null == a && (a = this.element), 1 === a.nodeType) {
+                    for (a = a.parentNode || a, e = a.querySelectorAll("." + this.config.boxClass),
+                        f = [], c = 0, d = e.length; c < d; c++) b = e[c], g.call(this.all, b) < 0 ? (this.boxes.push(b),
+                        this.all.push(b), this.stopped || this.disabled() ? this.resetStyle() : this.applyStyle(b, !0),
+                        f.push(this.scrolled = !0)) : f.push(void 0);
+                    return f;
+                }
+            }, e.prototype.show = function(a) {
+                return this.applyStyle(a), a.className = a.className + " " + this.config.animateClass,
+                    null != this.config.callback && this.config.callback(a), this.util().emitEvent(a, this.wowEvent),
+                    this.util().addEvent(a, "animationend", this.resetAnimation), this.util().addEvent(a, "oanimationend", this.resetAnimation),
+                    this.util().addEvent(a, "webkitAnimationEnd", this.resetAnimation), this.util().addEvent(a, "MSAnimationEnd", this.resetAnimation),
+                    a;
+            }, e.prototype.applyStyle = function(a, b) {
+                var c, d, e;
+                return d = a.getAttribute("data-wow-duration"), c = a.getAttribute("data-wow-delay"),
+                    e = a.getAttribute("data-wow-iteration"), this.animate(function(f) {
+                        return function() {
+                            return f.customStyle(a, b, d, c, e);
+                        };
+                    }(this));
+            }, e.prototype.animate = function() {
+                return "requestAnimationFrame" in window ? function(a) {
+                    return window.requestAnimationFrame(a);
+                } : function(a) {
+                    return a();
+                };
+            }(), e.prototype.resetStyle = function() {
+                var a, b, c, d, e;
+                for (d = this.boxes, e = [], b = 0, c = d.length; b < c; b++) a = d[b], e.push(a.style.visibility = "visible");
+                return e;
+            }, e.prototype.resetAnimation = function(a) {
+                var b;
+                if (a.type.toLowerCase().indexOf("animationend") >= 0) return b = a.target || a.srcElement,
+                    b.className = b.className.replace(this.config.animateClass, "").trim();
+            }, e.prototype.customStyle = function(a, b, c, d, e) {
+                return b && this.cacheAnimationName(a), a.style.visibility = b ? "hidden" : "visible",
+                    c && this.vendorSet(a.style, {
+                        animationDuration: c
+                    }), d && this.vendorSet(a.style, {
+                        animationDelay: d
+                    }), e && this.vendorSet(a.style, {
+                        animationIterationCount: e
+                    }), this.vendorSet(a.style, {
+                        animationName: b ? "none" : this.cachedAnimationName(a)
+                    }), a;
+            }, e.prototype.vendors = ["moz", "webkit"], e.prototype.vendorSet = function(a, b) {
+                var c, d, e, f;
+                d = [];
+                for (c in b) e = b[c], a["" + c] = e, d.push(function() {
+                    var b, d, g, h;
+                    for (g = this.vendors, h = [], b = 0, d = g.length; b < d; b++) f = g[b], h.push(a["" + f + c.charAt(0).toUpperCase() + c.substr(1)] = e);
+                    return h;
+                }.call(this));
+                return d;
+            }, e.prototype.vendorCSS = function(a, b) {
+                var c, e, f, g, h, i;
+                for (h = d(a), g = h.getPropertyCSSValue(b), f = this.vendors, c = 0, e = f.length; c < e; c++) i = f[c],
+                    g = g || h.getPropertyCSSValue("-" + i + "-" + b);
+                return g;
+            }, e.prototype.animationName = function(a) {
+                var b;
+                try {
+                    b = this.vendorCSS(a, "animation-name").cssText;
+                } catch (c) {
+                    b = d(a).getPropertyValue("animation-name");
+                }
+                return "none" === b ? "" : b;
+            }, e.prototype.cacheAnimationName = function(a) {
+                return this.animationNameCache.set(a, this.animationName(a));
+            }, e.prototype.cachedAnimationName = function(a) {
+                return this.animationNameCache.get(a);
+            }, e.prototype.scrollHandler = function() {
+                return this.scrolled = !0;
+            }, e.prototype.scrollCallback = function() {
+                var a;
+                if (this.scrolled && (this.scrolled = !1, this.boxes = function() {
+                        var b, c, d, e;
+                        for (d = this.boxes, e = [], b = 0, c = d.length; b < c; b++) a = d[b], a && (this.isVisible(a) ? this.show(a) : e.push(a));
+                        return e;
+                    }.call(this), !this.boxes.length && !this.config.live)) return this.stop();
+            }, e.prototype.offsetTop = function(a) {
+                for (var b; void 0 === a.offsetTop;) a = a.parentNode;
+                for (b = a.offsetTop; a = a.offsetParent;) b += a.offsetTop;
+                return b;
+            }, e.prototype.isVisible = function(a) {
+                var b, c, d, e, f;
+                return c = a.getAttribute("data-wow-offset") || this.config.offset, f = window.pageYOffset,
+                    e = f + Math.min(this.element.clientHeight, this.util().innerHeight()) - c, d = this.offsetTop(a),
+                    b = d + a.clientHeight, d <= e && b >= f;
+            }, e.prototype.util = function() {
+                return null != this._util ? this._util : this._util = new b();
+            }, e.prototype.disabled = function() {
+                return !this.config.mobile && this.util().isMobile(navigator.userAgent);
+            }, e;
+        }();
+    }.call(this), $(function() {
+        $("#contactForm input,#contactForm textarea").jqBootstrapValidation({
+            preventSubmit: !0,
+            submitError: function(a, b, c) {},
+            submitSuccess: function(a, b) {
+                b.preventDefault();
+                var c = $("input#name").val(),
+                    d = $("input#email").val(),
+                    e = $("input#phone").val(),
+                    f = $("textarea#message").val(),
+                    g = c;
+                g.indexOf(" ") >= 0 && (g = c.split(" ").slice(0, -1).join(" ")), $.ajax({
+                    url: "./mail/contact_me.php",
+                    type: "POST",
+                    data: {
+                        name: c,
+                        phone: e,
+                        email: d,
+                        message: f
+                    },
+                    cache: !1,
+                    success: function() {
+                        $("#success").html("<div class='alert alert-success'>"), $("#success > .alert-success").html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>"),
+                            $("#success > .alert-success").append("<strong>Your message has been sent. </strong>"),
+                            $("#success > .alert-success").append("</div>"), $("#contactForm").trigger("reset");
+                    },
+                    error: function() {
+                        $("#success").html("<div class='alert alert-danger'>"), $("#success > .alert-danger").html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>"),
+                            $("#success > .alert-danger").append("<strong>Sorry " + g + ", it seems that my mail server is not responding. Please try again later!"),
+                            $("#success > .alert-danger").append("</div>"), $("#contactForm").trigger("reset");
+                    }
+                });
+            },
+            filter: function() {
+                return $(this).is(":visible");
+            }
+        }), $('a[data-toggle="tab"]').click(function(a) {
+            a.preventDefault(), $(this).tab("show");
+        });
+    }), $("#name").focus(function() {
+        $("#success").html("");
+    }),
+    function(a) {
+        function b(a) {
+            return new RegExp("^" + a + "$");
+        }
+
+        function c(a, b) {
+            for (var c = Array.prototype.slice.call(arguments).splice(2), d = a.split("."), e = d.pop(), f = 0; f < d.length; f++) b = b[d[f]];
+            return b[e].apply(this, c);
+        }
+        var d = [],
+            e = {
+                options: {
+                    prependExistingHelpBlock: !1,
+                    sniffHtml: !0,
+                    preventSubmit: !0,
+                    submitError: !1,
+                    submitSuccess: !1,
+                    semanticallyStrict: !1,
+                    autoAdd: {
+                        helpBlocks: !0
+                    },
+                    filter: function() {
+                        return !0;
+                    }
+                },
+                methods: {
+                    init: function(b) {
+                        var c = a.extend(!0, {}, e);
+                        c.options = a.extend(!0, c.options, b);
+                        var h = this,
+                            i = a.unique(h.map(function() {
+                                return a(this).parents("form")[0];
+                            }).toArray());
+                        return a(i).bind("submit", function(b) {
+                            var d = a(this),
+                                e = 0,
+                                f = d.find("input,textarea,select").not("[type=submit],[type=image]").filter(c.options.filter);
+                            f.trigger("submit.validation").trigger("validationLostFocus.validation"), f.each(function(b, c) {
+                                var d = a(c),
+                                    f = d.parents(".control-group").first();
+                                f.hasClass("warning") && (f.removeClass("warning").addClass("error"), e++);
+                            }), f.trigger("validationLostFocus.validation"), e ? (c.options.preventSubmit && b.preventDefault(),
+                                d.addClass("error"), a.isFunction(c.options.submitError) && c.options.submitError(d, b, f.jqBootstrapValidation("collectErrors", !0))) : (d.removeClass("error"),
+                                a.isFunction(c.options.submitSuccess) && c.options.submitSuccess(d, b));
+                        }), this.each(function() {
+                            var b = a(this),
+                                e = b.parents(".control-group").first(),
+                                h = e.find(".help-block").first(),
+                                i = b.parents("form").first(),
+                                j = [];
+                            if (!h.length && c.options.autoAdd && c.options.autoAdd.helpBlocks && (h = a('<div class="help-block" />'),
+                                    e.find(".controls").append(h), d.push(h[0])), c.options.sniffHtml) {
+                                var k = "";
+                                if (void 0 !== b.attr("pattern") && (k = "Not in the expected format<!-- data-validation-pattern-message to override -->",
+                                        b.data("validationPatternMessage") && (k = b.data("validationPatternMessage")),
+                                        b.data("validationPatternMessage", k), b.data("validationPatternRegex", b.attr("pattern"))),
+                                    void 0 !== b.attr("max") || void 0 !== b.attr("aria-valuemax")) {
+                                    var l = void 0 !== b.attr("max") ? b.attr("max") : b.attr("aria-valuemax");
+                                    k = "Too high: Maximum of '" + l + "'<!-- data-validation-max-message to override -->",
+                                        b.data("validationMaxMessage") && (k = b.data("validationMaxMessage")), b.data("validationMaxMessage", k),
+                                        b.data("validationMaxMax", l);
+                                }
+                                if (void 0 !== b.attr("min") || void 0 !== b.attr("aria-valuemin")) {
+                                    var m = void 0 !== b.attr("min") ? b.attr("min") : b.attr("aria-valuemin");
+                                    k = "Too low: Minimum of '" + m + "'<!-- data-validation-min-message to override -->",
+                                        b.data("validationMinMessage") && (k = b.data("validationMinMessage")), b.data("validationMinMessage", k),
+                                        b.data("validationMinMin", m);
+                                }
+                                void 0 !== b.attr("maxlength") && (k = "Too long: Maximum of '" + b.attr("maxlength") + "' characters<!-- data-validation-maxlength-message to override -->",
+                                        b.data("validationMaxlengthMessage") && (k = b.data("validationMaxlengthMessage")),
+                                        b.data("validationMaxlengthMessage", k), b.data("validationMaxlengthMaxlength", b.attr("maxlength"))),
+                                    void 0 !== b.attr("minlength") && (k = "Too short: Minimum of '" + b.attr("minlength") + "' characters<!-- data-validation-minlength-message to override -->",
+                                        b.data("validationMinlengthMessage") && (k = b.data("validationMinlengthMessage")),
+                                        b.data("validationMinlengthMessage", k), b.data("validationMinlengthMinlength", b.attr("minlength"))),
+                                    void 0 === b.attr("required") && void 0 === b.attr("aria-required") || (k = c.builtInValidators.required.message,
+                                        b.data("validationRequiredMessage") && (k = b.data("validationRequiredMessage")),
+                                        b.data("validationRequiredMessage", k)), void 0 !== b.attr("type") && "number" === b.attr("type").toLowerCase() && (k = c.builtInValidators.number.message,
+                                        b.data("validationNumberMessage") && (k = b.data("validationNumberMessage")), b.data("validationNumberMessage", k)),
+                                    void 0 !== b.attr("type") && "email" === b.attr("type").toLowerCase() && (k = "Not a valid email address<!-- data-validator-validemail-message to override -->",
+                                        b.data("validationValidemailMessage") ? k = b.data("validationValidemailMessage") : b.data("validationEmailMessage") && (k = b.data("validationEmailMessage")),
+                                        b.data("validationValidemailMessage", k)), void 0 !== b.attr("minchecked") && (k = "Not enough options checked; Minimum of '" + b.attr("minchecked") + "' required<!-- data-validation-minchecked-message to override -->",
+                                        b.data("validationMincheckedMessage") && (k = b.data("validationMincheckedMessage")),
+                                        b.data("validationMincheckedMessage", k), b.data("validationMincheckedMinchecked", b.attr("minchecked"))),
+                                    void 0 !== b.attr("maxchecked") && (k = "Too many options checked; Maximum of '" + b.attr("maxchecked") + "' required<!-- data-validation-maxchecked-message to override -->",
+                                        b.data("validationMaxcheckedMessage") && (k = b.data("validationMaxcheckedMessage")),
+                                        b.data("validationMaxcheckedMessage", k), b.data("validationMaxcheckedMaxchecked", b.attr("maxchecked")));
+                            }
+                            void 0 !== b.data("validation") && (j = b.data("validation").split(",")), a.each(b.data(), function(a, b) {
+                                var c = a.replace(/([A-Z])/g, ",$1").split(",");
+                                "validation" === c[0] && c[1] && j.push(c[1]);
+                            });
+                            var n = j,
+                                o = [];
+                            do a.each(j, function(a, b) {
+                                j[a] = f(b);
+                            }), j = a.unique(j), o = [], a.each(n, function(d, e) {
+                                if (void 0 !== b.data("validation" + e + "Shortcut")) a.each(b.data("validation" + e + "Shortcut").split(","), function(a, b) {
+                                    o.push(b);
+                                });
+                                else if (c.builtInValidators[e.toLowerCase()]) {
+                                    var g = c.builtInValidators[e.toLowerCase()];
+                                    "shortcut" === g.type.toLowerCase() && a.each(g.shortcut.split(","), function(a, b) {
+                                        b = f(b), o.push(b), j.push(b);
+                                    });
+                                }
+                            }), n = o; while (n.length > 0);
+                            var p = {};
+                            a.each(j, function(d, e) {
+                                    var g = b.data("validation" + e + "Message"),
+                                        h = void 0 !== g,
+                                        i = !1;
+                                    if (g = g ? g : "'" + e + "' validation failed <!-- Add attribute 'data-validation-" + e.toLowerCase() + "-message' to input to change this message -->",
+                                        a.each(c.validatorTypes, function(c, d) {
+                                            void 0 === p[c] && (p[c] = []), i || void 0 === b.data("validation" + e + f(d.name)) || (p[c].push(a.extend(!0, {
+                                                name: f(d.name),
+                                                message: g
+                                            }, d.init(b, e))), i = !0);
+                                        }), !i && c.builtInValidators[e.toLowerCase()]) {
+                                        var j = a.extend(!0, {}, c.builtInValidators[e.toLowerCase()]);
+                                        h && (j.message = g);
+                                        var k = j.type.toLowerCase();
+                                        "shortcut" === k ? i = !0 : a.each(c.validatorTypes, function(c, d) {
+                                            void 0 === p[c] && (p[c] = []), i || k !== c.toLowerCase() || (b.data("validation" + e + f(d.name), j[d.name.toLowerCase()]),
+                                                p[k].push(a.extend(j, d.init(b, e))), i = !0);
+                                        });
+                                    }
+                                    i || a.error("Cannot find validation info for '" + e + "'");
+                                }), h.data("original-contents", h.data("original-contents") ? h.data("original-contents") : h.html()),
+                                h.data("original-role", h.data("original-role") ? h.data("original-role") : h.attr("role")),
+                                e.data("original-classes", e.data("original-clases") ? e.data("original-classes") : e.attr("class")),
+                                b.data("original-aria-invalid", b.data("original-aria-invalid") ? b.data("original-aria-invalid") : b.attr("aria-invalid")),
+                                b.bind("validation.validation", function(d, e) {
+                                    var f = g(b),
+                                        h = [];
+                                    return a.each(p, function(d, g) {
+                                        (f || f.length || e && e.includeEmpty || c.validatorTypes[d].blockSubmit && e && e.submitting) && a.each(g, function(a, e) {
+                                            c.validatorTypes[d].validate(b, f, e) && h.push(e.message);
+                                        });
+                                    }), h;
+                                }), b.bind("getValidators.validation", function() {
+                                    return p;
+                                }), b.bind("submit.validation", function() {
+                                    return b.triggerHandler("change.validation", {
+                                        submitting: !0
+                                    });
+                                }), b.bind(["keyup", "focus", "blur", "click", "keydown", "keypress", "change"].join(".validation ") + ".validation", function(d, f) {
+                                    var j = g(b),
+                                        k = [];
+                                    e.find("input,textarea,select").each(function(c, d) {
+                                            var e = k.length;
+                                            if (a.each(a(d).triggerHandler("validation.validation", f), function(a, b) {
+                                                    k.push(b);
+                                                }), k.length > e) a(d).attr("aria-invalid", "true");
+                                            else {
+                                                var g = b.data("original-aria-invalid");
+                                                a(d).attr("aria-invalid", void 0 !== g && g);
+                                            }
+                                        }), i.find("input,select,textarea").not(b).not('[name="' + b.attr("name") + '"]').trigger("validationLostFocus.validation"),
+                                        k = a.unique(k.sort()), k.length ? (e.removeClass("success error").addClass("warning"),
+                                            c.options.semanticallyStrict && 1 === k.length ? h.html(k[0] + (c.options.prependExistingHelpBlock ? h.data("original-contents") : "")) : h.html('<ul role="alert"><li>' + k.join("</li><li>") + "</li></ul>" + (c.options.prependExistingHelpBlock ? h.data("original-contents") : ""))) : (e.removeClass("warning error success"),
+                                            j.length > 0 && e.addClass("success"), h.html(h.data("original-contents"))), "blur" === d.type && e.removeClass("success");
+                                }), b.bind("validationLostFocus.validation", function() {
+                                    e.removeClass("success");
+                                });
+                        });
+                    },
+                    destroy: function() {
+                        return this.each(function() {
+                            var b = a(this),
+                                c = b.parents(".control-group").first(),
+                                e = c.find(".help-block").first();
+                            b.unbind(".validation"), e.html(e.data("original-contents")), c.attr("class", c.data("original-classes")),
+                                b.attr("aria-invalid", b.data("original-aria-invalid")), e.attr("role", b.data("original-role")),
+                                d.indexOf(e[0]) > -1 && e.remove();
+                        });
+                    },
+                    collectErrors: function(b) {
+                        var c = {};
+                        return this.each(function(b, d) {
+                            var e = a(d),
+                                f = e.attr("name"),
+                                g = e.triggerHandler("validation.validation", {
+                                    includeEmpty: !0
+                                });
+                            c[f] = a.extend(!0, g, c[f]);
+                        }), a.each(c, function(a, b) {
+                            0 === b.length && delete c[a];
+                        }), c;
+                    },
+                    hasErrors: function() {
+                        var b = [];
+                        return this.each(function(c, d) {
+                            b = b.concat(a(d).triggerHandler("getValidators.validation") ? a(d).triggerHandler("validation.validation", {
+                                submitting: !0
+                            }) : []);
+                        }), b.length > 0;
+                    },
+                    override: function(b) {
+                        e = a.extend(!0, e, b);
+                    }
+                },
+                validatorTypes: {
+                    callback: {
+                        name: "callback",
+                        init: function(a, b) {
+                            return {
+                                validatorName: b,
+                                callback: a.data("validation" + b + "Callback"),
+                                lastValue: a.val(),
+                                lastValid: !0,
+                                lastFinished: !0
+                            };
+                        },
+                        validate: function(a, b, d) {
+                            if (d.lastValue === b && d.lastFinished) return !d.lastValid;
+                            if (d.lastFinished === !0) {
+                                d.lastValue = b, d.lastValid = !0, d.lastFinished = !1;
+                                var e = d,
+                                    f = a;
+                                c(d.callback, window, a, b, function(a) {
+                                    e.lastValue === a.value && (e.lastValid = a.valid, a.message && (e.message = a.message),
+                                        e.lastFinished = !0, f.data("validation" + e.validatorName + "Message", e.message),
+                                        setTimeout(function() {
+                                            f.trigger("change.validation");
+                                        }, 1));
+                                });
+                            }
+                            return !1;
+                        }
+                    },
+                    ajax: {
+                        name: "ajax",
+                        init: function(a, b) {
+                            return {
+                                validatorName: b,
+                                url: a.data("validation" + b + "Ajax"),
+                                lastValue: a.val(),
+                                lastValid: !0,
+                                lastFinished: !0
+                            };
+                        },
+                        validate: function(b, c, d) {
+                            return "" + d.lastValue == "" + c && d.lastFinished === !0 ? d.lastValid === !1 : (d.lastFinished === !0 && (d.lastValue = c,
+                                d.lastValid = !0, d.lastFinished = !1, a.ajax({
+                                    url: d.url,
+                                    data: "value=" + c + "&field=" + b.attr("name"),
+                                    dataType: "json",
+                                    success: function(a) {
+                                        "" + d.lastValue == "" + a.value && (d.lastValid = !!a.valid, a.message && (d.message = a.message),
+                                            d.lastFinished = !0, b.data("validation" + d.validatorName + "Message", d.message),
+                                            setTimeout(function() {
+                                                b.trigger("change.validation");
+                                            }, 1));
+                                    },
+                                    failure: function() {
+                                        d.lastValid = !0, d.message = "ajax call failed", d.lastFinished = !0, b.data("validation" + d.validatorName + "Message", d.message),
+                                            setTimeout(function() {
+                                                b.trigger("change.validation");
+                                            }, 1);
+                                    }
+                                })), !1);
+                        }
+                    },
+                    regex: {
+                        name: "regex",
+                        init: function(a, c) {
+                            return {
+                                regex: b(a.data("validation" + c + "Regex"))
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return !c.regex.test(b) && !c.negative || c.regex.test(b) && c.negative;
+                        }
+                    },
+                    required: {
+                        name: "required",
+                        init: function(a, b) {
+                            return {};
+                        },
+                        validate: function(a, b, c) {
+                            return !(0 !== b.length || c.negative) || !!(b.length > 0 && c.negative);
+                        },
+                        blockSubmit: !0
+                    },
+                    match: {
+                        name: "match",
+                        init: function(a, b) {
+                            var c = a.parents("form").first().find('[name="' + a.data("validation" + b + "Match") + '"]').first();
+                            return c.bind("validation.validation", function() {
+                                a.trigger("change.validation", {
+                                    submitting: !0
+                                });
+                            }), {
+                                element: c
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return b !== c.element.val() && !c.negative || b === c.element.val() && c.negative;
+                        },
+                        blockSubmit: !0
+                    },
+                    max: {
+                        name: "max",
+                        init: function(a, b) {
+                            return {
+                                max: a.data("validation" + b + "Max")
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return parseFloat(b, 10) > parseFloat(c.max, 10) && !c.negative || parseFloat(b, 10) <= parseFloat(c.max, 10) && c.negative;
+                        }
+                    },
+                    min: {
+                        name: "min",
+                        init: function(a, b) {
+                            return {
+                                min: a.data("validation" + b + "Min")
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return parseFloat(b) < parseFloat(c.min) && !c.negative || parseFloat(b) >= parseFloat(c.min) && c.negative;
+                        }
+                    },
+                    maxlength: {
+                        name: "maxlength",
+                        init: function(a, b) {
+                            return {
+                                maxlength: a.data("validation" + b + "Maxlength")
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return b.length > c.maxlength && !c.negative || b.length <= c.maxlength && c.negative;
+                        }
+                    },
+                    minlength: {
+                        name: "minlength",
+                        init: function(a, b) {
+                            return {
+                                minlength: a.data("validation" + b + "Minlength")
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return b.length < c.minlength && !c.negative || b.length >= c.minlength && c.negative;
+                        }
+                    },
+                    maxchecked: {
+                        name: "maxchecked",
+                        init: function(a, b) {
+                            var c = a.parents("form").first().find('[name="' + a.attr("name") + '"]');
+                            return c.bind("click.validation", function() {
+                                a.trigger("change.validation", {
+                                    includeEmpty: !0
+                                });
+                            }), {
+                                maxchecked: a.data("validation" + b + "Maxchecked"),
+                                elements: c
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return c.elements.filter(":checked").length > c.maxchecked && !c.negative || c.elements.filter(":checked").length <= c.maxchecked && c.negative;
+                        },
+                        blockSubmit: !0
+                    },
+                    minchecked: {
+                        name: "minchecked",
+                        init: function(a, b) {
+                            var c = a.parents("form").first().find('[name="' + a.attr("name") + '"]');
+                            return c.bind("click.validation", function() {
+                                a.trigger("change.validation", {
+                                    includeEmpty: !0
+                                });
+                            }), {
+                                minchecked: a.data("validation" + b + "Minchecked"),
+                                elements: c
+                            };
+                        },
+                        validate: function(a, b, c) {
+                            return c.elements.filter(":checked").length < c.minchecked && !c.negative || c.elements.filter(":checked").length >= c.minchecked && c.negative;
+                        },
+                        blockSubmit: !0
+                    }
+                },
+                builtInValidators: {
+                    email: {
+                        name: "Email",
+                        type: "shortcut",
+                        shortcut: "validemail"
+                    },
+                    validemail: {
+                        name: "Validemail",
+                        type: "regex",
+                        regex: "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",
+                        message: "Not a valid email address<!-- data-validator-validemail-message to override -->"
+                    },
+                    passwordagain: {
+                        name: "Passwordagain",
+                        type: "match",
+                        match: "password",
+                        message: "Does not match the given password<!-- data-validator-paswordagain-message to override -->"
+                    },
+                    positive: {
+                        name: "Positive",
+                        type: "shortcut",
+                        shortcut: "number,positivenumber"
+                    },
+                    negative: {
+                        name: "Negative",
+                        type: "shortcut",
+                        shortcut: "number,negativenumber"
+                    },
+                    number: {
+                        name: "Number",
+                        type: "regex",
+                        regex: "([+-]?\\d+(\\.\\d*)?([eE][+-]?[0-9]+)?)?",
+                        message: "Must be a number<!-- data-validator-number-message to override -->"
+                    },
+                    integer: {
+                        name: "Integer",
+                        type: "regex",
+                        regex: "[+-]?\\d+",
+                        message: "No decimal places allowed<!-- data-validator-integer-message to override -->"
+                    },
+                    positivenumber: {
+                        name: "Positivenumber",
+                        type: "min",
+                        min: 0,
+                        message: "Must be a positive number<!-- data-validator-positivenumber-message to override -->"
+                    },
+                    negativenumber: {
+                        name: "Negativenumber",
+                        type: "max",
+                        max: 0,
+                        message: "Must be a negative number<!-- data-validator-negativenumber-message to override -->"
+                    },
+                    required: {
+                        name: "Required",
+                        type: "required",
+                        message: "This is required<!-- data-validator-required-message to override -->"
+                    },
+                    checkone: {
+                        name: "Checkone",
+                        type: "minchecked",
+                        minchecked: 1,
+                        message: "Check at least one option<!-- data-validation-checkone-message to override -->"
+                    }
+                }
+            },
+            f = function(a) {
+                return a.toLowerCase().replace(/(^|\s)([a-z])/g, function(a, b, c) {
+                    return b + c.toUpperCase();
+                });
+            },
+            g = function(b) {
+                var c = b.val(),
+                    d = b.attr("type");
+                return "checkbox" === d && (c = b.is(":checked") ? c : ""), "radio" === d && (c = a('input[name="' + b.attr("name") + '"]:checked').length > 0 ? c : ""),
+                    c;
+            };
+        a.fn.jqBootstrapValidation = function(b) {
+            return e.methods[b] ? e.methods[b].apply(this, Array.prototype.slice.call(arguments, 1)) : "object" != typeof b && b ? (a.error("Method " + b + " does not exist on jQuery.jqBootstrapValidation"),
+                null) : e.methods.init.apply(this, arguments);
+        }, a.jqBootstrapValidation = function(b) {
+            a(":input").not("[type=image],[type=submit]").jqBootstrapValidation.apply(this, arguments);
+        };
+    }(jQuery), ! function(a) {
+        "function" == typeof define && define.amd ? define(["jquery", "./core"], a) : a(jQuery, Formstone);
+    }(function(a, b) {
+        function c(b) {
+            b = b || {};
+            for (var c in t) t.hasOwnProperty(c) && (l[c] = b[c] ? a.merge(b[c], l[c]) : l[c]);
+            l = a.extend(l, b), l.minWidth.sort(p.sortDesc), l.maxWidth.sort(p.sortAsc), l.minHeight.sort(p.sortDesc),
+                l.maxHeight.sort(p.sortAsc);
+            for (var d in t)
+                if (t.hasOwnProperty(d)) {
+                    s[d] = {};
+                    for (var e in l[d])
+                        if (l[d].hasOwnProperty(e)) {
+                            var f = window.matchMedia("(" + t[d] + ": " + (l[d][e] === 1 / 0 ? 1e5 : l[d][e]) + l.unit + ")");
+                            f.addListener(g), s[d][l[d][e]] = f;
+                        }
+                }
+            g();
+        }
+
+        function d(a, b, c) {
+            var d = o.matchMedia(b),
+                e = i(d.media);
+            r[e] || (r[e] = {
+                mq: d,
+                active: !0,
+                enter: {},
+                leave: {}
+            }, r[e].mq.addListener(h));
+            for (var f in c) c.hasOwnProperty(f) && r[e].hasOwnProperty(f) && (r[e][f][a] = c[f]);
+            var g = r[e],
+                j = d.matches;
+            j && g[m.enter].hasOwnProperty(a) ? (g[m.enter][a].apply(d), g.active = !0) : !j && g[m.leave].hasOwnProperty(a) && (g[m.leave][a].apply(d),
+                g.active = !1);
+        }
+
+        function e(a, b) {
+            if (a)
+                if (b) {
+                    var c = i(b);
+                    r[c] && (r[c].enter[a] && delete r[c].enter[a], r[c].leave[a] && delete r[c].leave[a]);
+                } else
+                    for (var d in r) r.hasOwnProperty(d) && (r[d].enter[a] && delete r[d].enter[a],
+                        r[d].leave[a] && delete r[d].leave[a]);
+        }
+
+        function f() {
+            q = {
+                unit: l.unit
+            };
+            for (var a in t)
+                if (t.hasOwnProperty(a))
+                    for (var c in s[a])
+                        if (s[a].hasOwnProperty(c)) {
+                            var d = "Infinity" === c ? 1 / 0 : parseInt(c, 10),
+                                e = t[a].indexOf("width") > -1 ? b.fallbackWidth : b.fallbackHeight,
+                                f = a.indexOf("max") > -1;
+                            b.support.nativeMatchMedia ? s[a][c].matches && (f ? (!q[a] || d < q[a]) && (q[a] = d) : (!q[a] || d > q[a]) && (q[a] = d)) : f ? !q[a] && d > e && (q[a] = d) : (!q[a] && 0 !== q[a] || d > q[a] && d < e) && (q[a] = d);
+                        }
+        }
+
+        function g() {
+            f(), n.trigger(m.mqChange, [q]);
+        }
+
+        function h(a) {
+            var b = i(a.media),
+                c = r[b],
+                d = a.matches,
+                e = d ? m.enter : m.leave;
+            if (c && (c.active || !c.active && d)) {
+                for (var f in c[e]) c[e].hasOwnProperty(f) && c[e][f].apply(c.mq);
+                c.active = !0;
+            }
+        }
+
+        function i(a) {
+            return a.replace(/[^a-z0-9\s]/gi, "").replace(/[_\s]/g, "").replace(/^\s+|\s+$/g, "");
+        }
+
+        function j() {
+            return q;
+        }
+        var k = b.Plugin("mediaquery", {
+                utilities: {
+                    _initialize: c,
+                    state: j,
+                    bind: d,
+                    unbind: e
+                },
+                events: {
+                    mqChange: "mqchange"
+                }
+            }),
+            l = {
+                minWidth: [0],
+                maxWidth: [1 / 0],
+                minHeight: [0],
+                maxHeight: [1 / 0],
+                unit: "px"
+            },
+            m = a.extend(k.events, {
+                enter: "enter",
+                leave: "leave"
+            }),
+            n = b.$window,
+            o = n[0],
+            p = k.functions,
+            q = null,
+            r = [],
+            s = {},
+            t = {
+                minWidth: "min-width",
+                maxWidth: "max-width",
+                minHeight: "min-height",
+                maxHeight: "max-height"
+            };
+    });
+
+var isPhoneDevice = "ontouchstart" in document.documentElement;
+
+$(document).ready(function() {
+        isPhoneDevice || (wow = new WOW({
+            offset: 50
+        }), wow.init());
+    }),
+    function(a) {
+        a("a.page-scroll").bind("click", function(b) {
+            var c = a(this);
+            a("html, body").stop().animate({
+                scrollTop: a(c.attr("href")).offset().top - 50
+            }, 1250, "easeInOutExpo"), b.preventDefault();
+        }), a("body").on("input propertychange", ".floating-label-form-group", function(b) {
+            a(this).toggleClass("floating-label-form-group-with-value", !!a(b.target).val());
+        }).on("focus", ".floating-label-form-group", function() {
+            a(this).addClass("floating-label-form-group-with-focus");
+        }).on("blur", ".floating-label-form-group", function() {
+            a(this).removeClass("floating-label-form-group-with-focus");
+        }), a(".navbar-collapse ul li a").click(function() {
+            a(".navbar-toggle:visible").click();
+        }), a(".portfolio-carousel").owlCarousel({
+            singleItem: !0,
+            navigation: !0,
+            pagination: !1,
+            navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+            autoHeight: !0,
+            mouseDrag: !1,
+            touchDrag: !1,
+            transitionStyle: "fadeUp"
+        }), a(".portfolio-gallery").owlCarousel({
+            items: 3
+        }), a(".gallery-link").magnificPopup({
+            type: "image",
+            gallery: {
+                enabled: !0
+            },
+            image: {
+                titleSrc: "title"
+            }
+        }), a("body").scrollspy({
+            target: ".navbar-fixed-top",
+            offset: 51
+        });
+    }(jQuery);
+
+var jsheader = $("#js_header");
+
 jsheader.attr("style", "background-image: url('img/tiergarten.jpg');");
 
-var item1 = $('#js_item1');
+var item1 = $("#js_item1");
+
 item1.attr("style", "background-image: url('img/tiergarten.jpg');");
 
-var item2 = $('#item2');
+var item2 = $("#item2");
+
 item2.attr("style", "background-image: url('img/boys.jpg');");
 
-var item3 = $('#item3');
+var item3 = $("#item3");
+
 item3.attr("style", "background-image: url('img/together.jpg');");
 
-var item4 = $('#item4');
+var item4 = $("#item4");
+
 item4.attr("style", "background-image: url('img/ls.png');");
 
-var foot = $('#footer');
-foot.attr("style", "background-image: url('img/modal2.jpg');");
+var foot = $("#footer");
 
+foot.attr("style", "background-image: url('img/modal2.jpg');");
